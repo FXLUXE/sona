@@ -886,11 +886,27 @@ app.get("/demo/:tenant", async (c) => {
     `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
       `<meta name="viewport" content="width=device-width, initial-scale=1">` +
       `<title>${label} — live Sona demo</title>` +
+      `<link rel="preconnect" href="https://fonts.googleapis.com">` +
+      `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>` +
+      `<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">` +
+      // Direct link = framed ~62% window. Inside the landing modal's iframe the modal IS the window,
+      // so fill it instead of nesting a second card. Set before paint to avoid a flash of the frame.
+      `<script>try{if(window.self!==window.top)document.documentElement.className='embedded'}catch(e){document.documentElement.className='embedded'}</script>` +
       `<style>` +
       `*{box-sizing:border-box}` +
-      `html,body{margin:0;height:100%;overflow:hidden}` +
-      `body{display:flex;flex-direction:column;height:100dvh;overflow:hidden;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#11212b;background:#f6f1e9}` +
+      `html,body{margin:0;height:100%}` +
+      // Soft, barely-there aurora behind the framed demo so the window reads as a product, not a raw page.
+      `body{height:100dvh;overflow:hidden;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#11212b;` +
+      `background:#efe7da;` +
+      `background-image:radial-gradient(58% 58% at 16% 12%,rgba(199,154,75,.10),transparent 60%),` +
+      `radial-gradient(54% 54% at 86% 16%,rgba(58,90,80,.10),transparent 60%),` +
+      `radial-gradient(70% 70% at 50% 110%,rgba(199,154,75,.07),transparent 64%);` +
+      `display:flex;align-items:center;justify-content:center;padding:clamp(16px,3.4vh,40px)}` +
       `@media (prefers-reduced-motion:reduce){*{animation:none!important}}` +
+      // The window: ~62% of a desktop screen (half–2/3), fixed proportion, one cohesive card.
+      `.frame{display:flex;flex-direction:column;width:clamp(640px,62vw,1000px);height:min(82vh,820px);` +
+      `background:#f6f1e9;border:1px solid #e4dccb;border-radius:16px;overflow:hidden;` +
+      `box-shadow:0 30px 80px -30px rgba(17,33,43,.45),0 8px 24px -16px rgba(17,33,43,.3)}` +
       `.bar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;` +
       `padding:11px 16px;background:#fff;border-bottom:1px solid #e4dccb}` +
       `.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}` +
@@ -904,12 +920,19 @@ app.get("/demo/:tenant", async (c) => {
       `.cta:hover{background:#1c2f3b}` +
       `.cta:focus-visible{outline:3px solid #c79a4b;outline-offset:2px}` +
       `#sona-mount{flex:1 1 auto;min-height:0;position:relative;isolation:isolate;contain:layout paint;overflow:hidden}` +
+      // Embedded in the landing iframe or on a phone: drop the framing and fill, so it never double-shrinks.
+      `@media (max-width:900px),(max-height:620px){body{padding:0}` +
+      `.frame{width:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}}` +
+      `html.embedded body{padding:0}` +
+      `html.embedded .frame{width:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}` +
       `</style></head>` +
       `<body>` +
+      `<div class="frame">` +
       `<div class="bar"><div class="brand"><span class="b">&#128276;</span> Sona <span class="tag">· demo for ${label}</span></div>` +
       `<div style="display:flex;align-items:center;gap:12px"><span class="tag" style="font-size:12.5px;color:#6b7280"><span class="dot"></span>On duty</span>` +
       `<a class="cta" href="${cfg.baseUrl}/dashboard">Get this on my site &rarr;</a></div></div>` +
       `<div id="sona-mount"></div>` +
+      `</div>` +
       `<script src="${cfg.baseUrl}/widget.js?tenant=${q}&embed=1"></script></body></html>`
   );
 });
@@ -1072,6 +1095,9 @@ var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wgh
 // Keep the top bar full width but centre the calendar/time/form column to a card-sized width.
 +'.sona-embed .sona-bkvb,.sona-embed .sona-bkvf{max-width:560px;margin-left:auto;margin-right:auto;width:100%}'
 +'.sona-embed .sona-bkvh{padding-left:max(16px,calc((100% - 560px)/2));padding-right:max(16px,calc((100% - 560px)/2))}'
+// In the roomy embed the body would stretch full height with content stuck at the top, leaving a
+// big empty lower half. Let it size to its content and sit vertically centred between bar + bottom.
++'.sona-embed .sona-bkvb{flex:0 1 auto;margin-top:auto;margin-bottom:auto}'
 // Aurora: soft brand/accent colour blooms drifting gently — modern, premium, calm. No lines.
 // Shared by the booking overlay AND the chat view so the widget feels consistent.
 +'.sona-aura{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}'
