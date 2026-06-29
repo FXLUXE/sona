@@ -1,0 +1,94 @@
+<!--
+  Sona — Login / Sign-up email (Supabase Auth "Magic Link" template)
+  ------------------------------------------------------------------
+  WHERE THIS GOES: Supabase Dashboard → Authentication → Emails → "Magic Link".
+  Paste this whole block into the "Message (HTML)" box. Supabase fills in the link
+  via {{ .ConfirmationURL }} automatically — do not change that token.
+  Suggested Subject line:  Your Sona login link
+  Table-based + inline styles so it renders in Outlook, Gmail, Apple Mail.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;padding:0;background:#efe7da;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <!-- card -->
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="width:560px;max-width:560px;background:#f6f1e9;border:1px solid #e4dccb;border-radius:16px;overflow:hidden;">
+        <!-- brand bar -->
+        <tr>
+          <td style="padding:22px 32px 18px;background:#ffffff;border-bottom:1px solid #e4dccb;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:700;color:#11212b;">
+                  <span style="color:#c79a4b;">&#9679;</span>&nbsp; Sona
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- body -->
+        <tr>
+          <td style="padding:34px 32px 8px;">
+            <h1 style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-weight:600;font-size:26px;line-height:1.2;color:#11212b;">
+              Here&rsquo;s your login link
+            </h1>
+            <p style="margin:0 0 24px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:15.5px;line-height:1.6;color:#54606a;">
+              Tap the button below to sign in to your Sona dashboard. No password needed &mdash;
+              this secure link signs you straight in.
+            </p>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td align="center" style="padding:0 32px 28px;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" bgcolor="#11212b" style="border-radius:11px;">
+                  <a href="{{ .ConfirmationURL }}"
+                     style="display:inline-block;padding:14px 34px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;color:#f6f1e9;text-decoration:none;border-radius:11px;">
+                    Log in to Sona &rarr;
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- fallback link (worded — the address itself is never shown as text) -->
+        <tr>
+          <td style="padding:0 32px 26px;">
+            <p style="margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:12.5px;line-height:1.5;color:#8a94a0;">
+              Button not working?
+              <a href="{{ .ConfirmationURL }}" style="color:#a87f33;text-decoration:underline;">Click here to log in&nbsp;&rarr;</a>
+            </p>
+          </td>
+        </tr>
+
+        <!-- security note -->
+        <tr>
+          <td style="padding:0 32px 30px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff;border:1px solid #ece4d6;border-radius:10px;">
+              <tr>
+                <td style="padding:13px 16px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:12.5px;line-height:1.55;color:#6b7280;">
+                  This link expires in 1 hour and can only be used once. If you didn&rsquo;t request it,
+                  you can safely ignore this email &mdash; no one can access your account without it.
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- footer -->
+        <tr>
+          <td style="padding:18px 32px 26px;border-top:1px solid #e4dccb;background:#ffffff;">
+            <p style="margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5;color:#9aa3ab;">
+              Sona &mdash; the front desk that never clocks out.<br>
+              You received this because someone entered this email at our sign-in page.
+            </p>
+          </td>
+        </tr>
+      </table>
+      <!-- /card -->
+    </td>
+  </tr>
+</table>
