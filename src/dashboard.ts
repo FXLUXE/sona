@@ -911,6 +911,7 @@ async function renderOutreach(main){
     try{var r=await api('/api/outreach/find',{method:'POST',body:JSON.stringify({type:type,area:ofConfirmed.name,lat:ofConfirmed.lat,lon:ofConfirmed.lon,radiusMiles:radiusMiles,limit:limit,requireEmail:requireEmail,hideBuilt:hideBuilt,nameKeyword:nameKeyword})});
       var fc=r.found||0,extra='';
       if(requireEmail&&r.skippedNoEmail)extra=' ('+r.skippedNoEmail+' skipped — no contactable email)';
+      if(r.skippedChain)extra+=' ('+r.skippedChain+' national chains/franchises filtered out)';
       if(fc===0)m.innerHTML='<b>No matches here.</b> Try a wider radius, a bigger nearby town, or turn off the email filter.'+extra;
       else m.innerHTML='<b style="color:var(--gold)">Found '+fc+' businesses'+(requireEmail?' with an email':'')+'.</b> Scroll down to build their demos.'+extra;
       await loadOutreachList();

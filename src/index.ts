@@ -465,7 +465,7 @@ app.post("/api/outreach/find", async (c) => {
   if (!geo && !(body.area && typeof body.area === "string"))
     return c.json({ error: "Pick a location first." }, 400);
   try {
-    const { prospects, scanned, skippedNoEmail } = await findProspects({
+    const { prospects, scanned, skippedNoEmail, skippedChain } = await findProspects({
       type,
       area: typeof body.area === "string" ? body.area : "",
       geo,
@@ -481,7 +481,7 @@ app.post("/api/outreach/find", async (c) => {
       out = out.filter((p) => !builtSlugs.has(p.slug));
     }
     if (out.length) await upsertProspects(out);
-    return c.json({ found: out.length, prospects: out, scanned, skippedNoEmail });
+    return c.json({ found: out.length, prospects: out, scanned, skippedNoEmail, skippedChain });
   } catch (e: any) { return c.json({ error: e.message ?? "find failed" }, 502); }
 });
 

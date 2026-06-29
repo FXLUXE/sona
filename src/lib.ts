@@ -1486,6 +1486,36 @@ export async function isMember(tenant: string, userId: string): Promise<boolean>
 
 // Create a tenant owned by this user (first bot), or attach the user to an
 // existing unclaimed tenant. Returns null if the slug is already owned by someone else.
+// --- ICP gate (shared with the prospect-finder in prospects.ts) ---
+// Name-only check for well-known UK national chains/franchises. The finder also uses OSM brand
+// tags, but onboarding only has a business name, so this is the signal available at signup.
+const KNOWN_CHAINS =
+  /\b(?:toni\s*&?\s*guy|regis|supercuts|saks|rush hair|headmasters|francesco group|mydentist|bupa|portman dental|rodericks|damira|genix|dental care group|vets4pets|pets at home|medivet|vets now|goddard|white cross vets|puregym|the gym group|david lloyd|nuffield|anytime fitness|jd gym|bannatyne|connells|hunters|foxtons|purplebricks|william h brown|reeds rains|haart|your move|kwik ?fit|halfords|formula one autocentre|ats euromaster|national tyres|costa|greggs|mcdonald'?s|subway|starbucks|domino'?s|specsavers|boots|tesco|sainsbury|asda|morrisons|co-?op|aldi|lidl|premier inn|travelodge|kfc|burger king|pizza hut|nando'?s|wetherspoon)\b/i;
+
+export function looksLikeChainName(name: string): boolean {
+  return KNOWN_CHAINS.test(name || "");
+}
+
+// Soft-warn: a chain was allowed to sign up (per ICP policy) but the founder is notified so they
+// know a non-ideal customer came in. Best-effort — never blocks or throws.
+async function alertFounderChainSignup(slug: string, name: string) {
+  console.warn(`[ICP] Possible national chain onboarded: "${name}" (${slug}) — outside ideal customer profile.`);
+  if (!cfg.resendKey || !cfg.adminEmail) return;
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { authorization: `Bearer ${cfg.resendKey}`, "content-type": "application/json" },
+    body: JSON.stringify({
+      from: cfg.fromEmail,
+      to: cfg.adminEmail,
+      subject: `Heads up: a possible chain signed up to Sona (${escHtml(slug)})`,
+      html:
+        `<p>A new sign-up looks like a national chain/franchise — outside your ideal customer profile (small independent local UK businesses).</p>` +
+        `<p><b>Business:</b> ${escHtml(name)}<br><b>Slug:</b> ${escHtml(slug)}</p>` +
+        `<p>They were <b>allowed in</b> (soft-warn policy). No action needed unless you want to follow up.</p>`,
+    }),
+  }).catch(() => {});
+}
+
 export async function claimTenant(slug: string, userId: string, name?: string) {
   const existing = await getTenant(slug);
   if (existing) {
@@ -1507,6 +1537,7 @@ export async function claimTenant(slug: string, userId: string, name?: string) {
     }
   } else {
     await sb().from("tenants").insert({ slug, name: name ?? slug, owner_id: userId });
+    if (looksLikeChainName(name ?? slug)) await alertFounderChainSignup(slug, name ?? slug); // ICP soft-warn
   }
   await sb().from("tenant_members").upsert({ tenant: slug, user_id: userId, role: "owner" });
   return await getTenant(slug);

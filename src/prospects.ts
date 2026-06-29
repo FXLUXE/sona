@@ -7,7 +7,7 @@
 // through `safeFetch` (IP-pinned, redirect-revalidated). The Overpass query is built from a fixed
 // type→tag map (or a sanitized name term) and a numeric lat/lon/radius — no user host reaches fetch.
 import type { ProspectRec } from "./outreach-store";
-import { safeFetch } from "./lib";
+import { safeFetch, looksLikeChainName } from "./lib";
 
 // Business type → OSM tag selectors. UK-wide; the confirmed location + radius scopes it.
 export const OSM_TAGS: Record<string, string[]> = {
@@ -237,7 +237,16 @@ export type FindOpts = {
   requireEmail?: boolean;
   nameKeyword?: string;
 };
-export type FindResult = { prospects: ProspectRec[]; scanned: number; skippedNoEmail: number };
+export type FindResult = { prospects: ProspectRec[]; scanned: number; skippedNoEmail: number; skippedChain: number };
+
+// --- ICP gate: keep only small independent local businesses; drop national chains/franchises. ---
+// Strongest free signal: OSM `brand`/`brand:wikidata` tags — independents almost never set them,
+// multi-site brands/franchises almost always do. Backup: the shared known-UK-chains name check
+// (defined in lib.ts so onboarding and the finder stay in sync).
+function isChain(t: Record<string, any>, name: string): boolean {
+  if (t.brand || t["brand:wikidata"] || t["brand:wikipedia"]) return true;
+  return looksLikeChainName(name);
+}
 
 // Find businesses of `type` near the confirmed `geo` point (or, legacy, within a named area) that
 // list a website. Dedupes by host, discovers a contact email when required, applies filters,
@@ -301,6 +310,7 @@ export async function findProspects(opts: FindOpts): Promise<FindResult> {
   const keyword = (opts.nameKeyword || "").trim().toLowerCase();
   const seen = new Set<string>();
   const now = new Date().toISOString();
+  let skippedChain = 0;
   type Cand = ProspectRec & { _host: string; _osmEmail: string };
   const candidates: Cand[] = [];
   for (const el of data.elements ?? []) {
@@ -314,6 +324,7 @@ export async function findProspects(opts: FindOpts): Promise<FindResult> {
     if (seen.has(h)) continue;
     const business = t.name || h.split(".")[0];
     if (keyword && !business.toLowerCase().includes(keyword)) continue;
+    if (isChain(t, business)) { skippedChain++; continue; }  // ICP gate: independents only, no chains
     seen.add(h);
     const slug = slugForUrl(url);
     if (!slug) continue;
@@ -358,5 +369,5 @@ export async function findProspects(opts: FindOpts): Promise<FindResult> {
     }
   }
 
-  return { prospects: out, scanned: candidates.length, skippedNoEmail };
+  return { prospects: out, scanned: candidates.length, skippedNoEmail, skippedChain };
 }
