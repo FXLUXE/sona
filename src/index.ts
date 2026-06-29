@@ -9,7 +9,7 @@ import {
   recentBookings, conversationMessages, resolveGap, recordFeedback, ingestSite,
   chat, sampleChunks, retrieve, finalizeDemo, purgeTenant, findContactEmail,
   safeFetch, detectChatWidget, feedbackList, cleanUrl, unlocksProFeatures,
-  purgeOldDemos, sendWeeklyDigest, tenantsForDigest,
+  purgeOldDemos, sendWeeklyDigest, tenantsForDigest, normalizeUrlInput,
 } from "./lib";
 import { buildOutreach, linkedinMessage } from "./outreach";
 import { findProspects, slugForUrl, geocodePlace, VERTICAL_OPTIONS } from "./prospects";
@@ -164,9 +164,12 @@ app.get("/og-image.svg", (c) => {
 // (the embed budget is real money). Demo tenants are prefixed `demo-` to keep them out
 // of the claimed-tenant namespace.
 app.post("/api/demo", async (c) => {
-  const { url } = await c.req.json().catch(() => ({}));
-  if (!url || typeof url !== "string" || !/^https?:\/\//i.test(url))
-    return c.json({ error: "valid http(s) url required" }, 400);
+  const { url: rawUrl } = await c.req.json().catch(() => ({}));
+  // Forgive typos/missing protocol in what they paste (htps://, .cmo, bare domain, …) before the
+  // SSRF guard. Returns a clean https:// URL or null if it still isn't a domain.
+  const url = normalizeUrlInput(rawUrl);
+  if (!url)
+    return c.json({ error: "that doesn't look like a website address — try yourbusiness.com" }, 400);
   const ip = clientIp(c);
   if (!rateLimit(`demo:${ip}`, 3)) return c.json({ error: "slow down — try again in a minute" }, 429);
   if (!demoBudgetOk()) return c.json({ error: "demos are busy right now — try again shortly" }, 429);

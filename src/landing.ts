@@ -955,8 +955,9 @@ export function landingHtml(base: string): string {
   function runWith(u){
     if(busy) return; // guard against double-rings restarting animations mid-flight
     u=(u||'').trim();
-    if(u && !/^https?:\\/\\//i.test(u)){ u='https://'+u; }
-    if(!/^https?:\\/\\//i.test(u)){
+    // Send what they typed — the server forgives typos/missing protocol (htps://, .cmo, bare domain).
+    // Only block the obviously-not-a-URL case here so they get instant feedback.
+    if(!u || u.indexOf('.')<1){
       setStatus('Enter your website address, like yourbusiness.com','error');
       if(desk){ desk.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}); }
       url.focus(); return;
