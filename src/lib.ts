@@ -466,7 +466,10 @@ const MAX_CHUNKS_PER_INGEST = 80;
 // with the exact facts customers ask for — address, phone, opening hours, price range — even
 // when the visible page text is rendered by JavaScript and invisible to a plain fetch. Pulling
 // these out is the single biggest win for answering "where/when/how much" on salon-type sites.
-function extractFacts(html: string): Record<string, string> {
+// UK nation/country tokens that are noise inside an address (we want the town, not "England").
+const NATION = /^(england|scotland|wales|northern ireland|n\.? ?ireland|united kingdom|uk|gb|gb-eng|great britain)$/i;
+
+function extractFacts(html: string, renderedText = ""): Record<string, string> {
   const facts: Record<string, string> = {};
   const blocks = [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
   const nodes: any[] = [];
@@ -496,7 +499,10 @@ function extractFacts(html: string): Record<string, string> {
     const a = n.address;
     // Require a real anchor (street or postcode) — a bare region/locality like "England" is junk.
     if (a && !facts.address && (a.streetAddress || a.postalCode)) {
-      const parts = [a.streetAddress, a.addressLocality, a.addressRegion, a.postalCode].filter(Boolean);
+      // Drop a bare nation in addressRegion ("England") — it's redundant noise in a UK address; keep
+      // a real county. Result reads "160 Rodbourne Road, Swindon, SN2 2AY", not "…, England, …".
+      const region = a.addressRegion && !NATION.test(String(a.addressRegion).trim()) ? a.addressRegion : null;
+      const parts = [a.streetAddress, a.addressLocality, region, a.postalCode].filter(Boolean);
       if (parts.length) facts.address = parts.join(", ").slice(0, 160);
     }
     const oh = n.openingHoursSpecification || n.openingHours;
@@ -520,7 +526,9 @@ function extractFacts(html: string): Record<string, string> {
   // UK postcode and a phone. This lands the address in the always-present KEY FACTS block so
   // short questions like "where are you based?" answer directly instead of relying on a chunk
   // match (the address is often buried mid-chunk and scores below the relevance floor).
-  const flat = html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ");
+  // Text scans use the rendered body too — on JS-rendered sites the raw HTML is a near-empty shell
+  // and the visible hours/address only exist in the rendered text.
+  const flat = ((renderedText ? renderedText + " " : "") + html.replace(/<[^>]+>/g, " ")).replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ");
   if (!facts.address) {
     const pc = flat.match(/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/);
     if (pc && pc.index != null) {
@@ -534,6 +542,43 @@ function extractFacts(html: string): Record<string, string> {
     const tel = html.match(/href=["']tel:([+\d][\d\s().-]{6,})["']/i);
     const ph = tel ? tel[1] : (flat.match(/\b(?:0\d{2,4}\s?\d{3}\s?\d{2,4}|\+44\s?\d[\d\s]{7,12})\b/) || [])[0];
     if (ph && okPhone(ph)) facts.phone = String(ph).replace(/\s+/g, " ").trim().slice(0, 40);
+  }
+  // Hours fallback: most small-business sites list opening hours as plain text ("Mon - Fri: 9am - 6pm,
+  // Sat: 9am - 4pm, Sun: Closed") with no JSON-LD openingHoursSpecification — so without this the live
+  // "Open now" badge never shows even though the hours are right there. Scan the page text for
+  // day(-range) + time-range (or "closed") pairs and join them into the format the widget parses.
+  if (!facts.opening_hours) {
+    const DAY = "(?:mon|tues?|weds?|thur?s?|fri|sat|sun)[a-z]*";
+    const TIME = "\\d{1,2}(?::\\d{2})?\\s*(?:a\\.?m|p\\.?m)?";
+    // day(-range) then "closed" or a time-range. Emit normalised 24h "HH:MM-HH:MM" — the only format
+    // the widget's parseHours understands (it matches \d{1,2}:\d{2}), so "9am - 6pm" must be converted.
+    const re = new RegExp("\\b(" + DAY + "(?:\\s*(?:-|–|—|to|&|and)\\s*" + DAY + ")?)\\s*[:.\\-–]?\\s*(closed|(" + TIME + ")\\s*(?:-|–|—|to|until|till)\\s*(" + TIME + "))", "gi");
+    const to24 = (tok: string) => {
+      const mm = tok.match(/(\d{1,2})(?::(\d{2}))?\s*(a\.?m|p\.?m)?/i);
+      if (!mm) return null;
+      let h = +mm[1]; const mn = mm[2] ? +mm[2] : 0;
+      const ap = (mm[3] || "").toLowerCase();
+      if (ap.startsWith("p") && h < 12) h += 12;
+      if (ap.startsWith("a") && h === 12) h = 0;
+      if (h > 23 || mn > 59) return null;
+      return String(h).padStart(2, "0") + ":" + String(mn).padStart(2, "0");
+    };
+    const seen = new Set<string>();
+    const hits: string[] = [];
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(flat)) && hits.length < 8) {
+      const days = m[1].replace(/\s+/g, " ").trim();
+      let entry: string;
+      if (/closed/i.test(m[2])) entry = days + " closed";
+      else {
+        const o = to24(m[3]!), c = to24(m[4]!);
+        if (!o || !c || o === c) continue;
+        entry = days + " " + o + "-" + c;
+      }
+      const key = entry.toLowerCase();
+      if (!seen.has(key)) { seen.add(key); hits.push(entry); }
+    }
+    if (hits.length) facts.opening_hours = hits.join("; ").slice(0, 300);
   }
   if (!facts.email) {
     // Prefer an explicit mailto:, else the first plausible address in the page text. Skip
@@ -699,7 +744,7 @@ export async function ingestUrl(tenant: string, url: string, prefetchedHtml?: st
   // Pull structured facts (address/hours/phone/prices) and merge into the tenant — these answer
   // the most-asked questions even when the page's visible text is JavaScript-rendered.
   try {
-    const f = extractFacts(raw);
+    const f = extractFacts(raw, renderedText);
     if (Object.keys(f).length) {
       const t0 = await getTenant(tenant);
       const cur = t0?.facts ?? {};
