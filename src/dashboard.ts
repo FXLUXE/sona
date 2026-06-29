@@ -185,6 +185,7 @@ export function dashboardHtml(base: string): string {
 
   /* ---- wizard ---- */
   .wiz{width:min(560px,100%)}
+  .wiz.wide{width:min(980px,100%)}
   .rail{display:flex;align-items:center;gap:0;margin:0 auto 26px;max-width:380px}
   .rail .step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 auto}
   .rail .num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;
@@ -532,9 +533,9 @@ function railHtml(step){
   }
   return h+'</div>';
 }
-function wizShell(step,inner){
+function wizShell(step,inner,wide){
   app.innerHTML=''+
-  '<div class="card pad wiz">'+
+  '<div class="card pad wiz'+(wide?' wide':'')+'">'+
     '<div class=logo style="justify-content:center;margin-bottom:18px"><span class=mark>S</span><span class=wm>Sona</span></div>'+
     railHtml(step)+inner+
   '</div>';
@@ -550,6 +551,10 @@ function wizStep1(){
     '<label class=field for=wurl>Your website address</label>'+
     '<input id=wurl type=url inputmode=url placeholder="yourbusiness.com" value="'+esc(wizState.url)+'" autocomplete=url>'+
     '<p class=hint>No website yet? You can add your details by hand later — just enter any address to start.</p>'+
+    '<div style="height:14px"></div>'+
+    '<label class=field for=wname>Business name <span style="color:var(--faint);font-weight:500">(optional)</span></label>'+
+    '<input id=wname type=text placeholder="Your business name" value="'+esc(wizState.name||'')+'" autocomplete=organization>'+
+    '<p class=hint>We\\'ll try to read it from your site — set it here to be sure it\\'s right.</p>'+
     '<div style="height:16px"></div>'+
     '<button class="btn block" id=wgo>Build my assistant →</button>'+
     '<p id=wmsg class=msg></p>');
@@ -563,7 +568,8 @@ async function wizBuild(){
   const msg=document.getElementById('wmsg');
   const url=normUrl(raw);
   if(!url||url.indexOf('.')<0){msg.className='msg err';msg.textContent='Please enter your website address, like yourbusiness.com';return}
-  wizState.url=url;wizState.name='';
+  wizState.url=url;
+  var nameEl=document.getElementById('wname');wizState.name=nameEl?nameEl.value.trim():'';
   let slug=slugFromUrl(url);
   // claim slug, retrying with -2,-3,... on 409
   wizShell(1,''+
@@ -593,14 +599,18 @@ async function wizBuild(){
     }
     wizState.slug=claimed;
     setDone('s_claim');setOn('s_read');bar.style.width='45%';
-    // ingest the site (auto-branding happens server-side here)
+    // ingest the site (auto-branding happens server-side here). Capture the chunk count + any failure
+    // so we never silently advance to a preview with an empty "I'm not sure" bot.
+    let ingestChunks=0,ingestFailed=false;
     try{
-      await api('/api/t/'+encodeURIComponent(claimed)+'/ingest',{method:'POST',body:JSON.stringify({url:wizState.url})});
-    }catch(e){/* ingest may partially fail; keep going so the user still gets a live bot */}
+      const ir=await api('/api/t/'+encodeURIComponent(claimed)+'/ingest',{method:'POST',body:JSON.stringify({url:wizState.url})});
+      ingestChunks=(ir&&typeof ir.chunks==='number')?ir.chunks:0;
+    }catch(e){ingestFailed=true}
     setDone('s_read');setOn('s_brand');bar.style.width='80%';
     await new Promise(r=>setTimeout(r,500));
     setDone('s_brand');bar.style.width='100%';
     await new Promise(r=>setTimeout(r,350));
+    if(ingestFailed||ingestChunks===0){wizTrouble(ingestFailed);return}
     wizStep2();
   }catch(e){
     const m=document.getElementById('wmsg2')||document.getElementById('wmsg');
@@ -608,6 +618,25 @@ async function wizBuild(){
     const b=document.createElement('button');b.className='btn ghost block';b.style.marginTop='14px';b.textContent='Try again';
     b.onclick=wizStep1;(document.querySelector('.wiz')||app).appendChild(b);
   }
+}
+// Ingest failed or came back empty — be honest, don't drop them into a dead "I'm not sure" preview.
+// Offer a real retry, a manual route (Settings: hours/phone/services), or proceed with eyes open.
+function wizTrouble(failed){
+  wizState.step=1;
+  wizShell(1,''+
+    '<div style="text-align:center">'+
+      '<div class=eyebrow style="color:var(--rose)">Couldn\\'t read your site</div>'+
+      '<h1 class=h-title style="margin:8px 0 6px">'+(failed?'We couldn\\'t reach that website':'We didn\\'t find much to learn from')+'</h1>'+
+      '<p class=sub style="margin-bottom:18px">'+(failed?'The address might be mistyped, or the site blocked our reader. Check it and try again — or add your details by hand and you\\'re still good to go.':'Your assistant is set up, but that page had little it could answer from. Try a fuller page (like your home page), or add your key details by hand.')+'</p>'+
+    '</div>'+
+    '<button class="btn block" id=wretry>Try a different address →</button>'+
+    '<div style="height:10px"></div>'+
+    '<button class="btn ghost block" id=wmanual>Add my details by hand</button>'+
+    '<div style="height:10px"></div>'+
+    '<button class="btn ghost block" id=wanyway>Continue anyway</button>');
+  document.getElementById('wretry').onclick=wizStep1;
+  document.getElementById('wmanual').onclick=async function(){active=wizState.slug;location.hash='settings';await dash()};
+  document.getElementById('wanyway').onclick=wizStep2;
 }
 function wizStep2(){
   wizState.step=2;
@@ -623,7 +652,7 @@ function wizStep2(){
     '<div class=row style="margin-top:16px;gap:10px">'+
       '<button class="btn ghost" id=wback>Back</button>'+
       '<button class="btn" id=wnext style="flex:1">Looks good — finish setup →</button>'+
-    '</div>');
+    '</div>',true);
   document.getElementById('wback').onclick=wizStep1;
   document.getElementById('wnext').onclick=wizStep3;
 }
