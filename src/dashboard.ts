@@ -411,6 +411,9 @@ async function boot(){
     if(err)window.__authErr=decodeURIComponent(String(err).replace(/[+]/g,' '));
   }catch(e){}
   const {data}=await sb.auth.getSession();session=data.session;
+  // supabase-js reads the implicit (#access_token) hash into the session, but leaves it in the URL —
+  // strip it so a refresh/share doesn't carry the token and the URL stays clean.
+  if(/access_token|refresh_token/.test(location.hash)){try{history.replaceState({},'',location.pathname);}catch(e){}}
   sb.auth.onAuthStateChange((e,s)=>{
     var was=!!session; session=s;
     // Only re-render on a real sign-in/out — NOT on TOKEN_REFRESHED or window-focus re-fires, which
@@ -471,7 +474,22 @@ function login(){
 async function dash(){
   app.className='center';
   app.innerHTML='<div class="card pad"><p class=sub>Loading your assistant…</p></div>';
-  try{var me=await api('/api/me/tenants');isAdmin=!!(me&&me.isAdmin);tenants=((me&&me.tenants)||[]).filter(t=>/^[a-z0-9-]{2,40}$/.test(t.tenant))}catch(e){tenants=[];isAdmin=false}
+  var me;
+  try{ me=await api('/api/me/tenants'); }
+  catch(e){
+    // The magic-link landing tab can fire this BEFORE the session token is attached → a transient
+    // 401. Treating that as "no account" wrongly dropped returning users into the signup wizard.
+    // Retry briefly (onAuthStateChange also re-renders once the session settles); NEVER fall through
+    // to wizard() on an error — only on a SUCCESSFUL empty result below.
+    dash._tries=(dash._tries||0)+1;
+    if(dash._tries<6){ setTimeout(dash,600); return; }
+    dash._tries=0;
+    app.innerHTML='<div class="card pad" style="text-align:center"><p class=sub>We could not load your account just now.</p><button class=btn onclick="location.reload()">Try again</button></div>';
+    return;
+  }
+  dash._tries=0;
+  isAdmin=!!(me&&me.isAdmin);
+  tenants=((me&&me.tenants)||[]).filter(t=>/^[a-z0-9-]{2,40}$/.test(t.tenant));
   if(!tenants.length){return wizard();}
   active=active&&tenants.find(t=>t.tenant===active)?active:tenants[0].tenant;
   // land on Billing if returning from a Stripe checkout/portal redirect
@@ -1415,82 +1433,82 @@ async function renderSettings(main){
   main.innerHTML=pageHead('Settings','Everything that shapes how your assistant looks, talks, and keeps you informed.')+
   '<form id=setform class=view-in autocomplete=off>'+
 
-    '<div class=”card pad stack”>'+
-      '<div class=eyebrow style=”margin-bottom:4px”>Your business</div>'+
-      '<div class=h-sec style=”margin-bottom:2px”>Key facts</div>'+
-      '<p class=sub style=”margin-bottom:10px”>These are things your assistant treats as gospel — hours, prices, parking, phone number. One per line, as <b>Label: value</b>.</p>'+
-      '<textarea id=set_facts rows=6 placeholder=”Hours: Mon&ndash;Fri 9&ndash;5&#10;Parking: free out back&#10;Phone: 555-0100”>'+esc(factsText)+'</textarea>'+
+    '<div class="card pad stack">'+
+      '<div class=eyebrow style="margin-bottom:4px">Your business</div>'+
+      '<div class=h-sec style="margin-bottom:2px">Key facts</div>'+
+      '<p class=sub style="margin-bottom:10px">These are things your assistant treats as gospel — hours, prices, parking, phone number. One per line, as <b>Label: value</b>.</p>'+
+      '<textarea id=set_facts rows=6 placeholder="Hours: Mon&ndash;Fri 9&ndash;5&#10;Parking: free out back&#10;Phone: 555-0100">'+esc(factsText)+'</textarea>'+
       '<p class=hint>Your assistant learns these instantly when you save. No rebuild needed.</p>'+
     '</div>'+
 
-    '<div class=”card pad stack” style=”margin-top:14px”>'+
-      '<div class=eyebrow style=”margin-bottom:4px”>Booking &amp; calendar</div>'+
-      '<div class=h-sec style=”margin-bottom:2px”>Let visitors book a call from the chat</div>'+
-      '<p class=sub style=”margin-bottom:10px”>Turn on the booking button and paste your scheduling link below.</p>'+
+    '<div class="card pad stack" style="margin-top:14px">'+
+      '<div class=eyebrow style="margin-bottom:4px">Booking &amp; calendar</div>'+
+      '<div class=h-sec style="margin-bottom:2px">Let visitors book a call from the chat</div>'+
+      '<p class=sub style="margin-bottom:10px">Turn on the booking button and paste your scheduling link below.</p>'+
       '<label class=check><input type=checkbox id=set_be '+(s.booking_enabled?'checked':'')+'>'+
         '<span class=ct><b>Show a &ldquo;Book now&rdquo; button in the chat</b><br><span class=tiny>Visitors tap it to pick a time straight from the conversation.</span></span></label>'+
       '<div><label class=field for=set_cal>Your scheduling link</label>'+
-        '<input id=set_cal type=url placeholder=”https://cal.com/your-handle” value=”'+esc(cal)+'”>'+
+        '<input id=set_cal type=url placeholder="https://cal.com/your-handle" value="'+esc(cal)+'">'+
         '<p class=hint>Cal.com, Calendly, Acuity, or any booking page — paste the direct URL.</p></div>'+
-      '<div><label class=field for=set_ics>Calendar availability feed <span class=tiny style=”font-weight:400”>(optional)</span></label>'+
-        '<input id=set_ics type=url placeholder=”https://calendar.google.com/.../basic.ics” value=”'+esc(ics)+'”>'+
+      '<div><label class=field for=set_ics>Calendar availability feed <span class=tiny style="font-weight:400">(optional)</span></label>'+
+        '<input id=set_ics type=url placeholder="https://calendar.google.com/.../basic.ics" value="'+esc(ics)+'">'+
         '<p class=hint>A public iCal link (Google &ldquo;secret address in iCal format&rdquo;, Cal.com, Outlook). Your assistant reads it to answer &ldquo;are you free Tuesday?&rdquo; — it only sees booked slots, never event details.</p></div>'+
     '</div>'+
 
-    '<div class=”card pad stack” style=”margin-top:14px”>'+
-      '<div class=eyebrow style=”margin-bottom:4px”>Notifications</div>'+
-      '<div class=h-sec style=”margin-bottom:2px”>How you want to hear about new leads</div>'+
-      '<p class=sub style=”margin-bottom:10px”>We\\'ll reach out the moment your assistant captures someone. Leave any channel blank to skip it.</p>'+
+    '<div class="card pad stack" style="margin-top:14px">'+
+      '<div class=eyebrow style="margin-bottom:4px">Notifications</div>'+
+      '<div class=h-sec style="margin-bottom:2px">How you want to hear about new leads</div>'+
+      '<p class=sub style="margin-bottom:10px">We\\'ll reach out the moment your assistant captures someone. Leave any channel blank to skip it.</p>'+
       '<div><label class=field for=set_ne>Send me an email at</label>'+
-        '<input id=set_ne type=email placeholder=”you@yourbusiness.com” value=”'+esc(v('lead_notify_email'))+'”></div>'+
+        '<input id=set_ne type=email placeholder="you@yourbusiness.com" value="'+esc(v('lead_notify_email'))+'"></div>'+
       '<div><label class=field for=set_ns>Text me at</label>'+
-        '<input id=set_ns placeholder=”+1 555 123 4567” value=”'+esc(v('lead_notify_sms'))+'”></div>'+
+        '<input id=set_ns placeholder="+1 555 123 4567" value="'+esc(v('lead_notify_sms'))+'"></div>'+
       '<div><label class=field for=set_nw>Push to my CRM or automation tool</label>'+
-        '<input id=set_nw type=url placeholder=”https://hooks.zapier.com/&hellip;” value=”'+esc(v('lead_notify_webhook'))+'”>'+
+        '<input id=set_nw type=url placeholder="https://hooks.zapier.com/&hellip;" value="'+esc(v('lead_notify_webhook'))+'">'+
         '<p class=hint>Paste an https webhook address to pipe leads straight into Zapier, Make, HubSpot, or any tool that accepts them.</p></div>'+
     '</div>'+
 
-    '<div class=”card pad stack” style=”margin-top:14px”>'+
-      '<div class=eyebrow style=”margin-bottom:4px”>Look &amp; feel</div>'+
-      '<div class=h-sec style=”margin-bottom:2px”>How your assistant presents itself</div>'+
-      '<p class=sub style=”margin-bottom:10px”>Match the chat to your brand so it feels at home on your site.</p>'+
+    '<div class="card pad stack" style="margin-top:14px">'+
+      '<div class=eyebrow style="margin-bottom:4px">Look &amp; feel</div>'+
+      '<div class=h-sec style="margin-bottom:2px">How your assistant presents itself</div>'+
+      '<p class=sub style="margin-bottom:10px">Match the chat to your brand so it feels at home on your site.</p>'+
       '<div class=grid2>'+
         '<div><label class=field for=set_persona>Tone of voice</label>'+
           '<select id=set_persona>'+
-            '<option value=”friendly”'+(s.persona==='formal'?'':' selected')+'>Friendly &amp; warm</option>'+
-            '<option value=”formal”'+(s.persona==='formal'?' selected':'')+'>Professional &amp; formal</option>'+
+            '<option value="friendly"'+(s.persona==='formal'?'':' selected')+'>Friendly &amp; warm</option>'+
+            '<option value="formal"'+(s.persona==='formal'?' selected':'')+'>Professional &amp; formal</option>'+
           '</select>'+
           '<p class=hint>How your assistant greets and speaks to visitors.</p></div>'+
         '<div><label class=field for=set_bc>Brand colour</label>'+
-          '<input id=set_bc placeholder=”#4f46e5” value=”'+esc(v('brand_color'))+'”>'+
+          '<input id=set_bc placeholder="#4f46e5" value="'+esc(v('brand_color'))+'">'+
           '<p class=hint>The accent colour of your chat bubble. Hex code, e.g. #c79a4b.</p></div>'+
       '</div>'+
     '</div>'+
 
-    '<div class=”card pad stack” style=”margin-top:14px”>'+
-      '<div class=eyebrow style=”margin-bottom:4px”>How it answers</div>'+
-      '<div class=h-sec style=”margin-bottom:2px”>Fine-tune your assistant\\'s behaviour</div>'+
-      '<p class=sub style=”margin-bottom:10px”>Advanced controls — most businesses won\\'t need to touch these.</p>'+
+    '<div class="card pad stack" style="margin-top:14px">'+
+      '<div class=eyebrow style="margin-bottom:4px">How it answers</div>'+
+      '<div class=h-sec style="margin-bottom:2px">Fine-tune your assistant\\'s behaviour</div>'+
+      '<p class=sub style="margin-bottom:10px">Advanced controls — most businesses won\\'t need to touch these.</p>'+
       '<div><label class=field for=set_sx>Extra instructions</label>'+
-        '<textarea id=set_sx rows=3 placeholder=”e.g. Always mention our 10% first-visit discount.”>'+esc(v('system_extra'))+'</textarea>'+
+        '<textarea id=set_sx rows=3 placeholder="e.g. Always mention our 10% first-visit discount.">'+esc(v('system_extra'))+'</textarea>'+
         '<p class=hint>Anything here is added to every response your assistant gives. Be specific and brief.</p></div>'+
-      '<label class=check style=”margin-top:4px”><input type=checkbox id=set_reg '+(s.regulated?'checked':'')+'>'+
+      '<label class=check style="margin-top:4px"><input type=checkbox id=set_reg '+(s.regulated?'checked':'')+'>'+
         '<span class=ct><b>This is a regulated business</b><br>'+
         '<span class=tiny>Health, legal, or financial services? Turns on extra-careful, liability-aware responses.</span></span></label>'+
     '</div>'+
 
-    '<div class=”card pad stack” style=”margin-top:14px”>'+
-      '<div class=eyebrow style=”margin-bottom:4px”>Plan &amp; value</div>'+
-      '<div class=h-sec style=”margin-bottom:2px”>What a customer is worth to you</div>'+
-      '<p class=sub style=”margin-bottom:10px”>Helps us show you the real-world value your assistant is creating on the Overview page.</p>'+
+    '<div class="card pad stack" style="margin-top:14px">'+
+      '<div class=eyebrow style="margin-bottom:4px">Plan &amp; value</div>'+
+      '<div class=h-sec style="margin-bottom:2px">What a customer is worth to you</div>'+
+      '<p class=sub style="margin-bottom:10px">Helps us show you the real-world value your assistant is creating on the Overview page.</p>'+
       '<div><label class=field for=set_lv>Average value of a new customer ($)</label>'+
-        '<input id=set_lv type=number min=0 value=”'+esc(v('lead_value'))+'” placeholder=”250”>'+
+        '<input id=set_lv type=number min=0 value="'+esc(v('lead_value'))+'" placeholder="250">'+
         '<p class=hint>A rough average is fine — your assistant uses it to estimate your pipeline.</p></div>'+
     '</div>'+
 
-    '<div class=row style=”margin-top:18px;position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 60%,transparent);padding:10px 0”>'+
+    '<div class=row style="margin-top:18px;position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 60%,transparent);padding:10px 0">'+
       '<button type=submit class=btn id=set_save>Save changes</button>'+
-      '<span id=set_msg class=msg style=”margin-top:0”></span>'+
+      '<span id=set_msg class=msg style="margin-top:0"></span>'+
     '</div>'+
   '</form>'+mobileFoot();
 

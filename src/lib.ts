@@ -470,13 +470,23 @@ function extractFacts(html: string): Record<string, string> {
   }
   const typeOf = (n: any) => (Array.isArray(n?.["@type"]) ? n["@type"].join(" ") : String(n?.["@type"] || "")).toLowerCase();
   const biz = nodes.find((n) => /business|organization|salon|store|dentist|clinic|restaurant|cafe|professionalservice|spa|gym/.test(typeOf(n)));
+  // Reject placeholder/garbage phones (e.g. "00000080", "+00 000 0000") that template sites ship in
+  // JSON-LD — a real UK number has ~10-13 digits, starts 0 or +44, and isn't all-zeros/all-same.
+  const okPhone = (raw: any) => {
+    const s = String(raw || "").replace(/[^\d+]/g, "");
+    const digits = s.replace(/\D/g, "");
+    if (digits.length < 10 || digits.length > 13) return false;
+    if (/^0+$/.test(digits) || /^(\d)\1+$/.test(digits)) return false;
+    return /^\+?(44|0)/.test(s);
+  };
   const pick = (n: any) => {
     if (!n) return;
-    if (n.telephone && !facts.phone) facts.phone = String(n.telephone).slice(0, 40);
+    if (n.telephone && !facts.phone && okPhone(n.telephone)) facts.phone = String(n.telephone).replace(/\s+/g, " ").trim().slice(0, 40);
     if (n.email && !facts.email) facts.email = String(n.email).slice(0, 80);
     if (n.priceRange && !facts.price_range) facts.price_range = String(n.priceRange).slice(0, 40);
     const a = n.address;
-    if (a && !facts.address) {
+    // Require a real anchor (street or postcode) — a bare region/locality like "England" is junk.
+    if (a && !facts.address && (a.streetAddress || a.postalCode)) {
       const parts = [a.streetAddress, a.addressLocality, a.addressRegion, a.postalCode].filter(Boolean);
       if (parts.length) facts.address = parts.join(", ").slice(0, 160);
     }
@@ -514,7 +524,7 @@ function extractFacts(html: string): Record<string, string> {
   if (!facts.phone) {
     const tel = html.match(/href=["']tel:([+\d][\d\s().-]{6,})["']/i);
     const ph = tel ? tel[1] : (flat.match(/\b(?:0\d{2,4}\s?\d{3}\s?\d{2,4}|\+44\s?\d[\d\s]{7,12})\b/) || [])[0];
-    if (ph) facts.phone = String(ph).replace(/\s+/g, " ").trim().slice(0, 40);
+    if (ph && okPhone(ph)) facts.phone = String(ph).replace(/\s+/g, " ").trim().slice(0, 40);
   }
   if (!facts.email) {
     // Prefer an explicit mailto:, else the first plausible address in the page text. Skip
@@ -1008,6 +1018,9 @@ export async function sessionExists(tenant: string, sessionId?: string): Promise
 
 // True if tenant is over its monthly conversation quota.
 export async function overQuota(tenant: any): Promise<boolean> {
+  // Demo tenants are prospect-facing marketing assets — never let them hit the quota wall
+  // (they'd serve "leave your email" to a prospect mid-pitch). They carry no paying customer.
+  if (typeof tenant?.slug === "string" && tenant.slug.startsWith("demo-")) return false;
   const limit =
     tenant?.monthly_conversation_limit ?? PLAN_LIMITS[tenant?.plan ?? "trial"]?.conversations ?? 100;
   const since = new Date(Date.now() - 30 * 864e5).toISOString();

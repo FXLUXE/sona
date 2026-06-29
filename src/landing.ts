@@ -935,8 +935,8 @@ export function landingHtml(base: string): string {
           return;
         }
         setStatus('Your receptionist is on duty. Ask it anything — bottom-right of the preview.','done');
-        // keep the desk still while the live preview mounts, then reveal it
-        setBusy(true);
+        // preview mounts in an overlay — leave the desk UNLOCKED so a second site can be tried
+        // without a refresh (the stray re-lock here was the re-generate bug).
         openDemo(res.j.demoUrl);
       })
       .catch(function(){ go.disabled=false; if(go2)go2.disabled=false; setBusy(false); setStatus('Something interrupted the connection. Please ring again.','error'); });
