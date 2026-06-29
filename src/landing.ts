@@ -550,7 +550,7 @@ export function landingHtml(base: string): string {
       <div class="stat reveal"><div class="num" data-count="2" data-prefix="&lt; " data-suffix="s">&lt; <span class="u">2s</span></div><div class="lbl">Typical answer</div></div>
       <div class="stat reveal"><div class="num" data-count="24" data-suffix="/7"><span class="u">24/7</span></div><div class="lbl">On duty</div></div>
       <div class="stat reveal"><div class="num" data-count="0"><span class="u">0</span></div><div class="lbl">Missed after-hours visitors</div></div>
-      <div class="stat reveal"><div class="num" data-count="0" data-prefix="$">$<span class="u">0</span></div><div class="lbl">To try it</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-prefix="£">£<span class="u">0</span></div><div class="lbl">To try it</div></div>
     </div>
   </section>
 
@@ -632,7 +632,7 @@ export function landingHtml(base: string): string {
       </div>
       <div class="panel on" id="p-salon" role="tabpanel" aria-labelledby="tab-salon">
         <div class="q-label">A visitor asks</div>
-        <p class="ask">"Do you have any openings for a cut and color this Saturday?"</p>
+        <p class="ask">"Do you have any openings for a cut and colour this Saturday?"</p>
         <p class="ans">Sona checks your hours and services, offers the slots you list as available, and <b>takes their name and number</b> so you can confirm — even if they asked at 11pm.</p>
       </div>
       <div class="panel" id="p-dental" role="tabpanel" aria-labelledby="tab-dental" hidden>
@@ -672,7 +672,7 @@ export function landingHtml(base: string): string {
       <div class="feat reveal">
         <div class="no">Matches</div>
         <h3>Dressed for your brand</h3>
-        <p>Sona borrows your logo and colors straight from your site, so the desk on your page looks like it has always belonged there.</p>
+        <p>Sona borrows your logo and colours straight from your site, so the desk on your page looks like it has always belonged there.</p>
       </div>
       <div class="feat reveal">
         <div class="no">Protects</div>

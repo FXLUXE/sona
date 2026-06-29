@@ -430,7 +430,7 @@ function login(){
   app.innerHTML=''+
   '<div class="card pad wiz" style="max-width:400px;text-align:center">'+
     '<div class=logo style="justify-content:center;margin-bottom:6px"><span class=mark>S</span><span class=wm>Sona</span></div>'+
-    '<h1 class=h-title style="margin:8px 0 6px">Welcome back</h1>'+
+    '<h1 class=h-title style="margin:8px 0 6px">Welcome to Sona</h1>'+
     '<p class=sub style="margin-bottom:18px">Pop in your email and we\\'ll send you a one-tap sign-in link. No password to remember.</p>'+
     '<label class=field for=em style="text-align:left">Email address</label>'+
     '<input id=em type=email placeholder="you@yourbusiness.com" autocomplete=email inputmode=email>'+

@@ -588,7 +588,7 @@ function extractFacts(html: string, renderedText = ""): Record<string, string> {
     // Many sites obfuscate their email as HTML entities (i&#110;fo&#64;vet&#46;com) to fight scrapers.
     // Decode BEFORE validating so the contact handoff shows "info@vet.com", not the raw entity string.
     const cand = decodeEntities(mailtoRaw || (flat.match(/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/i) || [])[0] || "").replace(/\s+/g, "");
-    if (cand && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(cand) && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
+    if (cand && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(cand) && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|mysite\.|your(domain|site|business|company|email)|domain\.(com|tld)|email\.com|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
       facts.email = cand.toLowerCase().trim().slice(0, 80);
   }
   // Booking link: lets the bot answer "how do I book?" and powers the widget's Book button —
@@ -613,7 +613,7 @@ export function scrapeEmail(html: string): string {
   const mailtoRaw = html.match(/href=["']mailto:([^"'?]+)/i)?.[1];
   // Decode entity-obfuscated addresses (i&#110;fo&#64;…) before validating.
   const cand = decodeEntities(mailtoRaw || (flat.match(/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/i) || [])[0] || "").replace(/\s+/g, "");
-  if (cand && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(cand) && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
+  if (cand && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(cand) && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|mysite\.|your(domain|site|business|company|email)|domain\.(com|tld)|email\.com|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
     return cand.toLowerCase().trim().slice(0, 80);
   return "";
 }
@@ -785,7 +785,10 @@ export async function ingestUrl(tenant: string, url: string, prefetchedHtml?: st
   // Source-limit enforcement: only NEW sources count against the plan (re-ingesting an
   // existing URL is free). Resolve the limit inline from PLAN_LIMITS to avoid a
   // lib → billing circular import. Callers catch SOURCE_LIMIT_REACHED → 402 upgrade.
-  if (!existing) {
+  // Public demos (demo-<host>) are never bound by the trial source limit — a prospect rebuilding a
+  // site that was already demoed (its enrichment crawl filled the 5 trial slots) must never see
+  // "Source limit reached for your plan". Per-page + global embedding budgets still bound demo cost.
+  if (!existing && !String(tenant).startsWith("demo-")) {
     const t = await getTenant(tenant);
     const limit = t?.source_limit ?? PLAN_LIMITS[t?.plan ?? "trial"]?.sources ?? 5;
     const { count } = await db
@@ -986,7 +989,7 @@ function todaysHoursLine(spec: unknown): string {
     if (!(today.startsWith(m[1]) || m[1].startsWith(today.slice(0, 3)) || today.slice(0, 2) === m[1])) continue;
     if (/clos/i.test(part)) return `Closed today (${cap})`;
     const r = part.match(/(\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm)?)\s*[-–—to]+\s*(\d{1,2}(?:[:.]\d{2})?\s*(?:am|pm)?)/i);
-    if (r) return `Open today (${cap}): ${r[1].trim().replace(/\s+/g, "")}–${r[2].trim().replace(/\s+/g, "")}`;
+    if (r) return `Today (${cap}): ${r[1].trim().replace(/\s+/g, "")}–${r[2].trim().replace(/\s+/g, "")}`;
   }
   return "";
 }
