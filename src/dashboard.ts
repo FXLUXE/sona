@@ -323,7 +323,7 @@ const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;
 // Only render http(s) links — blocks javascript:/data: stored in page_url from the widget.
 const safeHref=u=>/^https?:\\/\\//i.test(u||'')?esc(u):'';
 const fmt=d=>{try{return new Date(d).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}catch(e){return d}};
-const money=n=>'$'+Number(n||0).toLocaleString();
+const money=n=>'£'+Number(n||0).toLocaleString();
 const num=n=>Number(n||0).toLocaleString();
 
 // Global loading bar, ref-counted so concurrent fetches share one bar. The bar creeps toward
@@ -1237,9 +1237,9 @@ function renderPreview(main){
 
 /* ----- Billing ----- */
 const PLANS=[
-  {key:'starter',name:'Starter',price:29,feats:['500 conversations a month','Up to 10 learned pages','Lead alerts by email & SMS']},
-  {key:'pro',name:'Pro',price:79,feats:['3,000 conversations a month','Up to 50 learned pages','Smarter answers (better model)','Booking links in chat']},
-  {key:'business',name:'Business',price:199,feats:['20,000 conversations a month','Up to 500 learned pages','Everything in Pro','Webhooks to your tools']}
+  {key:'starter',name:'Starter',price:19,feats:['250 conversations a month','Lead alerts by email & SMS','CSV export']},
+  {key:'pro',name:'Pro',price:39,feats:['1,000 conversations a month','In-chat booking','Remove "Powered by Sona"','Full theming']},
+  {key:'business',name:'Business',price:79,feats:['3,000 conversations a month','Everything in Pro','Priority support']}
 ];
 let billingCycle='monthly';
 function meter(label,used,limit){
@@ -1283,7 +1283,7 @@ async function renderBilling(main){
         (cur?'<span class=tag style="margin-bottom:6px">Your plan</span>':'')+
         '<div class=pname>'+esc(p.name)+'</div>'+
         '<div class=price>'+money(perMo)+'<span>/mo</span></div>'+
-        (annual?'<div class=tiny style="margin-top:-2px">'+money(p.price*10)+' a year</div>':'')+
+        (annual?'<div class=tiny style="margin-top:-2px">Save 20%</div>':'')+
         '<ul>'+p.feats.map(f=>'<li>'+ico.tick.replace('class=tick','width=15 height=15')+'<span>'+esc(f)+'</span></li>').join('')+'</ul>'+
         '<div class=top><button class="btn block upg" data-plan="'+esc(p.key)+'"'+((cur||!enabled)?' disabled':'')+'>'+(cur?'Your plan':'Choose '+esc(p.name))+'</button></div>'+
       '</div>';
@@ -1294,7 +1294,7 @@ async function renderBilling(main){
       '<button id=cyMo class="'+(billingCycle==='monthly'?'on':'')+'" aria-pressed="'+(billingCycle==='monthly')+'">Monthly</button>'+
       '<button id=cyAn class="'+(billingCycle==='annual'?'on':'')+'" aria-pressed="'+(billingCycle==='annual')+'">Annual</button>'+
     '</div>'+
-    '<span class=save-note>'+ico.bolt+'Pay yearly, get 2 months free</span>'+
+    '<span class=save-note>'+ico.bolt+'Pay yearly, save 20%</span>'+
   '</div>';
 
   main.innerHTML=pageHead('Billing','Your plan, what you\\'ve used, and how to upgrade.',
@@ -1501,7 +1501,7 @@ async function renderSettings(main){
       '<div class=eyebrow style="margin-bottom:4px">Plan &amp; value</div>'+
       '<div class=h-sec style="margin-bottom:2px">What a customer is worth to you</div>'+
       '<p class=sub style="margin-bottom:10px">Helps us show you the real-world value your assistant is creating on the Overview page.</p>'+
-      '<div><label class=field for=set_lv>Average value of a new customer ($)</label>'+
+      '<div><label class=field for=set_lv>Average value of a new customer (£)</label>'+
         '<input id=set_lv type=number min=0 value="'+esc(v('lead_value'))+'" placeholder="250">'+
         '<p class=hint>A rough average is fine — your assistant uses it to estimate your pipeline.</p></div>'+
     '</div>'+

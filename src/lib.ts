@@ -58,9 +58,9 @@ export const sb = () =>
 // Plan limits (resolved here; tenant row can override with explicit nulls).
 export const PLAN_LIMITS: Record<string, { conversations: number; sources: number }> = {
   trial: { conversations: 100, sources: 5 },
-  starter: { conversations: 500, sources: 10 },
-  pro: { conversations: 3000, sources: 50 },
-  business: { conversations: 20000, sources: 500 },
+  starter: { conversations: 250, sources: 10 },
+  pro: { conversations: 1000, sources: 50 },
+  business: { conversations: 3000, sources: 200 },
 };
 
 // Shared calLink validator — used by settings (write), answer() (prompt), and the
@@ -1763,7 +1763,7 @@ export async function sendWeeklyDigest(tenant: string, name: string, to: string)
     row("Conversations (30d)", String(s.conversations30d)) +
     row("Leads captured", String(s.leads)) +
     row("Bookings", String(s.bookings)) +
-    row("Estimated pipeline", "$" + Math.round(s.estimatedPipeline)) +
+    row("Estimated pipeline", "£" + Math.round(s.estimatedPipeline)) +
     (s.csat != null ? row("Helpful answers", s.csat + "%") : "") +
     (s.unanswered ? row("Questions to review", String(s.unanswered)) : "") +
     `</table>` +

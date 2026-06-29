@@ -312,7 +312,21 @@ export function landingHtml(base: string): string {
   .pricing .guarantee{margin:28px auto 0;color:var(--muted);font-size:13.5px;max-width:40em;font-family:var(--mono);letter-spacing:.02em}
   .pricing .guarantee b{color:var(--sage);font-weight:600}
   .pricing .cta-row{margin-top:24px}
-
+  /* ---- compare-all-features matrix ---- */
+  .compare{max-width:760px;margin:34px auto 0;text-align:left;border:1px solid var(--line);border-radius:14px;background:var(--white);overflow:hidden}
+  .compare>summary{cursor:pointer;list-style:none;padding:16px 22px;font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--brass-deep);display:flex;align-items:center;justify-content:space-between}
+  .compare>summary::-webkit-details-marker{display:none}
+  .compare>summary .pm{width:11px;height:11px;border-right:2px solid var(--brass);border-bottom:2px solid var(--brass);transform:rotate(45deg);transition:transform .25s ease}
+  .compare[open]>summary .pm{transform:rotate(-135deg)}
+  .cmp-wrap{overflow-x:auto}
+  .cmp{width:100%;border-collapse:collapse;font-size:13.5px}
+  .cmp th,.cmp td{padding:11px 14px;border-top:1px solid var(--line);text-align:center;white-space:nowrap}
+  .cmp thead th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-deep);border-top:0}
+  .cmp th.pop{color:#231706;background:linear-gradient(180deg,rgba(199,154,75,.18),rgba(199,154,75,.08))}
+  .cmp tbody td:first-child,.cmp thead th:first-child{text-align:left;color:#3a444c;white-space:normal}
+  .cmp tbody td{color:#54606a}
+  .cmp-soon{margin:0;padding:14px 22px;font-size:12.5px;color:var(--muted);font-family:var(--mono);letter-spacing:.02em;border-top:1px solid var(--line)}
+  .cmp-soon b{color:var(--sage)}
 
   /* ---- final CTA band: the last ring of the bell ---- */
   .closer{margin-top:88px;padding:64px 0 70px;background:linear-gradient(180deg,#142530,var(--plate));color:#eef2f0;position:relative;overflow:hidden}
@@ -704,33 +718,56 @@ export function landingHtml(base: string): string {
   <section class="pricing" id="pricing">
     <span class="eyebrow reveal center">Pick a desk</span>
     <h2 class="reveal">Plain pricing, paid monthly.</h2>
-    <p class="note reveal">Start free for 14 days — no card to try, cancel whenever you like.</p>
+    <p class="note reveal">Start free for 14 days — no card to try, cancel whenever you like. <b>Save 20% paid yearly.</b></p>
     <div class="tiers">
       <div class="tier reveal">
         <h3>Trial</h3>
-        <div class="price">$0<small> / 14 days</small></div>
-        <ul><li>100 conversations</li><li>5 sources</li><li>Lead capture &amp; alerts</li></ul>
+        <div class="price">£0<small> / 14 days</small></div>
+        <ul><li>100 conversations</li><li>Answers from your own pages</li><li>Lead capture &amp; email alerts</li></ul>
         <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Create your free account</a></div>
       </div>
       <div class="tier reveal">
         <h3>Starter</h3>
-        <div class="price">$29<small> / mo</small></div>
-        <ul><li>500 conversations</li><li>10 sources</li><li>Email &amp; SMS alerts</li></ul>
+        <div class="price">£19<small> / mo</small></div>
+        <ul><li>250 conversations / mo</li><li>Email &amp; SMS lead alerts</li><li>Download leads (CSV)</li></ul>
         <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Choose Starter</a></div>
       </div>
       <div class="tier pop reveal">
         <h3>Pro</h3>
-        <div class="price">$79<small> / mo</small></div>
-        <ul><li>3,000 conversations</li><li>50 sources</li><li>Higher-quality model</li><li>Booking links</li></ul>
+        <div class="price">£39<small> / mo</small></div>
+        <ul><li>1,000 conversations / mo</li><li>In-chat booking calendar</li><li>Remove “Powered by Sona”</li><li>Full colour &amp; logo theming</li></ul>
         <div class="pick"><a class="btn btn-brass btn-sm" href="${esc(base)}/dashboard">Choose Pro</a></div>
       </div>
       <div class="tier reveal">
         <h3>Business</h3>
-        <div class="price">$199<small> / mo</small></div>
-        <ul><li>20,000 conversations</li><li>500 sources</li><li>Priority &amp; webhooks</li></ul>
+        <div class="price">£79<small> / mo</small></div>
+        <ul><li>3,000 conversations / mo</li><li>Everything in Pro</li><li>Priority support</li></ul>
         <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Choose Business</a></div>
       </div>
     </div>
+
+    <details class="compare reveal">
+      <summary>Compare every feature<span class="pm" aria-hidden="true"></span></summary>
+      <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th>Feature</th><th>Trial</th><th>Starter</th><th class="pop">Pro</th><th>Business</th></tr></thead>
+        <tbody>
+          <tr><td>Conversations / month</td><td>100</td><td>250</td><td>1,000</td><td>3,000</td></tr>
+          <tr><td>Answers from your own pages</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Capture visitor leads</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Email alert on new lead</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>SMS alert on new lead</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Download leads (CSV)</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Colour &amp; logo theming</td><td>Basic</td><td>Basic</td><td>Full</td><td>Full</td></tr>
+          <tr><td>In-chat booking calendar</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Remove “Powered by Sona”</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Priority support</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="cmp-soon">More on the way for Pro &amp; Business — analytics, calendar sync, integrations and multi-site. <b>Coming soon.</b></p>
+    </details>
+
     <p class="guarantee reveal">Set it up in minutes. <b>No card to try, cancel anytime.</b> Every plan answers only from your own pages.</p>
     <div class="cta-row reveal" style="text-align:center">
       <a class="btn btn-brass" href="${esc(base)}/dashboard">Create your free account →</a>

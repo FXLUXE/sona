@@ -1068,6 +1068,10 @@ var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wgh
 // ambient branded backdrop that fills the empty space — soft drifting orbs (brand-tinted) + a
 // faint industry motif themed off their site. Barely-there per the subtle-animation rule.
 +'.sona-bkview>.sona-bkvh,.sona-bkview>.sona-bkvb,.sona-bkview>.sona-bkvf{position:relative;z-index:1}'
+// In the full-screen embed the booking view would stretch edge-to-edge (giant cells, dead space).
+// Keep the top bar full width but centre the calendar/time/form column to a card-sized width.
++'.sona-embed .sona-bkvb,.sona-embed .sona-bkvf{max-width:560px;margin-left:auto;margin-right:auto;width:100%}'
++'.sona-embed .sona-bkvh{padding-left:max(16px,calc((100% - 560px)/2));padding-right:max(16px,calc((100% - 560px)/2))}'
 // Aurora: soft brand/accent colour blooms drifting gently — modern, premium, calm. No lines.
 // Shared by the booking overlay AND the chat view so the widget feels consistent.
 +'.sona-aura{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}'
@@ -1105,6 +1109,14 @@ var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wgh
 +'.sona-bkday.on{background:'+C+';border-color:'+C+';transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(17,33,43,.55)}'
 +'.sona-bkday.on .dn,.sona-bkday.on .dd,.sona-bkday.on .dm{color:'+ON+'}'
 +'.sona-bkday.off{opacity:.45;cursor:default;background:#efe9df;border-color:transparent;box-shadow:none}.sona-bkday.off:hover{transform:none;border-color:transparent}'
++'.sona-bkmon{text-align:center;font-weight:700;font-size:14px;color:#27323b;margin:0 0 12px}'
++'.sona-bkwd{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:7px}'
++'.sona-bkwd span{text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#a39a87}'
++'.sona-bkcal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}'
++'.sona-bkcell{aspect-ratio:1/1;border:1.5px solid #e7e0d3;background:#fff;border-radius:11px;font-size:14px;font-weight:700;color:#27323b;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s,border-color .14s,box-shadow .14s;box-shadow:0 3px 10px -9px rgba(17,33,43,.5)}'
++'.sona-bkcell:hover{border-color:'+C+';transform:translateY(-2px);box-shadow:0 10px 20px -10px rgba(17,33,43,.5)}'
++'.sona-bkcell.today{border-color:'+C+';box-shadow:0 0 0 1.5px '+C+' inset}'
++'.sona-bkcell.off{opacity:.4;cursor:default;background:#efe9df;border-color:transparent;color:#a39a87;box-shadow:none}.sona-bkcell.off:hover{transform:none;border-color:transparent;box-shadow:none}'
 +'.sona-bkslots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}'
 +'.sona-bkslot{border:1.5px solid #e7e0d3;background:#fff;border-radius:13px;padding:12px 6px;font-size:13.5px;color:#27323b;font-weight:600;cursor:pointer;text-align:center;transition:transform .12s,border-color .14s,background .14s;box-shadow:0 4px 14px -11px rgba(17,33,43,.5)}'
 +'.sona-bkslot:hover{border-color:'+C+';background:#fffaf2;transform:translateY(-1px)}'
@@ -1240,10 +1252,24 @@ function fmtDay(d){return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()
 function monShort(d){return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]}
 function fmtDate(d){return d.getDate()+' '+monShort(d)}
 function slotsFor(d){var R=parseHours(FACTS.hours),day=d.getDay(),ranges=null;if(R){if(R[day]&&R[day].length)ranges=R[day]}else if(day>=1&&day<=5){ranges=[[540,1020]]}if(!ranges)return [];var out=[],now=new Date(),cut=sameDay(d,now)?(now.getHours()*60+now.getMinutes()+60):-1;ranges.forEach(function(rg){for(var t=rg[0];t+30<=rg[1];t+=30){if(t>cut)out.push(t)}});return out}
+function monLong(d){return ['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]}
+// Natural-language "when" parser → {date, min}. Lets a typed request like "12:30 tuesday next week"
+// pre-select the day + nearest time instead of dumping the visitor on a blank calendar.
+function parseWhen(q){var s=' '+(q||'').toLowerCase()+' ';var now=new Date();var min=null,date=null;
+ var ap=s.match(/\\b(\\d{1,2})(?::(\\d{2}))?\\s*(a\\.?m|p\\.?m)\\b/);
+ var hm=s.match(/\\b(\\d{1,2}):(\\d{2})\\b/);
+ if(ap){var h=(+ap[1])%12;if(/p/.test(ap[3]))h+=12;min=h*60+(ap[2]?+ap[2]:0)}else if(hm){min=(+hm[1])*60+(+hm[2])}
+ var nextWeek=s.indexOf('next week')>=0;var days=['sun','mon','tue','wed','thu','fri','sat'];var dow=-1;
+ for(var i=0;i<7;i++){if(s.indexOf(days[i])>=0){dow=i;break}}
+ if(s.indexOf('tomorrow')>=0){date=new Date();date.setDate(now.getDate()+1)}
+ else if(s.indexOf('today')>=0){date=new Date()}
+ else if(dow>=0){var raw=(dow-now.getDay()+7)%7,add;if(nextWeek){add=raw+7;if(raw===0)add=7}else{add=raw===0?7:raw}date=new Date();date.setDate(now.getDate()+add)}
+ else if(nextWeek){var a2=(8-now.getDay()+7)%7;if(a2===0)a2=7;date=new Date();date.setDate(now.getDate()+a2)}
+ if(date)date.setHours(0,0,0,0);return {date:date,min:min}}
 function chipGo(q){if(BOOKON&&/book|appoint|reserve|schedul/i.test(q)){openBook()}else{I.value=q;send()}}
-function openBook(){
+function openBook(prefill){
  if(panel.querySelector('.sona-bkview'))return;
- var sel={date:null,min:null},view='day',period=null;
+ var sel={date:null,min:null},view='day',period=null,want=null;
  var V=document.createElement('div');V.className='sona-bkview';
  var head=document.createElement('div');head.className='sona-bkvh';
  var back=document.createElement('button');back.type='button';back.className='bk';back.setAttribute('aria-label','Back');back.innerHTML='←';back.onclick=function(){if(view==='time'){view='day';render()}else if(view==='form'){view='time';render()}else{V.remove()}};
@@ -1263,11 +1289,17 @@ function openBook(){
   body.innerHTML='';foot.innerHTML='';foot.style.display='none';body.scrollTop=0;
   if(view==='day'){
    t1.textContent='Book an appointment';
-   var s1=document.createElement('div');s1.className='sona-bksec';s1.textContent='Choose a day';body.appendChild(s1);
-   var strip=document.createElement('div');strip.className='sona-bkdays';var today=new Date(),anyDay=false;
-   for(var i=0;i<14;i++){(function(i){var d=new Date();d.setDate(today.getDate()+i);d.setHours(0,0,0,0);var sl=slotsFor(d);var b=document.createElement('button');b.type='button';b.className='sona-bkday';var dn=document.createElement('span');dn.className='dn';dn.textContent=i===0?'Today':fmtDay(d);var dd=document.createElement('span');dd.className='dd';dd.textContent=d.getDate();var dm=document.createElement('span');dm.className='dm';dm.textContent=monShort(d);b.appendChild(dn);b.appendChild(dd);b.appendChild(dm);if(!sl.length){b.disabled=true;b.className+=' off'}else{anyDay=true;b.onclick=function(){sel.date=d;sel.min=null;period=null;view='time';render()}}strip.appendChild(b)})(i)}
-   body.appendChild(strip);
-   if(anyDay){var hint=document.createElement('div');hint.className='sona-bkhint';hint.textContent='Pick a day to see available times.';body.appendChild(hint)}else{var nn=document.createElement('div');nn.className='sona-bknote';nn.style.marginTop='12px';nn.textContent='There are no times to request online in the next two weeks.'+(FACTS.phone?(' Please call '+FACTS.phone+' and the team will help.'):'');body.appendChild(nn)}
+   var today=new Date();today.setHours(0,0,0,0);
+   // Calendar grid (Mon–Sun, 3 weeks from this Monday). Past + closed days greyed; fills the panel
+   // and keeps next week visible at a glance instead of a hidden side-scroll.
+   var start=new Date(today);start.setDate(start.getDate()-((start.getDay()+6)%7));
+   var WEEKS=3,endd=new Date(start);endd.setDate(start.getDate()+WEEKS*7-1);
+   var mon=document.createElement('div');mon.className='sona-bkmon';mon.textContent=(start.getMonth()===endd.getMonth())?(monLong(start)+' '+start.getFullYear()):(monShort(start)+' – '+monShort(endd)+' '+endd.getFullYear());body.appendChild(mon);
+   var wd=document.createElement('div');wd.className='sona-bkwd';['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function(x){var e=document.createElement('span');e.textContent=x;wd.appendChild(e)});body.appendChild(wd);
+   var cal=document.createElement('div');cal.className='sona-bkcal';var anyDay=false;
+   for(var i=0;i<WEEKS*7;i++){(function(i){var d=new Date(start);d.setDate(start.getDate()+i);d.setHours(0,0,0,0);var b=document.createElement('button');b.type='button';b.className='sona-bkcell';b.textContent=d.getDate();var sl=(d<today)?[]:slotsFor(d);if(sameDay(d,today))b.className+=' today';if(!sl.length){b.disabled=true;b.className+=' off'}else{anyDay=true;b.onclick=function(){sel.date=d;sel.min=null;period=null;want=null;view='time';render()}}cal.appendChild(b)})(i)}
+   body.appendChild(cal);
+   if(anyDay){var hint=document.createElement('div');hint.className='sona-bkhint';hint.textContent='Pick a day to see available times.';body.appendChild(hint)}else{var nn=document.createElement('div');nn.className='sona-bknote';nn.style.marginTop='12px';nn.textContent='There are no times to request online in the next three weeks.'+(FACTS.phone?(' Please call '+FACTS.phone+' and the team will help.'):'');body.appendChild(nn)}
    if(K){var dl=document.createElement('a');dl.className='sona-bkdirect';dl.href=K;dl.target='_blank';dl.rel='noopener';dl.textContent='Or book on our own page →';body.appendChild(dl)}
   }else if(view==='time'){
    t1.textContent='Choose a time';
@@ -1275,9 +1307,12 @@ function openBook(){
    // Group into Morning/Afternoon/Evening so only one part of the day shows at once — never scrolls.
    var sl=slotsFor(sel.date),groups={am:[],pm:[],eve:[]};sl.forEach(function(m){(m<720?groups.am:(m<1020?groups.pm:groups.eve)).push(m)});
    var avail=[['am','Morning'],['pm','Afternoon'],['eve','Evening']].filter(function(g){return groups[g[0]].length});
+   // If the visitor typed a time, land on the part of day holding the nearest slot and highlight it.
+   var near=null;if(want!=null&&sl.length){near=sl[0];sl.forEach(function(m){if(Math.abs(m-want)<Math.abs(near-want))near=m});period=(near<720?'am':(near<1020?'pm':'eve'))}
    if(!period||!groups[period]||!groups[period].length)period=avail.length?avail[0][0]:'am';
    if(avail.length>1){var seg=document.createElement('div');seg.className='sona-bkseg';avail.forEach(function(g){var sb=document.createElement('button');sb.type='button';sb.textContent=g[1];if(period===g[0])sb.className='on';sb.onclick=function(){period=g[0];render()};seg.appendChild(sb)});body.appendChild(seg)}
-   var grid=document.createElement('div');grid.className='sona-bkslots';groups[period].forEach(function(m){var b=document.createElement('button');b.type='button';b.className='sona-bkslot';b.textContent=fmtMin(m);b.onclick=function(){sel.min=m;view='form';render()};grid.appendChild(b)});body.appendChild(grid);
+   var grid=document.createElement('div');grid.className='sona-bkslots';groups[period].forEach(function(m){var b=document.createElement('button');b.type='button';b.className='sona-bkslot';b.textContent=fmtMin(m);if(near!=null&&m===near){b.className+=' on';setTimeout(function(){try{b.scrollIntoView({block:'nearest'})}catch(e){}},0)}b.onclick=function(){sel.min=m;view='form';render()};grid.appendChild(b)});body.appendChild(grid);
+   want=null;
   }else if(view==='form'){
    t1.textContent='Your details';
    var card=document.createElement('button');card.type='button';card.className='sona-bkchosen';var ci=document.createElement('span');ci.className='cal';ci.textContent='\u{1F4C5}';var cx=document.createElement('span');cx.className='cx';cx.textContent=fmtMin(sel.min)+' · '+dayLabel(sel.date);var ce=document.createElement('span');ce.className='ed';ce.textContent='Edit';card.appendChild(ci);card.appendChild(cx);card.appendChild(ce);card.onclick=function(){view='time';render()};body.appendChild(card);
@@ -1292,6 +1327,8 @@ function openBook(){
   }
  }
  function success(dt,em){view='done';back.style.visibility='hidden';t1.textContent='Booking requested';foot.style.display='none';foot.innerHTML='';body.innerHTML='';var ok=document.createElement('div');ok.className='sona-bkok';var ring=document.createElement('div');ring.className='ring';ring.textContent='✓';var t=document.createElement('div');t.className='t';t.textContent='Request sent';var s=document.createElement('div');s.className='s';s.textContent=N+' will confirm your '+fmtMin(sel.min)+' appointment on '+fmtDay(dt)+' '+dt.getDate()+' '+monShort(dt)+'. A confirmation goes to '+em+'.';var dn=document.createElement('button');dn.type='button';dn.className='dn';dn.textContent='Done';dn.onclick=function(){V.remove()};ok.appendChild(ring);ok.appendChild(t);ok.appendChild(s);ok.appendChild(dn);body.appendChild(ok)}
+ // A typed request ("book 12:30 next tuesday") can pre-pick the day → jump straight to times.
+ if(prefill&&prefill.date){var pd=new Date(prefill.date);pd.setHours(0,0,0,0);if(slotsFor(pd).length){sel.date=pd;want=(prefill.min!=null?prefill.min:null);view='time'}}
  render();
 }
 function welcome(){var w=document.createElement('div');w.className='sona-welcome';
@@ -1321,7 +1358,7 @@ w.appendChild(mk('\u{1F44D}',1));w.appendChild(mk('\u{1F44E}',-1));after.appendC
 async function send(){var q=I.value.trim();if(!q)return;var wel=M.querySelector('.sona-welcome');if(wel){wel.remove();root.classList.add('chatting');Array.prototype.forEach.call(panel.querySelectorAll('.sona-fbub'),function(n){n.remove()})}else if(!root.classList.contains('chatting')){root.classList.add('chatting');M.innerHTML=''}row('u',q);I.value='';
 // Clear booking intent → jump straight to the booking form (don't ask the LLM, which would just
 // say "leave your contact info"). \\bbook\\b won't match "books".
-if(BOOKON&&/\\b(book|booking|appointment|appt|reserve|reservation|schedule)\\b/i.test(q)){row('a',"Of course — let's get you booked in. Pick a time below \u{1F447}");openBook();return}
+if(BOOKON&&/\\b(book|booking|appointment|appt|reserve|reservation|schedule)\\b/i.test(q)){var pw=parseWhen(q);var ok=pw.date&&slotsFor(pw.date).length;row('a',ok?("Of course — here's "+fmtDay(pw.date)+' '+pw.date.getDate()+' '+monShort(pw.date)+". Pick a time below \u{1F447}"):"Of course — let's get you booked in. Pick a time below \u{1F447}");openBook(ok?pw:null);return}
 SB.disabled=true;var tp=typing();
 try{var r=await fetch(B+'/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tenant:T,message:q,sessionId:SID,pageUrl:location.href})});var j=await r.json();tp.remove();var m=row('a',j.reply||'Sorry, I had trouble there — please try again.');if(j.sources&&j.sources.length&&!j.unsure)srcLine(m.bub,j.sources);if(j.messageId)fb(m.row,j.messageId)}catch(e){tp.remove();row('a','I could not connect just now. Please try again in a moment.')}finally{SB.disabled=false;I.focus()}}
 SB.onclick=send;I.addEventListener('keydown',function(e){if(e.key==='Enter')send()});
