@@ -1,0 +1,198 @@
+{
+  "tenant": "demo-bests-co-uk",
+  "industry": "estate-agents",
+  "questions": [
+    {
+      "q": "What is your address?",
+      "must_include": ["62 high street", "runcorn", "wa7 1aw"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is your phone number?",
+      "must_include": ["01928 576368"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When was Bests Estate Agents founded?",
+      "must_include": ["1993"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which areas do you cover?",
+      "must_include": ["runcorn", "northwich", "frodsham", "widnes"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your opening hours on weekdays?",
+      "must_include": ["9.30am", "5pm"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you open on Saturdays?",
+      "must_include": ["saturday", "10:00", "16:00"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have any Sunday opening?",
+      "must_include": ["sunday", "call back service"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I contact you if I call outside of office hours?",
+      "must_include": ["answer phone facility"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer free property valuations?",
+      "must_include": ["free", "valuation"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you sell residential properties?",
+      "must_include": ["residential sales"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you handle property lettings?",
+      "must_include": ["lettings"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you sell my property through auction?",
+      "must_include": ["auction properties"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get mortgage advice through Bests?",
+      "must_include": ["independent mortgage advisor"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long has Terry been valuing property in Runcorn?",
+      "must_include": ["1988"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is Bests a family-run business?",
+      "must_include": ["family run"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who are the partners at Bests?",
+      "must_include": ["terry nam", "susan nam", "alex nam"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is Terry a member of a professional property body?",
+      "must_include": ["national association of estate agents"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is Terry's email address?",
+      "must_include": ["terry@bests.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you take professional photographs of properties?",
+      "must_include": ["professional photography"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you provide floor plans when marketing a property?",
+      "must_include": ["floor plans"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer virtual tours of properties?",
+      "must_include": ["virtual reality photography"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Will my property be listed on Rightmove?",
+      "must_include": ["rightmove"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I register to get early alerts when new properties come on the market?",
+      "must_include": ["early bird email alerts"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I track the progress of my property sale online?",
+      "must_include": ["track the activity", "online 24/7"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is Alex Nam's role at Bests?",
+      "must_include": ["junior partner"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who set up Bests Estate Agents?",
+      "must_include": ["terry and susan nam"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much combined experience does your team have?",
+      "must_include": ["70 years"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you advertise properties on social media?",
+      "must_include": ["social media"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is Susan Nam's role at Bests?",
+      "must_include": ["joint partner"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get property alerts before listings appear on Rightmove?",
+      "must_include": ["before they hit rightmove"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What happens if I call and no one answers?",
+      "must_include": ["answer phone facility", "call you back"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you advise me on how to get the best value from my property?",
+      "must_include": ["maximise the potential of your property"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your fees or commission for selling my home?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer conveyancing services?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you recommend a removal company?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you provide full property management for landlords?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What is the minimum tenancy period for rental properties?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you deal with commercial properties?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you have an office in Liverpool?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you arrange an Energy Performance Certificate for my property?",
+      "expect_escalate": true
+    }
+  ]
+}

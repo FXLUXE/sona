@@ -1,0 +1,147 @@
+{
+  "tenant": "demo-cambsphysioclinic-co-uk",
+  "industry": "physio",
+  "questions": [
+    {
+      "q": "How long has the Cambridge Physiotherapy Clinic been open?",
+      "must_include": ["1986", "longest-running"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where is the clinic located?",
+      "must_include": ["magog court", "hinton way"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is the postcode for the clinic?",
+      "must_include": ["cb22 3ad"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the phone number I can call to get in touch?",
+      "must_include": ["01223 211606"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the clinic's email address?",
+      "must_include": ["info@cambsphysioclinic.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your opening hours during the week?",
+      "must_include": ["mon 8.00 - 17.00", "fri 8.00 -16.00"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have any late evening appointments available?",
+      "must_include": ["tues 8.00 -19.30", "wed 8.00 -19.30"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there parking at the clinic?",
+      "must_include": ["free parking"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get to the clinic using public transport?",
+      "must_include": ["bus 99", "400 metres"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I use sat nav to find the clinic?",
+      "must_include": ["please do not use sat nav", "google maps"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long does the first appointment take?",
+      "must_include": ["initial appointment", "45 minutes"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long are follow-up physio sessions?",
+      "must_include": ["up to 30 minutes", "follow-up"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Will physiotherapy treatment be painful?",
+      "must_include": ["rarely painful"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a minimum or maximum age for patients?",
+      "must_include": ["age 6 to 106"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you treat sciatica and disc problems?",
+      "must_include": ["sciatica", "degenerative disc disease"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer acupuncture as a treatment?",
+      "must_include": ["acupuncture", "2,000 years"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer sports massage?",
+      "must_include": ["sports & remedial massage", "athletic"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is shockwave therapy and do you offer it?",
+      "must_include": ["shockwave", "sound waves"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What will happen at my very first appointment?",
+      "must_include": ["medical history", "physical assessment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I have massage therapy at the same time as physiotherapy?",
+      "must_include": ["massage with our massage therapist", "alongside physiotherapy"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who are the physiotherapists working at the clinic?",
+      "must_include": ["lucy cameron", "kyle hawley"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does an initial assessment appointment cost?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you accept private health insurance such as BUPA or AXA PPP?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Are you open on Saturdays?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer home visit appointments for patients who can't travel?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I have a virtual or video call physiotherapy session online?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do I need a referral from my GP before I can book?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you run Pilates or yoga classes at the clinic?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What is your cancellation policy if I need to rebook?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you sell gift vouchers that I could give as a present?",
+      "expect_escalate": true
+    }
+  ]
+}

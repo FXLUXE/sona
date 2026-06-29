@@ -1,0 +1,408 @@
+{
+  "tenant": "demo-leedscitydentalcare-co-uk",
+  "industry": "dental",
+  "questions": [
+    {
+      "q": "Whereabouts is the practice? I need the street address.",
+      "must_include": ["159 beeston road", "ls11 6aw"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the postcode? I want to look up the route on Maps.",
+      "must_include": ["ls11 6aw"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What number should I call to speak to someone at the practice?",
+      "must_include": ["0113 270 5020"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have an email address I can use to get in touch?",
+      "must_include": ["info@leedscitydentalcare.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What days and times are you open?",
+      "must_include": ["monday", "friday"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What time do you close on a Thursday evening?",
+      "must_include": ["6:00 pm"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I can only make it first thing — what's your earliest opening time during the week?",
+      "must_include": ["8:00 am"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you open at the same time every morning or does it vary?",
+      "must_include": ["8:30 am", "thursday"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the latest I could get an appointment on a Friday?",
+      "must_include": ["4:00 pm", "friday"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "If I need an after-work slot, which day stays open the latest?",
+      "must_include": ["thursday", "6:00 pm"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you currently taking on new patients?",
+      "must_include": ["accepting new patients"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've never been to you before — how do I get registered and book my first visit?",
+      "must_include": ["0113 270 5020", "book"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much will my very first appointment cost?",
+      "must_include": ["£75"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What actually happens at a new patient appointment — what do I get for my money?",
+      "must_include": ["oral cancer", "x-ray", "examination"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm already a patient — how much is my next routine check-up?",
+      "must_include": ["£44"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer hygienist appointments?",
+      "must_include": ["hygien"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does a standard scale and polish with the hygienist cost?",
+      "must_include": ["£63"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've got a lot of surface staining from coffee — can the hygienist sort that, and how much would it be?",
+      "must_include": ["airflow", "£77"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you whiten my teeth professionally?",
+      "must_include": ["tooth whitening", "£345"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I want a brighter smile — what does teeth whitening cost?",
+      "must_include": ["£345"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you do composite bonding for chipped teeth, and what does it cost?",
+      "must_include": ["composite bonding", "£265"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are porcelain veneers something you offer here? Roughly how much are they?",
+      "must_include": ["porcelain veneers", "£499"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you straighten my teeth without fixed metal braces?",
+      "must_include": ["invisalign", "clear aligner"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does Invisalign treatment cost at your practice?",
+      "must_include": ["£2047"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a cheaper aligner option for mild crowding rather than full Invisalign?",
+      "must_include": ["quick straight teeth", "£1500"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've lost a tooth — do you do dental implants?",
+      "must_include": ["dental implants", "straumann"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the cost for a single dental implant?",
+      "must_include": ["£2750"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've been told I might need root canal treatment — is that something you do?",
+      "must_include": ["root canal", "£395"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get a crown made and fitted all in the same appointment?",
+      "must_include": ["cerec", "same-day"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does it cost to have a tooth taken out?",
+      "must_include": ["£145"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I spread the cost of treatment rather than paying everything at once?",
+      "must_include": ["tabeo finance", "0%"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have a monthly plan that covers my check-ups and hygienist visits?",
+      "must_include": ["£20.35 per month"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's included in the monthly practice plan and what does it cost each month?",
+      "must_include": ["routine examinations", "hygienist appointments", "per month"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is the owner or principal dentist at the practice?",
+      "must_include": ["dr. david s brown", "practice owner"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which dentists work at Leeds City Dentalcare?",
+      "must_include": ["dr. bruce j. wright", "dr. eva lennox"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm really nervous at the dentist and have been putting off going — can you help with that?",
+      "must_include": ["nervous patients", "dental anxiety"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "If I need to cancel my appointment last minute, is there a charge?",
+      "must_include": ["24 hours", "cancelled"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long has the practice been operating?",
+      "must_include": ["100 years"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer NHS dental treatment?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is there parking available at or near the practice?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Are you open on Saturdays or Sundays at all?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer conscious sedation or any kind of sleep dentistry for very nervous patients?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you tell me the name of the dental hygienist who works there?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What time do you close on Tuesday evenings?",
+      "must_include": ["5:30 pm", "tuesday"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you take X-rays and what do they cost?",
+      "must_include": ["£14.85"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've got a cavity in a back tooth — what filling options are there and how much?",
+      "must_include": ["amalgam", "£125"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get a white tooth-coloured filling for a front tooth, and what does it cost?",
+      "must_include": ["composite", "£115"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I have a large cavity — what would a big filling set me back?",
+      "must_include": ["£187", "composite"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much is an Emax all-ceramic crown at your practice?",
+      "must_include": ["emax", "£635"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What does a zirconia crown cost?",
+      "must_include": ["zirconia", "£685"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much is a porcelain alloy crown?",
+      "must_include": ["porcelain-alloy crown", "£525"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you provide dentures and what styles are available?",
+      "must_include": ["acrylic dentures", "valplast"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What would a complete set of upper and lower dentures cost me?",
+      "must_include": ["£1095"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I only need one arch replacing — how much for a single full denture?",
+      "must_include": ["full upper or lower", "£695"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's a Valplast denture and what does it cost?",
+      "must_include": ["valplast flexible denture", "£790"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a consultation fee before starting orthodontic treatment, and does it come off the final bill?",
+      "must_include": ["£50", "deducted from treatment cost"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the upgraded monthly plan with more hygienist visits and how much is it?",
+      "must_include": ["4 x hygienist", "£30.85 per month"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How many hygienist visits a year does the basic monthly plan include?",
+      "must_include": ["2 x hygienist appointments", "£20.35"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I see the hygienist without being referred by a dentist first?",
+      "must_include": ["direct access", "£95"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "If I have Airflow stain removal done at the same time as a scale and polish, what would that cost together?",
+      "must_include": ["£135", "airflow"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What implant brand do you use for dental implant treatment?",
+      "must_include": ["straumann"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you do a bone graft if I don't have enough jaw bone for an implant?",
+      "must_include": ["bone-grafting", "sinus-lift"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is Dr Ehim Akinlade — is he one of the dentists there?",
+      "must_include": ["ehim akinlade"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a dentist called Dr Croston at the practice?",
+      "must_include": ["andrew e croston"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What payment methods do you accept — can I pay by card?",
+      "must_include": ["cash", "credit/debit cards"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Will you give me a cost estimate before you start any work?",
+      "must_include": ["estimate prior to treatment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do I pay at the end of each appointment or do you invoice me later?",
+      "must_include": ["payment on the day of treatment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are your dentists regulated by the General Dental Council?",
+      "must_include": ["general dental council"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Whereabouts in Leeds are you — are you near the city centre?",
+      "must_include": ["south leeds"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer Six-Month Smiles or Fast-Braces for quicker teeth straightening?",
+      "must_include": ["six-month smiles", "fast-braces"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you treat children as well as adults?",
+      "must_include": ["patients of all ages"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is your focus more on preventing problems or fixing them once they happen?",
+      "must_include": ["prevention", "prevent dental problems"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What kind of building is the practice in — is it part of a bigger block or a standalone place?",
+      "must_include": ["detached building"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have an Instagram page where I can see examples of your work?",
+      "must_include": ["instagram"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What smile makeover or cosmetic treatments do you offer?",
+      "must_include": ["veneers", "composite bonding"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have emergency out-of-hours appointments if I'm in severe pain at night or over a bank holiday?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What is the practice manager's name?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Are you registered with the Care Quality Commission?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How much do you charge for a missed appointment?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is the practice wheelchair accessible?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you have an onsite dental laboratory?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I get an itemised receipt for claiming back costs through my private dental insurance?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer digital smile design software so I can preview results before committing to treatment?",
+      "expect_escalate": true
+    }
+  ]
+}

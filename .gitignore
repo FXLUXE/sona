@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Secrets — NEVER commit
+.env
+.env.local
+*.key
+*.pem
+
+# Logs / temp
+*.log
+/tmp/
+.DS_Store
+
+# Tooling caches
+.impeccable/
+
+# Runtime data & scraped business data (PII / changes constantly)
+outreach-store.json
+prospects-*.json
+outreach.csv
+outreach.md

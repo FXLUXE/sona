@@ -1,0 +1,25 @@
+{
+  "name": "ai-website-assistant",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "demo": "bun run scripts/demo.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "tsc --noEmit && bun run scripts/check-dashboard-js.ts",
+    "eval": "bun run scripts/eval.ts",
+    "validate": "bun run scripts/validate-golden.ts",
+    "reprime": "bun run scripts/reingest-demos.ts",
+    "corpus": "bun run scripts/inspect-corpus.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.10",
+    "hono": "^4.6.14",
+    "stripe": "^22.3.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14",
+    "typescript": "^6.0.3"
+  }
+}

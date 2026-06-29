@@ -1,0 +1,4587 @@
+{
+  "label": "fix1-escalation",
+  "when": "2026-06-28T23:46:23.410Z",
+  "budget": 5,
+  "spend": 0.2289,
+  "stopped": false,
+  "aggregate": {
+    "answerable": 395,
+    "recalled": 243,
+    "falseEsc": 79,
+    "controls": 97,
+    "controlOk": 88,
+    "halluc": 9,
+    "recallPct": 62,
+    "falseEscPct": 20
+  },
+  "perTenant": [
+    {
+      "tenant": "demo-adderleygreengarage-co-uk",
+      "industry": "garages",
+      "answerable": 32,
+      "recalled": 18,
+      "recallPct": 56,
+      "falseEsc": 2,
+      "falseEscPct": 6,
+      "controls": 8,
+      "controlOk": 7,
+      "halluc": 1,
+      "rows": [
+        {
+          "q": "What's your phone number?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.477,
+          "passed": 0
+        },
+        {
+          "q": "What email address can I contact you on?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.561,
+          "passed": 2
+        },
+        {
+          "q": "What are your opening hours?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 2,
+          "need": 3,
+          "topSim": 0.546,
+          "passed": 2
+        },
+        {
+          "q": "Are you open on Saturdays?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.649,
+          "passed": 2
+        },
+        {
+          "q": "Do you open on Sundays?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.596,
+          "passed": 2
+        },
+        {
+          "q": "Whereabouts are you based?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.543,
+          "passed": 0
+        },
+        {
+          "q": "How long has the garage been going?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.579,
+          "passed": 5
+        },
+        {
+          "q": "Is this a family run garage?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.663,
+          "passed": 5
+        },
+        {
+          "q": "What services do you offer?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 7,
+          "topSim": 0.551,
+          "passed": 1
+        },
+        {
+          "q": "What types of vehicles do you work on?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 4,
+          "need": 4,
+          "topSim": 0.613,
+          "passed": 5
+        },
+        {
+          "q": "Do you carry out MOT tests?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.654,
+          "passed": 5
+        },
+        {
+          "q": "Can I get a same-day MOT?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.717,
+          "passed": 5
+        },
+        {
+          "q": "Do you do motorbike MOTs?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.703,
+          "passed": 5
+        },
+        {
+          "q": "Can you MOT my motorhome or campervan?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.782,
+          "passed": 5
+        },
+        {
+          "q": "What MOT classes are you authorised to test?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 5,
+          "topSim": 0.794,
+          "passed": 5
+        },
+        {
+          "q": "Can you do an MOT for a moped or scooter?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.687,
+          "passed": 5
+        },
+        {
+          "q": "I've got a large transit-sized work van – can you MOT it?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.784,
+          "passed": 5
+        },
+        {
+          "q": "My car has just failed its MOT – can you do the repairs there and then?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.765,
+          "passed": 5
+        },
+        {
+          "q": "If my car fails its MOT do I get a free retest?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.85,
+          "passed": 5
+        },
+        {
+          "q": "What's the difference between a dangerous fault and a major fault on an MOT?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 2,
+          "need": 4,
+          "topSim": 0.771,
+          "passed": 5
+        },
+        {
+          "q": "What different types of car service do you offer?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 3,
+          "topSim": 0.718,
+          "passed": 5
+        },
+        {
+          "q": "How often should I get an interim service?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.828,
+          "passed": 5
+        },
+        {
+          "q": "How often is a full service recommended?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.743,
+          "passed": 5
+        },
+        {
+          "q": "When would I need a major service?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.757,
+          "passed": 5
+        },
+        {
+          "q": "What's included in a full service?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.733,
+          "passed": 5
+        },
+        {
+          "q": "What extra work gets done in a major service compared to a full service?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.789,
+          "passed": 5
+        },
+        {
+          "q": "Can you service a van or light commercial vehicle?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.728,
+          "passed": 5
+        },
+        {
+          "q": "Do you repair or recharge air conditioning?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.677,
+          "passed": 5
+        },
+        {
+          "q": "Can you fit new tyres?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.608,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer breakdown recovery?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.641,
+          "passed": 5
+        },
+        {
+          "q": "Can you run diagnostics to find out what's wrong with my car?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.637,
+          "passed": 5
+        },
+        {
+          "q": "Are you members of any approved schemes or industry bodies?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.578,
+          "passed": 2
+        },
+        {
+          "q": "How much does an MOT cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.7,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer a courtesy car while mine is being repaired?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.596,
+          "passed": 5
+        },
+        {
+          "q": "What's your full street address and postcode?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.492,
+          "passed": 0
+        },
+        {
+          "q": "Do you work on electric or hybrid cars?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.606,
+          "passed": 5
+        },
+        {
+          "q": "Can you collect and drop off my vehicle?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.621,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer any payment plans or finance?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.517,
+          "passed": 0
+        },
+        {
+          "q": "Do you do engine remapping or performance tuning?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.565,
+          "passed": 2
+        },
+        {
+          "q": "How much does a full service cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.674,
+          "passed": 5
+        }
+      ]
+    },
+    {
+      "tenant": "demo-bests-co-uk",
+      "industry": "estate-agents",
+      "answerable": 32,
+      "recalled": 19,
+      "recallPct": 59,
+      "falseEsc": 9,
+      "falseEscPct": 28,
+      "controls": 8,
+      "controlOk": 6,
+      "halluc": 2,
+      "rows": [
+        {
+          "q": "What is your address?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 3,
+          "topSim": 0.497,
+          "passed": 0
+        },
+        {
+          "q": "What is your phone number?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.506,
+          "passed": 0
+        },
+        {
+          "q": "When was Bests Estate Agents founded?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.754,
+          "passed": 5
+        },
+        {
+          "q": "Which areas do you cover?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 4,
+          "topSim": 0.488,
+          "passed": 0
+        },
+        {
+          "q": "What are your opening hours on weekdays?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.483,
+          "passed": 0
+        },
+        {
+          "q": "Are you open on Saturdays?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 3,
+          "topSim": 0.499,
+          "passed": 0
+        },
+        {
+          "q": "Do you have any Sunday opening?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.476,
+          "passed": 0
+        },
+        {
+          "q": "Can I contact you if I call outside of office hours?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.541,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer free property valuations?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.684,
+          "passed": 5
+        },
+        {
+          "q": "Do you sell residential properties?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.57,
+          "passed": 2
+        },
+        {
+          "q": "Do you handle property lettings?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.546,
+          "passed": 0
+        },
+        {
+          "q": "Can you sell my property through auction?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.56,
+          "passed": 1
+        },
+        {
+          "q": "Can I get mortgage advice through Bests?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.717,
+          "passed": 5
+        },
+        {
+          "q": "How long has Terry been valuing property in Runcorn?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.745,
+          "passed": 5
+        },
+        {
+          "q": "Is Bests a family-run business?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.645,
+          "passed": 5
+        },
+        {
+          "q": "Who are the partners at Bests?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.642,
+          "passed": 5
+        },
+        {
+          "q": "Is Terry a member of a professional property body?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.566,
+          "passed": 4
+        },
+        {
+          "q": "What is Terry's email address?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.552,
+          "passed": 1
+        },
+        {
+          "q": "Do you take professional photographs of properties?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.601,
+          "passed": 4
+        },
+        {
+          "q": "Do you provide floor plans when marketing a property?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.634,
+          "passed": 3
+        },
+        {
+          "q": "Do you offer virtual tours of properties?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.544,
+          "passed": 1
+        },
+        {
+          "q": "Will my property be listed on Rightmove?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.594,
+          "passed": 3
+        },
+        {
+          "q": "Can I register to get early alerts when new properties come on the market?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.672,
+          "passed": 1
+        },
+        {
+          "q": "Can I track the progress of my property sale online?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.598,
+          "passed": 4
+        },
+        {
+          "q": "What is Alex Nam's role at Bests?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.656,
+          "passed": 5
+        },
+        {
+          "q": "Who set up Bests Estate Agents?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.759,
+          "passed": 5
+        },
+        {
+          "q": "How much combined experience does your team have?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.589,
+          "passed": 1
+        },
+        {
+          "q": "Do you advertise properties on social media?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.574,
+          "passed": 2
+        },
+        {
+          "q": "What is Susan Nam's role at Bests?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.646,
+          "passed": 5
+        },
+        {
+          "q": "Can I get property alerts before listings appear on Rightmove?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.635,
+          "passed": 1
+        },
+        {
+          "q": "What happens if I call and no one answers?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.483,
+          "passed": 0
+        },
+        {
+          "q": "Can you advise me on how to get the best value from my property?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.621,
+          "passed": 5
+        },
+        {
+          "q": "What are your fees or commission for selling my home?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.549,
+          "passed": 2
+        },
+        {
+          "q": "Do you offer conveyancing services?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.559,
+          "passed": 1
+        },
+        {
+          "q": "Can you recommend a removal company?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.512,
+          "passed": 0
+        },
+        {
+          "q": "Do you provide full property management for landlords?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.522,
+          "passed": 0
+        },
+        {
+          "q": "What is the minimum tenancy period for rental properties?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.459,
+          "passed": 0
+        },
+        {
+          "q": "Do you deal with commercial properties?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.525,
+          "passed": 0
+        },
+        {
+          "q": "Do you have an office in Liverpool?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.564,
+          "passed": 2
+        },
+        {
+          "q": "Can you arrange an Energy Performance Certificate for my property?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.56,
+          "passed": 3
+        }
+      ]
+    },
+    {
+      "tenant": "demo-cambsphysioclinic-co-uk",
+      "industry": "physio",
+      "answerable": 21,
+      "recalled": 16,
+      "recallPct": 76,
+      "falseEsc": 2,
+      "falseEscPct": 10,
+      "controls": 9,
+      "controlOk": 9,
+      "halluc": 0,
+      "rows": [
+        {
+          "q": "How long has the Cambridge Physiotherapy Clinic been open?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.8,
+          "passed": 5
+        },
+        {
+          "q": "Where is the clinic located?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.616,
+          "passed": 3
+        },
+        {
+          "q": "What is the postcode for the clinic?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.622,
+          "passed": 5
+        },
+        {
+          "q": "What's the phone number I can call to get in touch?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.516,
+          "passed": 0
+        },
+        {
+          "q": "What's the clinic's email address?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.614,
+          "passed": 2
+        },
+        {
+          "q": "What are your opening hours during the week?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.564,
+          "passed": 2
+        },
+        {
+          "q": "Do you have any late evening appointments available?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.585,
+          "passed": 3
+        },
+        {
+          "q": "Is there parking at the clinic?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.64,
+          "passed": 4
+        },
+        {
+          "q": "Can I get to the clinic using public transport?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.683,
+          "passed": 3
+        },
+        {
+          "q": "Can I use sat nav to find the clinic?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.664,
+          "passed": 2
+        },
+        {
+          "q": "How long does the first appointment take?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.666,
+          "passed": 5
+        },
+        {
+          "q": "How long are follow-up physio sessions?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.81,
+          "passed": 5
+        },
+        {
+          "q": "Will physiotherapy treatment be painful?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.788,
+          "passed": 5
+        },
+        {
+          "q": "Is there a minimum or maximum age for patients?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.623,
+          "passed": 5
+        },
+        {
+          "q": "Do you treat sciatica and disc problems?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.626,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer acupuncture as a treatment?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.63,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer sports massage?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.631,
+          "passed": 5
+        },
+        {
+          "q": "What is shockwave therapy and do you offer it?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.602,
+          "passed": 5
+        },
+        {
+          "q": "What will happen at my very first appointment?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.64,
+          "passed": 5
+        },
+        {
+          "q": "Can I have massage therapy at the same time as physiotherapy?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.686,
+          "passed": 5
+        },
+        {
+          "q": "Who are the physiotherapists working at the clinic?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.662,
+          "passed": 5
+        },
+        {
+          "q": "How much does an initial assessment appointment cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.65,
+          "passed": 5
+        },
+        {
+          "q": "Do you accept private health insurance such as BUPA or AXA PPP?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.597,
+          "passed": 5
+        },
+        {
+          "q": "Are you open on Saturdays?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.522,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer home visit appointments for patients who can't travel?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.595,
+          "passed": 3
+        },
+        {
+          "q": "Can I have a virtual or video call physiotherapy session online?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.683,
+          "passed": 5
+        },
+        {
+          "q": "Do I need a referral from my GP before I can book?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.579,
+          "passed": 5
+        },
+        {
+          "q": "Do you run Pilates or yoga classes at the clinic?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.637,
+          "passed": 5
+        },
+        {
+          "q": "What is your cancellation policy if I need to rebook?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.515,
+          "passed": 0
+        },
+        {
+          "q": "Do you sell gift vouchers that I could give as a present?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.5,
+          "passed": 0
+        }
+      ]
+    },
+    {
+      "tenant": "demo-crundellandco-co-uk",
+      "industry": "accountants",
+      "answerable": 32,
+      "recalled": 21,
+      "recallPct": 66,
+      "falseEsc": 1,
+      "falseEscPct": 3,
+      "controls": 8,
+      "controlOk": 8,
+      "halluc": 0,
+      "rows": [
+        {
+          "q": "What type of firm is Crundell & Co Accountancy?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.748,
+          "passed": 5
+        },
+        {
+          "q": "Where are Crundell & Co based?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.681,
+          "passed": 5
+        },
+        {
+          "q": "What phone number can I call you on?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.513,
+          "passed": 0
+        },
+        {
+          "q": "What is your office address?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.503,
+          "passed": 0
+        },
+        {
+          "q": "When was Crundell & Co established?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.67,
+          "passed": 5
+        },
+        {
+          "q": "Who founded or set up the firm?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.518,
+          "passed": 0
+        },
+        {
+          "q": "What professional qualifications does Tony Crundell hold?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.668,
+          "passed": 5
+        },
+        {
+          "q": "How much experience does Tony Crundell have in accountancy?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.745,
+          "passed": 5
+        },
+        {
+          "q": "What areas does Tony Crundell specialise in day to day?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.656,
+          "passed": 5
+        },
+        {
+          "q": "Who handles bookkeeping and payroll at the firm?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 2,
+          "need": 3,
+          "topSim": 0.602,
+          "passed": 3
+        },
+        {
+          "q": "What qualifications does Lucille Crundell hold?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.727,
+          "passed": 5
+        },
+        {
+          "q": "Can you help me complete and submit my self-assessment tax return?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.705,
+          "passed": 5
+        },
+        {
+          "q": "Do you prepare and submit VAT returns?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.683,
+          "passed": 5
+        },
+        {
+          "q": "What payroll services do you offer?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.673,
+          "passed": 5
+        },
+        {
+          "q": "What accounting services do you provide for sole traders?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.712,
+          "passed": 5
+        },
+        {
+          "q": "What services do you offer to limited companies?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.664,
+          "passed": 5
+        },
+        {
+          "q": "I receive rental income from a property – can you help me with my tax?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.61,
+          "passed": 5
+        },
+        {
+          "q": "Do you handle CIS returns for people in the construction industry?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.705,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer a bookkeeping service?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.658,
+          "passed": 5
+        },
+        {
+          "q": "Are you Making Tax Digital ready?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.618,
+          "passed": 5
+        },
+        {
+          "q": "Can you help me form a new limited company?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.657,
+          "passed": 5
+        },
+        {
+          "q": "What does your company secretarial service include?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.643,
+          "passed": 4
+        },
+        {
+          "q": "Can you advise on capital gains tax if I sell a property or shares?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.567,
+          "passed": 2
+        },
+        {
+          "q": "I think I may have overpaid tax – do you handle tax repayment claims?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.597,
+          "passed": 4
+        },
+        {
+          "q": "Do you provide general business advice and support?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.632,
+          "passed": 5
+        },
+        {
+          "q": "How do your fees work – is it a fixed price or hourly?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 3,
+          "topSim": 0.58,
+          "passed": 1
+        },
+        {
+          "q": "Will I be charged every time I phone or email you?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.527,
+          "passed": 0
+        },
+        {
+          "q": "Is there a free initial meeting or consultation?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.551,
+          "passed": 1
+        },
+        {
+          "q": "Can I pay my accountancy fees monthly rather than in one lump sum?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.666,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer tax planning to help reduce the amount of tax I pay?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.621,
+          "passed": 5
+        },
+        {
+          "q": "Can you help me with my workplace pension obligations?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.636,
+          "passed": 4
+        },
+        {
+          "q": "What kinds of businesses and sectors do you typically work with?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.601,
+          "passed": 1
+        },
+        {
+          "q": "How much do you charge for completing a self-assessment tax return?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.673,
+          "passed": 5
+        },
+        {
+          "q": "What are your office opening hours?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.503,
+          "passed": 0
+        },
+        {
+          "q": "Do you provide statutory audit or assurance services?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.627,
+          "passed": 4
+        },
+        {
+          "q": "Can you help me make a claim for R&D tax credits?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.63,
+          "passed": 5
+        },
+        {
+          "q": "Are you a certified Xero or QuickBooks partner?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.601,
+          "passed": 4
+        },
+        {
+          "q": "Do you support clients who are under HMRC investigation?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.652,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer financial planning or investment advice?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.572,
+          "passed": 3
+        },
+        {
+          "q": "Do you have any appointments available this week?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.502,
+          "passed": 0
+        }
+      ]
+    },
+    {
+      "tenant": "demo-electrician-norwich-co-uk",
+      "industry": "electricians",
+      "answerable": 32,
+      "recalled": 20,
+      "recallPct": 63,
+      "falseEsc": 5,
+      "falseEscPct": 16,
+      "controls": 8,
+      "controlOk": 7,
+      "halluc": 1,
+      "rows": [
+        {
+          "q": "What is Excel Electrical's phone number?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.728,
+          "passed": 5
+        },
+        {
+          "q": "How do I contact you by email?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.501,
+          "passed": 0
+        },
+        {
+          "q": "Where is Excel Electrical based?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.742,
+          "passed": 5
+        },
+        {
+          "q": "What parts of Norfolk do you cover?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.679,
+          "passed": 5
+        },
+        {
+          "q": "Which towns near Norwich do you serve?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.609,
+          "passed": 5
+        },
+        {
+          "q": "How long has Excel Electrical been in business?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.757,
+          "passed": 5
+        },
+        {
+          "q": "Are you NICEIC approved?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.793,
+          "passed": 5
+        },
+        {
+          "q": "What accreditations does Excel Electrical hold?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.738,
+          "passed": 5
+        },
+        {
+          "q": "Are you a family-run business?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.55,
+          "passed": 1
+        },
+        {
+          "q": "Do you offer a guarantee on your work?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.632,
+          "passed": 5
+        },
+        {
+          "q": "Can you rewire a house in Norfolk?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.819,
+          "passed": 5
+        },
+        {
+          "q": "How much does a full house rewire cost in Norfolk?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.873,
+          "passed": 5
+        },
+        {
+          "q": "How long does it take to rewire a 3-bedroom house?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.758,
+          "passed": 5
+        },
+        {
+          "q": "Can you replace my old fuse board?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.716,
+          "passed": 5
+        },
+        {
+          "q": "Do you carry out EICR electrical safety inspections?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.712,
+          "passed": 5
+        },
+        {
+          "q": "How often does a rental property need an EICR?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.806,
+          "passed": 5
+        },
+        {
+          "q": "What fine can a landlord get for not having a valid EICR?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.793,
+          "passed": 5
+        },
+        {
+          "q": "Do you install home EV charging points?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.731,
+          "passed": 5
+        },
+        {
+          "q": "How much does installing a home EV charger cost in Norfolk?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.841,
+          "passed": 5
+        },
+        {
+          "q": "Can you handle the OZEV grant paperwork for my home EV charger?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.758,
+          "passed": 5
+        },
+        {
+          "q": "Do you install solar panels in Norfolk?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.797,
+          "passed": 5
+        },
+        {
+          "q": "Can you add battery storage to a solar system?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.705,
+          "passed": 5
+        },
+        {
+          "q": "What types of electric heating systems do you install?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.671,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer PAT testing for businesses?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.668,
+          "passed": 5
+        },
+        {
+          "q": "Can you install outdoor and security lighting?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.575,
+          "passed": 5
+        },
+        {
+          "q": "Do you do electrical work on commercial or industrial properties?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.719,
+          "passed": 5
+        },
+        {
+          "q": "Can you install or service emergency lighting?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.677,
+          "passed": 5
+        },
+        {
+          "q": "What is the NICEIC Platinum Promise?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.758,
+          "passed": 5
+        },
+        {
+          "q": "How long does an EICR inspection usually take?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.77,
+          "passed": 5
+        },
+        {
+          "q": "Do I need to notify Building Control when I get my house rewired?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.76,
+          "passed": 5
+        },
+        {
+          "q": "Can you run data cabling for a small office?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.572,
+          "passed": 5
+        },
+        {
+          "q": "Can you connect a hot tub to the electricity supply?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.611,
+          "passed": 5
+        },
+        {
+          "q": "What are your opening hours?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.496,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer a 24-hour emergency callout service?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.54,
+          "passed": 0
+        },
+        {
+          "q": "Can I pay for the work in monthly instalments?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.561,
+          "passed": 4
+        },
+        {
+          "q": "Do you cover Cambridge or Peterborough?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.557,
+          "passed": 3
+        },
+        {
+          "q": "How long is your current waiting list for new bookings?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.525,
+          "passed": 0
+        },
+        {
+          "q": "Can you install smart lighting I can control with my phone?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.582,
+          "passed": 5
+        },
+        {
+          "q": "Do you repair or install CCTV cameras?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.542,
+          "passed": 4
+        },
+        {
+          "q": "Can you service or install a gas boiler?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.559,
+          "passed": 3
+        }
+      ]
+    },
+    {
+      "tenant": "demo-johncayley-plumbing-co-uk",
+      "industry": "plumbers",
+      "answerable": 35,
+      "recalled": 21,
+      "recallPct": 60,
+      "falseEsc": 4,
+      "falseEscPct": 11,
+      "controls": 8,
+      "controlOk": 7,
+      "halluc": 1,
+      "rows": [
+        {
+          "q": "Can you fix a broken boiler?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.7,
+          "passed": 5
+        },
+        {
+          "q": "Do you service boilers?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.665,
+          "passed": 5
+        },
+        {
+          "q": "I need a new boiler fitted — can you help?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.697,
+          "passed": 5
+        },
+        {
+          "q": "My boiler keeps shutting down and I have no hot water — what can you do?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.695,
+          "passed": 5
+        },
+        {
+          "q": "Can you repair or service a gas fire?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.718,
+          "passed": 5
+        },
+        {
+          "q": "I've got an inset gas fire — do you work on those?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.701,
+          "passed": 5
+        },
+        {
+          "q": "Do you work on central heating systems?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.649,
+          "passed": 5
+        },
+        {
+          "q": "Do you carry out powerflushing?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.587,
+          "passed": 5
+        },
+        {
+          "q": "Do you work on water heaters?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.595,
+          "passed": 5
+        },
+        {
+          "q": "I think there's a gas leak at my property — can you help?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.628,
+          "passed": 5
+        },
+        {
+          "q": "I'm a landlord — do I need a gas safety certificate?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.682,
+          "passed": 5
+        },
+        {
+          "q": "What is a CP12 certificate?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.55,
+          "passed": 1
+        },
+        {
+          "q": "How often does a landlord gas safety check need to be done?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.672,
+          "passed": 5
+        },
+        {
+          "q": "Are you based in Burnley?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.659,
+          "passed": 5
+        },
+        {
+          "q": "Do you cover the Nelson area?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.618,
+          "passed": 5
+        },
+        {
+          "q": "Do you come out to Barnoldswick?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.639,
+          "passed": 5
+        },
+        {
+          "q": "What areas do you cover?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.585,
+          "passed": 5
+        },
+        {
+          "q": "I'm in Trawden — is that within your area?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.671,
+          "passed": 5
+        },
+        {
+          "q": "Are you Gas Safe registered?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.688,
+          "passed": 5
+        },
+        {
+          "q": "Can I see your Gas Safe registration number?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.731,
+          "passed": 5
+        },
+        {
+          "q": "How do I know you're legally allowed to do gas work?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.702,
+          "passed": 5
+        },
+        {
+          "q": "Are you a Baxi approved installer?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.74,
+          "passed": 5
+        },
+        {
+          "q": "Do Baxi boilers come with a warranty when you fit them?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.727,
+          "passed": 5
+        },
+        {
+          "q": "What warranty lengths are available on a new Baxi boiler?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.72,
+          "passed": 5
+        },
+        {
+          "q": "How many years have you been a gas engineer?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.716,
+          "passed": 5
+        },
+        {
+          "q": "What's your phone number?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.519,
+          "passed": 0
+        },
+        {
+          "q": "Where are you based?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.534,
+          "passed": 0
+        },
+        {
+          "q": "How do I get a free quote?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.581,
+          "passed": 1
+        },
+        {
+          "q": "Are you an independent engineer or part of a larger company?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.569,
+          "passed": 3
+        },
+        {
+          "q": "Will I always get the same person when you come out?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.516,
+          "passed": 0
+        },
+        {
+          "q": "I've had engineers not show up before — are you reliable?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.658,
+          "passed": 5
+        },
+        {
+          "q": "Will you try to push me into buying a new boiler rather than repairing it?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.718,
+          "passed": 5
+        },
+        {
+          "q": "Are you insured to work in my home?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.662,
+          "passed": 4
+        },
+        {
+          "q": "I don't have a Baxi boiler — can you still work on it?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.714,
+          "passed": 5
+        },
+        {
+          "q": "Why should I bother getting an annual boiler service?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.693,
+          "passed": 5
+        },
+        {
+          "q": "How much do you charge for a boiler service?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.692,
+          "passed": 5
+        },
+        {
+          "q": "What are your working hours?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.496,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer finance or payment plans for a new boiler?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.634,
+          "passed": 5
+        },
+        {
+          "q": "Can you fit a bathroom suite?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.504,
+          "passed": 0
+        },
+        {
+          "q": "Can you unblock a toilet or drain?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.534,
+          "passed": 0
+        },
+        {
+          "q": "Do you cover the Manchester or Leeds area?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.565,
+          "passed": 2
+        },
+        {
+          "q": "How long does it take to install a new boiler?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.631,
+          "passed": 5
+        },
+        {
+          "q": "Can I book an appointment online?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.5,
+          "passed": 0
+        }
+      ]
+    },
+    {
+      "tenant": "demo-leedscitydentalcare-co-uk",
+      "industry": "dental",
+      "answerable": 70,
+      "recalled": 44,
+      "recallPct": 63,
+      "falseEsc": 18,
+      "falseEscPct": 26,
+      "controls": 13,
+      "controlOk": 11,
+      "halluc": 2,
+      "rows": [
+        {
+          "q": "Whereabouts is the practice? I need the street address.",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.537,
+          "passed": 1
+        },
+        {
+          "q": "What's the postcode? I want to look up the route on Maps.",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.533,
+          "passed": 0
+        },
+        {
+          "q": "What number should I call to speak to someone at the practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.555,
+          "passed": 4
+        },
+        {
+          "q": "Do you have an email address I can use to get in touch?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.494,
+          "passed": 0
+        },
+        {
+          "q": "What days and times are you open?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.503,
+          "passed": 0
+        },
+        {
+          "q": "What time do you close on a Thursday evening?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.504,
+          "passed": 0
+        },
+        {
+          "q": "I can only make it first thing — what's your earliest opening time during the week?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.533,
+          "passed": 0
+        },
+        {
+          "q": "Do you open at the same time every morning or does it vary?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.511,
+          "passed": 0
+        },
+        {
+          "q": "What's the latest I could get an appointment on a Friday?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.556,
+          "passed": 2
+        },
+        {
+          "q": "If I need an after-work slot, which day stays open the latest?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.536,
+          "passed": 0
+        },
+        {
+          "q": "Are you currently taking on new patients?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.566,
+          "passed": 2
+        },
+        {
+          "q": "I've never been to you before — how do I get registered and book my first visit?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.565,
+          "passed": 2
+        },
+        {
+          "q": "How much will my very first appointment cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.583,
+          "passed": 5
+        },
+        {
+          "q": "What actually happens at a new patient appointment — what do I get for my money?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 3,
+          "topSim": 0.586,
+          "passed": 2
+        },
+        {
+          "q": "I'm already a patient — how much is my next routine check-up?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.608,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer hygienist appointments?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.64,
+          "passed": 5
+        },
+        {
+          "q": "How much does a standard scale and polish with the hygienist cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.687,
+          "passed": 5
+        },
+        {
+          "q": "I've got a lot of surface staining from coffee — can the hygienist sort that, and how much would it be?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.666,
+          "passed": 5
+        },
+        {
+          "q": "Can you whiten my teeth professionally?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.581,
+          "passed": 5
+        },
+        {
+          "q": "I want a brighter smile — what does teeth whitening cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.637,
+          "passed": 5
+        },
+        {
+          "q": "Do you do composite bonding for chipped teeth, and what does it cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.64,
+          "passed": 5
+        },
+        {
+          "q": "Are porcelain veneers something you offer here? Roughly how much are they?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.68,
+          "passed": 5
+        },
+        {
+          "q": "Can you straighten my teeth without fixed metal braces?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.65,
+          "passed": 5
+        },
+        {
+          "q": "How much does Invisalign treatment cost at your practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.664,
+          "passed": 5
+        },
+        {
+          "q": "Is there a cheaper aligner option for mild crowding rather than full Invisalign?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.648,
+          "passed": 5
+        },
+        {
+          "q": "I've lost a tooth — do you do dental implants?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.621,
+          "passed": 5
+        },
+        {
+          "q": "What's the cost for a single dental implant?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.62,
+          "passed": 4
+        },
+        {
+          "q": "I've been told I might need root canal treatment — is that something you do?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.642,
+          "passed": 5
+        },
+        {
+          "q": "Can I get a crown made and fitted all in the same appointment?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.568,
+          "passed": 1
+        },
+        {
+          "q": "How much does it cost to have a tooth taken out?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0,
+          "passed": 0
+        },
+        {
+          "q": "Can I spread the cost of treatment rather than paying everything at once?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.699,
+          "passed": 5
+        },
+        {
+          "q": "Do you have a monthly plan that covers my check-ups and hygienist visits?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.698,
+          "passed": 5
+        },
+        {
+          "q": "What's included in the monthly practice plan and what does it cost each month?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.599,
+          "passed": 2
+        },
+        {
+          "q": "Who is the owner or principal dentist at the practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.643,
+          "passed": 5
+        },
+        {
+          "q": "Which dentists work at Leeds City Dentalcare?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.825,
+          "passed": 5
+        },
+        {
+          "q": "I'm really nervous at the dentist and have been putting off going — can you help with that?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.608,
+          "passed": 5
+        },
+        {
+          "q": "If I need to cancel my appointment last minute, is there a charge?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.515,
+          "passed": 0
+        },
+        {
+          "q": "How long has the practice been operating?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.573,
+          "passed": 2
+        },
+        {
+          "q": "Do you offer NHS dental treatment?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.62,
+          "passed": 5
+        },
+        {
+          "q": "Is there parking available at or near the practice?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.527,
+          "passed": 0
+        },
+        {
+          "q": "Are you open on Saturdays or Sundays at all?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.52,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer conscious sedation or any kind of sleep dentistry for very nervous patients?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.612,
+          "passed": 5
+        },
+        {
+          "q": "Can you tell me the name of the dental hygienist who works there?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.573,
+          "passed": 5
+        },
+        {
+          "q": "What time do you close on Tuesday evenings?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.488,
+          "passed": 0
+        },
+        {
+          "q": "Do you take X-rays and what do they cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.624,
+          "passed": 4
+        },
+        {
+          "q": "I've got a cavity in a back tooth — what filling options are there and how much?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.631,
+          "passed": 5
+        },
+        {
+          "q": "Can I get a white tooth-coloured filling for a front tooth, and what does it cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.664,
+          "passed": 5
+        },
+        {
+          "q": "I have a large cavity — what would a big filling set me back?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.642,
+          "passed": 5
+        },
+        {
+          "q": "How much is an Emax all-ceramic crown at your practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.694,
+          "passed": 5
+        },
+        {
+          "q": "What does a zirconia crown cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.645,
+          "passed": 4
+        },
+        {
+          "q": "How much is a porcelain alloy crown?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.625,
+          "passed": 3
+        },
+        {
+          "q": "Do you provide dentures and what styles are available?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.611,
+          "passed": 5
+        },
+        {
+          "q": "What would a complete set of upper and lower dentures cost me?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.608,
+          "passed": 4
+        },
+        {
+          "q": "I only need one arch replacing — how much for a single full denture?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.597,
+          "passed": 4
+        },
+        {
+          "q": "What's a Valplast denture and what does it cost?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.598,
+          "passed": 4
+        },
+        {
+          "q": "Is there a consultation fee before starting orthodontic treatment, and does it come off the final bill?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.605,
+          "passed": 5
+        },
+        {
+          "q": "What's the upgraded monthly plan with more hygienist visits and how much is it?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.658,
+          "passed": 5
+        },
+        {
+          "q": "How many hygienist visits a year does the basic monthly plan include?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.627,
+          "passed": 5
+        },
+        {
+          "q": "Can I see the hygienist without being referred by a dentist first?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.62,
+          "passed": 5
+        },
+        {
+          "q": "If I have Airflow stain removal done at the same time as a scale and polish, what would that cost together?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.693,
+          "passed": 5
+        },
+        {
+          "q": "What implant brand do you use for dental implant treatment?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.599,
+          "passed": 5
+        },
+        {
+          "q": "Can you do a bone graft if I don't have enough jaw bone for an implant?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.572,
+          "passed": 1
+        },
+        {
+          "q": "Who is Dr Ehim Akinlade — is he one of the dentists there?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.583,
+          "passed": 5
+        },
+        {
+          "q": "Is there a dentist called Dr Croston at the practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.604,
+          "passed": 5
+        },
+        {
+          "q": "What payment methods do you accept — can I pay by card?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.511,
+          "passed": 0
+        },
+        {
+          "q": "Will you give me a cost estimate before you start any work?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.53,
+          "passed": 0
+        },
+        {
+          "q": "Do I pay at the end of each appointment or do you invoice me later?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.595,
+          "passed": 5
+        },
+        {
+          "q": "Are your dentists regulated by the General Dental Council?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.627,
+          "passed": 5
+        },
+        {
+          "q": "Whereabouts in Leeds are you — are you near the city centre?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.637,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer Six-Month Smiles or Fast-Braces for quicker teeth straightening?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.615,
+          "passed": 5
+        },
+        {
+          "q": "Do you treat children as well as adults?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.56,
+          "passed": 2
+        },
+        {
+          "q": "Is your focus more on preventing problems or fixing them once they happen?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.519,
+          "passed": 0
+        },
+        {
+          "q": "What kind of building is the practice in — is it part of a bigger block or a standalone place?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.586,
+          "passed": 2
+        },
+        {
+          "q": "Do you have an Instagram page where I can see examples of your work?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.586,
+          "passed": 2
+        },
+        {
+          "q": "What smile makeover or cosmetic treatments do you offer?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.661,
+          "passed": 5
+        },
+        {
+          "q": "Do you have emergency out-of-hours appointments if I'm in severe pain at night or over a bank holiday?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.667,
+          "passed": 5
+        },
+        {
+          "q": "What is the practice manager's name?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.54,
+          "passed": 0
+        },
+        {
+          "q": "Are you registered with the Care Quality Commission?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.532,
+          "passed": 0
+        },
+        {
+          "q": "How much do you charge for a missed appointment?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.548,
+          "passed": 0
+        },
+        {
+          "q": "Is the practice wheelchair accessible?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.546,
+          "passed": 0
+        },
+        {
+          "q": "Do you have an onsite dental laboratory?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.55,
+          "passed": 1
+        },
+        {
+          "q": "Can I get an itemised receipt for claiming back costs through my private dental insurance?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.655,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer digital smile design software so I can preview results before committing to treatment?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.629,
+          "passed": 5
+        }
+      ]
+    },
+    {
+      "tenant": "demo-movementsbodymindyou-co-uk",
+      "industry": "gyms",
+      "answerable": 32,
+      "recalled": 19,
+      "recallPct": 59,
+      "falseEsc": 9,
+      "falseEscPct": 28,
+      "controls": 8,
+      "controlOk": 8,
+      "halluc": 0,
+      "rows": [
+        {
+          "q": "What are your weekday opening hours?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.514,
+          "passed": 0
+        },
+        {
+          "q": "What are your Saturday opening hours?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.541,
+          "passed": 0
+        },
+        {
+          "q": "Are you open on Sundays and what time?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.509,
+          "passed": 0
+        },
+        {
+          "q": "I finish work at 8 pm on weekdays — would I still make a class?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.566,
+          "passed": 3
+        },
+        {
+          "q": "Are you open on bank holidays?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.518,
+          "passed": 0
+        },
+        {
+          "q": "Where is the studio based?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.521,
+          "passed": 0
+        },
+        {
+          "q": "What is the full studio address?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.553,
+          "passed": 1
+        },
+        {
+          "q": "What postcode should I put in my sat nav?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.515,
+          "passed": 0
+        },
+        {
+          "q": "How can I get in touch with Movements?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.7,
+          "passed": 5
+        },
+        {
+          "q": "I'd like to enquire about personal training — who do I contact?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.562,
+          "passed": 5
+        },
+        {
+          "q": "How much is the monthly pass?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.55,
+          "passed": 2
+        },
+        {
+          "q": "What do I get with the 1-month pass?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.554,
+          "passed": 2
+        },
+        {
+          "q": "Do I need to sign a contract or commit to a long-term membership?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.609,
+          "passed": 3
+        },
+        {
+          "q": "Can I try a class for free before buying anything?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.629,
+          "passed": 5
+        },
+        {
+          "q": "Is there an introductory offer for new members?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.603,
+          "passed": 4
+        },
+        {
+          "q": "Can I give a free class to a friend as a gift?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.668,
+          "passed": 5
+        },
+        {
+          "q": "I'm not ready for a full month — is there a smaller class pack?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.636,
+          "passed": 5
+        },
+        {
+          "q": "Is there a pay-as-you-go option so I'm not tied in?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.642,
+          "passed": 2
+        },
+        {
+          "q": "Who started Movements?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.642,
+          "passed": 5
+        },
+        {
+          "q": "What fitness qualifications does the owner hold?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.607,
+          "passed": 5
+        },
+        {
+          "q": "What was the founder doing before opening Movements?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.642,
+          "passed": 5
+        },
+        {
+          "q": "What types of classes do you run?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.582,
+          "passed": 2
+        },
+        {
+          "q": "Do you offer indoor cycling or spin classes?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.599,
+          "passed": 4
+        },
+        {
+          "q": "Are there strength and conditioning sessions?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.573,
+          "passed": 2
+        },
+        {
+          "q": "Can I get one-to-one personal training at Movements?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.725,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer any rehabilitation or injury recovery coaching?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.587,
+          "passed": 3
+        },
+        {
+          "q": "Do you run any corporate wellbeing programmes for local employers?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.587,
+          "passed": 5
+        },
+        {
+          "q": "Is Movements the same as a regular gym?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.742,
+          "passed": 5
+        },
+        {
+          "q": "I'm nervous about exercise — is Movements the right place for me?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.753,
+          "passed": 5
+        },
+        {
+          "q": "How do I book a class?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.599,
+          "passed": 3
+        },
+        {
+          "q": "How do I claim my free class credit in the app?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.728,
+          "passed": 5
+        },
+        {
+          "q": "Is Movements independently owned or part of a larger chain?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.672,
+          "passed": 5
+        },
+        {
+          "q": "Do you have showers or changing rooms at the studio?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.571,
+          "passed": 4
+        },
+        {
+          "q": "Is there free parking near the studio?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.571,
+          "passed": 3
+        },
+        {
+          "q": "How many fitness classes do you run each week?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.604,
+          "passed": 5
+        },
+        {
+          "q": "How much does a personal training session cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.593,
+          "passed": 3
+        },
+        {
+          "q": "Do you offer nutrition or diet coaching alongside the classes?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.603,
+          "passed": 5
+        },
+        {
+          "q": "Can I pause or freeze my membership if I go on holiday?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.562,
+          "passed": 1
+        },
+        {
+          "q": "Is there a free weights area or open gym floor time?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.598,
+          "passed": 1
+        },
+        {
+          "q": "What specific class names and times are on the weekly timetable?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.56,
+          "passed": 3
+        }
+      ]
+    },
+    {
+      "tenant": "demo-yazzhair-co",
+      "industry": "salons",
+      "answerable": 70,
+      "recalled": 46,
+      "recallPct": 66,
+      "falseEsc": 15,
+      "falseEscPct": 21,
+      "controls": 13,
+      "controlOk": 13,
+      "halluc": 0,
+      "rows": [
+        {
+          "q": "Where is your Guiseley salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.737,
+          "passed": 5
+        },
+        {
+          "q": "What address should I go to?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.497,
+          "passed": 0
+        },
+        {
+          "q": "Do you have more than one salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.615,
+          "passed": 5
+        },
+        {
+          "q": "What's the address for the Rawdon salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.669,
+          "passed": 5
+        },
+        {
+          "q": "Where is the barbers?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.563,
+          "passed": 3
+        },
+        {
+          "q": "What are your opening hours?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.494,
+          "passed": 0
+        },
+        {
+          "q": "What time do you open on a Tuesday?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.495,
+          "passed": 0
+        },
+        {
+          "q": "Are you open on Saturdays?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.531,
+          "passed": 0
+        },
+        {
+          "q": "What time do you close on Thursday evenings?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.477,
+          "passed": 0
+        },
+        {
+          "q": "Do you open on Sundays?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.522,
+          "passed": 0
+        },
+        {
+          "q": "Are you shut on Mondays?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.524,
+          "passed": 0
+        },
+        {
+          "q": "What's the phone number?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.533,
+          "passed": 0
+        },
+        {
+          "q": "What number do I call to make a booking?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.508,
+          "passed": 0
+        },
+        {
+          "q": "What's the email address for the salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.615,
+          "passed": 5
+        },
+        {
+          "q": "How do I get in touch?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.532,
+          "passed": 0
+        },
+        {
+          "q": "Can I just walk in or do I need to book?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.507,
+          "passed": 0
+        },
+        {
+          "q": "Do you take walk-ins?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.509,
+          "passed": 0
+        },
+        {
+          "q": "How do I book an appointment?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.524,
+          "passed": 0
+        },
+        {
+          "q": "Who owns Yazz?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.625,
+          "passed": 5
+        },
+        {
+          "q": "Who is the manager at Guiseley?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.626,
+          "passed": 5
+        },
+        {
+          "q": "How long has Anthony Donaghue been working in hair?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.661,
+          "passed": 5
+        },
+        {
+          "q": "When did Stacy Ramsey start at Yazz?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.692,
+          "passed": 5
+        },
+        {
+          "q": "Who is the Wella colour specialist?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.614,
+          "passed": 5
+        },
+        {
+          "q": "What days does Joe the barber work?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.601,
+          "passed": 3
+        },
+        {
+          "q": "Is there a barber on the team?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.567,
+          "passed": 5
+        },
+        {
+          "q": "Which Creative Director has worked in London and Sydney?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.575,
+          "passed": 3
+        },
+        {
+          "q": "Who is Grace Simms?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.542,
+          "passed": 0
+        },
+        {
+          "q": "What role does Mel Perkins have?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.512,
+          "passed": 0
+        },
+        {
+          "q": "Do you cut children's hair?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.569,
+          "passed": 5
+        },
+        {
+          "q": "Can you do party hair or hair ups for events?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.588,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer cutthroat shaves or beard trims for men?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.577,
+          "passed": 3
+        },
+        {
+          "q": "Do you do men's barbering?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.602,
+          "passed": 5
+        },
+        {
+          "q": "Do you run a hairdressing academy?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.7,
+          "passed": 5
+        },
+        {
+          "q": "What qualifications do apprentices get?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.647,
+          "passed": 2
+        },
+        {
+          "q": "Can I take a barbering course?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.648,
+          "passed": 5
+        },
+        {
+          "q": "When was Yazz first opened?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.68,
+          "passed": 5
+        },
+        {
+          "q": "Has the salon won any awards?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.649,
+          "passed": 5
+        },
+        {
+          "q": "Do you sell gift vouchers?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.55,
+          "passed": 0
+        },
+        {
+          "q": "How much does a haircut cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.538,
+          "passed": 0
+        },
+        {
+          "q": "Is there parking near the salon?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.549,
+          "passed": 1
+        },
+        {
+          "q": "What are the opening hours for the Rawdon salon?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.675,
+          "passed": 5
+        },
+        {
+          "q": "Do you accept card payments?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.508,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer wedding or bridal hair packages?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.579,
+          "passed": 5
+        },
+        {
+          "q": "Where was the very first Yazz shop located?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.671,
+          "passed": 5
+        },
+        {
+          "q": "What is the full address of the Yazz Hairdressing Academy?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.759,
+          "passed": 5
+        },
+        {
+          "q": "Where did Marc Thibault do his professional training?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.547,
+          "passed": 1
+        },
+        {
+          "q": "How experienced is Olivia Steele as a stylist?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.638,
+          "passed": 5
+        },
+        {
+          "q": "Where did Anthony Donaghue come from before moving to Leeds?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.543,
+          "passed": 0
+        },
+        {
+          "q": "How many years has Joe Tetley been cutting hair?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.681,
+          "passed": 5
+        },
+        {
+          "q": "What specialist barbering services does Joe offer?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.652,
+          "passed": 5
+        },
+        {
+          "q": "Who is the Training Administrator at the Yazz Academy?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.714,
+          "passed": 5
+        },
+        {
+          "q": "Who is Connor Bostock and where does he work?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.566,
+          "passed": 1
+        },
+        {
+          "q": "Who handles front of house duties at the Rawdon salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.727,
+          "passed": 5
+        },
+        {
+          "q": "Can I book an appointment online as well as by phone?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.514,
+          "passed": 0
+        },
+        {
+          "q": "Which awarding bodies accredit Yazz Academy courses?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.716,
+          "passed": 5
+        },
+        {
+          "q": "Which college does Yazz Academy work with for apprenticeships?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.749,
+          "passed": 5
+        },
+        {
+          "q": "What age group are your apprenticeships aimed at?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.619,
+          "passed": 5
+        },
+        {
+          "q": "How is an apprentice's week split between the salon and college?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.704,
+          "passed": 5
+        },
+        {
+          "q": "Is there a short course at the academy I could take?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.613,
+          "passed": 5
+        },
+        {
+          "q": "Are there private courses for people looking to retrain or improve?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.587,
+          "passed": 3
+        },
+        {
+          "q": "Does Yasmin Ellis do ladies' restyles as well as colour?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.663,
+          "passed": 5
+        },
+        {
+          "q": "What hair and beauty qualifications does Grace Simms hold?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.676,
+          "passed": 5
+        },
+        {
+          "q": "Who is the salon assistant at the Guiseley salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.77,
+          "passed": 5
+        },
+        {
+          "q": "Who is the apprentice based at the Rawdon salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.767,
+          "passed": 5
+        },
+        {
+          "q": "Who is Sophie Stirk and which salon is she based at?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.636,
+          "passed": 5
+        },
+        {
+          "q": "What is Anthony Donaghue most passionate about within hairdressing?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.67,
+          "passed": 5
+        },
+        {
+          "q": "Has Yazz ever been named TIGI Salon of the Year?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.725,
+          "passed": 5
+        },
+        {
+          "q": "Which British Hairdressing Award was Yazz a finalist for?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.782,
+          "passed": 5
+        },
+        {
+          "q": "Were you ever a Great Lengths award finalist?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.666,
+          "passed": 5
+        },
+        {
+          "q": "When and where is Salon International 2025?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.649,
+          "passed": 3
+        },
+        {
+          "q": "How do you keep the salon clean between clients?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.714,
+          "passed": 3
+        },
+        {
+          "q": "Do Yazz staff get any travel perks or rewards?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.671,
+          "passed": 5
+        },
+        {
+          "q": "Can I volunteer as a model for the Hair Academy?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.634,
+          "passed": 5
+        },
+        {
+          "q": "When did Yazz win the L'Oréal Men's Image Award?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.636,
+          "passed": 5
+        },
+        {
+          "q": "When did Anthony Donaghue first join Yazz?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.637,
+          "passed": 5
+        },
+        {
+          "q": "How much does a barbering course at the academy cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.636,
+          "passed": 5
+        },
+        {
+          "q": "Can I get a price estimate for a balayage?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.548,
+          "passed": 0
+        },
+        {
+          "q": "Do you offer hair extension services?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.57,
+          "passed": 5
+        },
+        {
+          "q": "What is your cancellation or rescheduling policy?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.495,
+          "passed": 0
+        },
+        {
+          "q": "Is the salon wheelchair accessible?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.583,
+          "passed": 5
+        },
+        {
+          "q": "Do you have a loyalty card or rewards scheme for regular clients?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.62,
+          "passed": 2
+        },
+        {
+          "q": "Do you sell hair care products in the salon to take home?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.599,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer eyebrow or eyelash treatments?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.538,
+          "passed": 0
+        }
+      ]
+    },
+    {
+      "tenant": "demo-yorkshirevets-co-uk",
+      "industry": "vets",
+      "answerable": 39,
+      "recalled": 19,
+      "recallPct": 49,
+      "falseEsc": 14,
+      "falseEscPct": 36,
+      "controls": 14,
+      "controlOk": 12,
+      "halluc": 2,
+      "rows": [
+        {
+          "q": "Where is Yorkshire Vets Horsforth?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.842,
+          "passed": 5
+        },
+        {
+          "q": "How do I get to you? What's the address?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.456,
+          "passed": 0
+        },
+        {
+          "q": "Are you open on Saturdays?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.516,
+          "passed": 0
+        },
+        {
+          "q": "What time do you open on a Monday morning?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.506,
+          "passed": 0
+        },
+        {
+          "q": "What are your opening hours through the week?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.535,
+          "passed": 3
+        },
+        {
+          "q": "What's the phone number for the Horsforth practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.739,
+          "passed": 5
+        },
+        {
+          "q": "Can I email rather than call you?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.486,
+          "passed": 0
+        },
+        {
+          "q": "My dog got into something bad and it's 2am — what do I do?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.538,
+          "passed": 0
+        },
+        {
+          "q": "Where do I go for an out-of-hours emergency?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.59,
+          "passed": 5
+        },
+        {
+          "q": "My cat seems really unwell right now and you're open — who should I ring?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.616,
+          "passed": 5
+        },
+        {
+          "q": "Do you do vaccinations?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.558,
+          "passed": 2
+        },
+        {
+          "q": "Can you neuter my dog?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.534,
+          "passed": 0
+        },
+        {
+          "q": "Is there parking at the practice?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.511,
+          "passed": 0
+        },
+        {
+          "q": "I'm new to the area and want to register my pet — how do I do that?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.484,
+          "passed": 0
+        },
+        {
+          "q": "I'm already a client — how do I book an appointment online?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.484,
+          "passed": 0
+        },
+        {
+          "q": "Do you have a monthly health plan so I can spread the cost of my pet's care?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.7,
+          "passed": 5
+        },
+        {
+          "q": "What's included in the Pet Health Club?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 3,
+          "need": 3,
+          "topSim": 0.75,
+          "passed": 5
+        },
+        {
+          "q": "Do you do dental work for pets?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.568,
+          "passed": 5
+        },
+        {
+          "q": "Do you have an on-site laboratory?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.505,
+          "passed": 0
+        },
+        {
+          "q": "Can you microchip my puppy?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.558,
+          "passed": 2
+        },
+        {
+          "q": "I just got a new puppy — is there some kind of starter package?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.588,
+          "passed": 2
+        },
+        {
+          "q": "Can I request my dog's repeat medication without coming into the practice?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.56,
+          "passed": 5
+        },
+        {
+          "q": "My dog is really anxious — do you have any kind of behavioural support?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.536,
+          "passed": 0
+        },
+        {
+          "q": "What's your Google rating?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.602,
+          "passed": 2
+        },
+        {
+          "q": "Do you offer flea and worming treatments?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.595,
+          "passed": 5
+        },
+        {
+          "q": "How much does a standard consultation cost?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.544,
+          "passed": 0
+        },
+        {
+          "q": "Do you accept pet insurance, for example PetPlan?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.642,
+          "passed": 5
+        },
+        {
+          "q": "How much is the Pet Health Club per month?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.749,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer home visits for elderly or very unwell animals?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.561,
+          "passed": 5
+        },
+        {
+          "q": "Do you see rabbits or guinea pigs?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.475,
+          "passed": 0
+        },
+        {
+          "q": "Do you have an X-ray machine on site?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.511,
+          "passed": 0
+        },
+        {
+          "q": "Is the practice wheelchair accessible?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.504,
+          "passed": 0
+        },
+        {
+          "q": "How long am I likely to wait for a routine appointment?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.496,
+          "passed": 0
+        },
+        {
+          "q": "Are you open on Sundays?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.511,
+          "passed": 0
+        },
+        {
+          "q": "I need to pay my bill — can I do that online through my account?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.455,
+          "passed": 0
+        },
+        {
+          "q": "Do you clip nails for dogs and cats?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.546,
+          "passed": 0
+        },
+        {
+          "q": "My dog is overweight — do you offer any weight management or nutrition advice?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.54,
+          "passed": 2
+        },
+        {
+          "q": "Do you carry out routine health checks and wellness screening?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.517,
+          "passed": 0
+        },
+        {
+          "q": "My cat needs to stay in overnight after her operation — is that something you can do?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.588,
+          "passed": 5
+        },
+        {
+          "q": "How many pets does the Pet Health Club cover across the UK?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.74,
+          "passed": 5
+        },
+        {
+          "q": "Does your practice have a pain management service for animals?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.58,
+          "passed": 5
+        },
+        {
+          "q": "My dog keeps having problems with his anal glands — is that something you treat?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 1,
+          "topSim": 0.546,
+          "passed": 0
+        },
+        {
+          "q": "Is there a Yorkshire Vets near Armley?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.77,
+          "passed": 5
+        },
+        {
+          "q": "Do you have a practice in Meanwood?",
+          "verdict": "partial-miss",
+          "escalated": false,
+          "hits": 1,
+          "need": 2,
+          "topSim": 0.675,
+          "passed": 5
+        },
+        {
+          "q": "Is there a Yorkshire Vets branch in Morley?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.757,
+          "passed": 5
+        },
+        {
+          "q": "What's the exact address of the out-of-hours emergency vet I should go to?",
+          "verdict": "false-escalate",
+          "escalated": true,
+          "hits": 0,
+          "need": 2,
+          "topSim": 0.63,
+          "passed": 5
+        },
+        {
+          "q": "Are you part of a bigger veterinary group or network?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 1,
+          "need": 1,
+          "topSim": 0.629,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer payment plans for expensive treatments or operations?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.615,
+          "passed": 5
+        },
+        {
+          "q": "Are there any age limits for a pet joining the Pet Health Club?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.705,
+          "passed": 5
+        },
+        {
+          "q": "Can I book an appointment before I've formally registered my pet with you?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.562,
+          "passed": 5
+        },
+        {
+          "q": "Do you offer palliative or end-of-life care for terminally ill pets?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.553,
+          "passed": 5
+        },
+        {
+          "q": "Do you treat exotic pets such as reptiles or parrots?",
+          "verdict": "control-ok",
+          "escalated": true,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.551,
+          "passed": 5
+        },
+        {
+          "q": "How do I cancel or reschedule an existing appointment?",
+          "verdict": "HALLUCINATED",
+          "escalated": false,
+          "hits": 0,
+          "need": 0,
+          "topSim": 0.482,
+          "passed": 0
+        }
+      ]
+    }
+  ]
+}

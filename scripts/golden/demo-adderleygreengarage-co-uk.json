@@ -1,0 +1,198 @@
+{
+  "tenant": "demo-adderleygreengarage-co-uk",
+  "industry": "garages",
+  "questions": [
+    {
+      "q": "What's your phone number?",
+      "must_include": ["01782 333 000"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What email address can I contact you on?",
+      "must_include": ["hello@adderleygreengarage.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your opening hours?",
+      "must_include": ["monday to friday: 8.30am", "saturday: 8.30am", "sunday: closed"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you open on Saturdays?",
+      "must_include": ["saturday: 8.30am"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you open on Sundays?",
+      "must_include": ["sunday: closed"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Whereabouts are you based?",
+      "must_include": ["longton", "stoke-on-trent"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long has the garage been going?",
+      "must_include": ["over 30 years"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is this a family run garage?",
+      "must_include": ["family-run"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What services do you offer?",
+      "must_include": ["mot", "air conditioning", "breakdown recovery", "tyre fitting", "car diagnostics", "general repairs", "servicing"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What types of vehicles do you work on?",
+      "must_include": ["cars", "vans", "motorcycles", "motorhome"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you carry out MOT tests?",
+      "must_include": ["mot testing"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get a same-day MOT?",
+      "must_include": ["same-day"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you do motorbike MOTs?",
+      "must_include": ["motorcycle mot"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you MOT my motorhome or campervan?",
+      "must_include": ["motorhome mot"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What MOT classes are you authorised to test?",
+      "must_include": ["class 1", "class 2", "class 4", "class 5", "class 7"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you do an MOT for a moped or scooter?",
+      "must_include": ["mopeds and scooters"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've got a large transit-sized work van – can you MOT it?",
+      "must_include": ["class 7", "light commercial vehicles"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My car has just failed its MOT – can you do the repairs there and then?",
+      "must_include": ["repairs"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "If my car fails its MOT do I get a free retest?",
+      "must_include": ["within 10 working days"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the difference between a dangerous fault and a major fault on an MOT?",
+      "must_include": ["dangerous faults", "major faults", "minor faults", "advisories"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What different types of car service do you offer?",
+      "must_include": ["interim service", "full service", "major service"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How often should I get an interim service?",
+      "must_include": ["every 6 months or 6,000 miles"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How often is a full service recommended?",
+      "must_include": ["every 12 months or 12,000 miles"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When would I need a major service?",
+      "must_include": ["every 24 months or 24,000 miles"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's included in a full service?",
+      "must_include": ["air filter replacement", "steering and suspension checks"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What extra work gets done in a major service compared to a full service?",
+      "must_include": ["spark plug replacement", "brake fluid replacement"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you service a van or light commercial vehicle?",
+      "must_include": ["light commercial vehicles"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you repair or recharge air conditioning?",
+      "must_include": ["air conditioning"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you fit new tyres?",
+      "must_include": ["tyre fitting"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer breakdown recovery?",
+      "must_include": ["breakdown recovery"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you run diagnostics to find out what's wrong with my car?",
+      "must_include": ["car diagnostics"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you members of any approved schemes or industry bodies?",
+      "must_include": ["rac accredited repairer", "good garage scheme"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does an MOT cost?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer a courtesy car while mine is being repaired?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What's your full street address and postcode?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you work on electric or hybrid cars?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you collect and drop off my vehicle?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer any payment plans or finance?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you do engine remapping or performance tuning?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How much does a full service cost?",
+      "expect_escalate": true
+    }
+  ]
+}

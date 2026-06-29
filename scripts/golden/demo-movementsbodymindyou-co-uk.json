@@ -1,0 +1,198 @@
+{
+  "tenant": "demo-movementsbodymindyou-co-uk",
+  "industry": "gyms",
+  "questions": [
+    {
+      "q": "What are your weekday opening hours?",
+      "must_include": ["06:00", "20:30"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your Saturday opening hours?",
+      "must_include": ["07:30", "13:00"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you open on Sundays and what time?",
+      "must_include": ["09:00", "14:00"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I finish work at 8 pm on weekdays — would I still make a class?",
+      "must_include": ["20:30"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you open on bank holidays?",
+      "must_include": ["closed on bank holidays"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where is the studio based?",
+      "must_include": ["welland business park", "market harborough"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is the full studio address?",
+      "must_include": ["unit d1a", "valley way", "le16 7ps"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What postcode should I put in my sat nav?",
+      "must_include": ["le16 7ps"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How can I get in touch with Movements?",
+      "must_include": ["hello@movementsbodymindyou.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'd like to enquire about personal training — who do I contact?",
+      "must_include": ["danni@movementsbodymindyou.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much is the monthly pass?",
+      "must_include": ["£47.60"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What do I get with the 1-month pass?",
+      "must_include": ["unlimited classes"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do I need to sign a contract or commit to a long-term membership?",
+      "must_include": ["zero commitment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I try a class for free before buying anything?",
+      "must_include": ["free class"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there an introductory offer for new members?",
+      "must_include": ["introductory free class"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I give a free class to a friend as a gift?",
+      "must_include": ["gift it to a friend"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm not ready for a full month — is there a smaller class pack?",
+      "must_include": ["3-class pass"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a pay-as-you-go option so I'm not tied in?",
+      "must_include": ["pay as you go"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who started Movements?",
+      "must_include": ["danni"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What fitness qualifications does the owner hold?",
+      "must_include": ["level 4 personal trainer"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What was the founder doing before opening Movements?",
+      "must_include": ["corporate world"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What types of classes do you run?",
+      "must_include": ["group fitness classes", "indoor cycling", "strength and conditioning"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer indoor cycling or spin classes?",
+      "must_include": ["indoor cycling"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are there strength and conditioning sessions?",
+      "must_include": ["strength and conditioning"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I get one-to-one personal training at Movements?",
+      "must_include": ["one-to-one personal training"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer any rehabilitation or injury recovery coaching?",
+      "must_include": ["rehabilitation"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you run any corporate wellbeing programmes for local employers?",
+      "must_include": ["corporate wellbeing"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is Movements the same as a regular gym?",
+      "must_include": ["not a gym", "friendly safe space"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm nervous about exercise — is Movements the right place for me?",
+      "must_include": ["all ages and fitness levels"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I book a class?",
+      "must_include": ["movements app"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I claim my free class credit in the app?",
+      "must_include": ["movements app", "credits"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is Movements independently owned or part of a larger chain?",
+      "must_include": ["independent"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have showers or changing rooms at the studio?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is there free parking near the studio?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How many fitness classes do you run each week?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How much does a personal training session cost?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer nutrition or diet coaching alongside the classes?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I pause or freeze my membership if I go on holiday?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is there a free weights area or open gym floor time?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What specific class names and times are on the weekly timetable?",
+      "expect_escalate": true
+    }
+  ]
+}

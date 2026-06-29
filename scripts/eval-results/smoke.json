@@ -1,0 +1,42 @@
+{
+  "label": "smoke",
+  "when": "2026-06-28T20:12:01.626Z",
+  "budget": 5,
+  "spend": 0.0006,
+  "stopped": false,
+  "aggregate": {
+    "answerable": 1,
+    "recalled": 1,
+    "falseEsc": 0,
+    "controls": 0,
+    "controlOk": 0,
+    "halluc": 0,
+    "recallPct": 100,
+    "falseEscPct": 0
+  },
+  "perTenant": [
+    {
+      "tenant": "demo-yazzhair-co",
+      "industry": "salons",
+      "answerable": 1,
+      "recalled": 1,
+      "recallPct": 100,
+      "falseEsc": 0,
+      "falseEscPct": 0,
+      "controls": 0,
+      "controlOk": 0,
+      "halluc": 0,
+      "rows": [
+        {
+          "q": "Where is your Guiseley salon?",
+          "verdict": "ok",
+          "escalated": false,
+          "hits": 2,
+          "need": 2,
+          "topSim": 0.737,
+          "passed": 5
+        }
+      ]
+    }
+  ]
+}

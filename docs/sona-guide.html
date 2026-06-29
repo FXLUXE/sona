@@ -1,0 +1,115 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page{margin:18mm 16mm}
+  :root{--ink:#11212b;--brass:#c79a4b;--brass-deep:#a87f33;--paper:#f6f1e9;--muted:#5b6670;--line:#e4dccb}
+  *{box-sizing:border-box}
+  body{font-family:"Inter",system-ui,sans-serif;color:#22303a;line-height:1.6;font-size:11.5pt;margin:0}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:30pt;color:var(--ink);letter-spacing:-.02em;line-height:1.08;margin:0 0 4pt;border-bottom:3px solid var(--brass);padding-bottom:10pt}
+  h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:17pt;color:var(--ink);letter-spacing:-.01em;margin:22pt 0 6pt;break-after:avoid}
+  h3{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:13pt;color:var(--brass-deep);margin:14pt 0 4pt;break-after:avoid}
+  p{margin:6pt 0}
+  em{color:var(--muted)}
+  a{color:var(--brass-deep);text-decoration:none}
+  strong{color:var(--ink)}
+  code{font-family:ui-monospace,Consolas,monospace;background:#efe8da;padding:1px 5px;border-radius:4px;font-size:10pt}
+  pre{background:var(--ink);color:#f4ecda;border-radius:8px;padding:12pt 14pt;overflow:auto;break-inside:avoid;font-size:9.5pt}
+  pre code{background:none;color:inherit;padding:0}
+  hr{border:0;border-top:1px solid var(--line);margin:18pt 0}
+  table{width:100%;border-collapse:collapse;margin:10pt 0;font-size:10pt;break-inside:avoid}
+  th,td{border:1px solid var(--line);padding:6pt 8pt;text-align:left;vertical-align:top}
+  th{background:#efe8da;font-family:"Inter";font-weight:600;color:var(--ink)}
+  blockquote{margin:10pt 0;padding:10pt 14pt;background:#fffdf8;border:1px solid var(--brass);border-radius:8px;color:#3a4750}
+  ul{margin:6pt 0;padding-left:18pt}
+  li{margin:3pt 0}
+  li.chk{list-style:none;margin-left:-18pt}
+  li.chk .bx{display:inline-block;width:13pt;height:13pt;border:1.5px solid var(--brass);border-radius:3px;text-align:center;line-height:12pt;color:var(--brass-deep);font-weight:700;margin-right:6pt;vertical-align:middle}
+</style></head>
+<body><h1>Sona — Your Complete Setup Guide</h1>
+<p><strong>The AI receptionist for your website — from zero to live, in plain English.</strong></p>
+<p><em>You don't need to be technical. Follow the steps in order. Anything in <code>monospace</code> is something you copy-paste or type.</em></p>
+<hr>
+<h2>1. What Sona actually is</h2>
+<p>Sona is a small chat assistant that sits in the corner of your website. It reads <strong>your own pages</strong>, answers visitors' questions in your words — opening hours, services, prices, how to book — and when it isn't sure, it asks for the visitor's email or phone so you never lose the enquiry. It works at 2pm and at 2am.</p>
+<p><strong>Why it matters:</strong> most enquiries arrive when no one's free to answer. A missed message is a missed booking. Sona catches them all.</p>
+<h3>How it works (the 30-second version)</h3>
+<p>1. You paste your website address.</p>
+<p>2. Sona reads your pages and learns them.</p>
+<p>3. You drop one line of code on your site (or just send people your demo link).</p>
+<p>4. Visitors chat; Sona answers from your content and captures leads.</p>
+<p>5. Leads land in your dashboard <strong>and</strong> ping your email/phone instantly.</p>
+<blockquote><strong>It never makes things up.</strong> If the answer isn't on your site, it says so and takes their details — it won't invent a price or a policy.</blockquote>
+<hr>
+<h2>2. What you'll need (accounts)</h2>
+<table><thead><tr><th>Service</th><th>What it's for</th><th>Cost</th><th>Required?</th></tr></thead><tbody><tr><td><strong>Supabase</strong></td><td>Stores your data + sign-in</td><td>Free tier</td><td>Yes</td></tr><tr><td><strong>Google Gemini</strong></td><td>The AI brain + reading your pages</td><td>Free tier; pennies after</td><td>Yes</td></tr><tr><td><strong>A host (Railway)</strong></td><td>Puts Sona on the internet</td><td>~$5/month</td><td>Yes, to go live</td></tr><tr><td><strong>A domain</strong></td><td>Your web address</td><td>~£10/year</td><td>Recommended</td></tr><tr><td><strong>Stripe</strong></td><td>Taking subscription payments</td><td>Free; % per sale</td><td>Only to charge customers</td></tr><tr><td><strong>Resend</strong></td><td>Email lead alerts</td><td>Free tier</td><td>Optional</td></tr><tr><td><strong>Twilio</strong></td><td>Text-message lead alerts</td><td>Pay per text</td><td>Optional</td></tr></tbody></table>
+<p>You can do everything except "go live" and "take payments" for <strong>free</strong> while you try it.</p>
+<hr>
+<h2>3. First-time setup</h2>
+<blockquote>A friendly developer (or your AI assistant) does this once. It's copy-paste, not coding.</blockquote>
+<p>1. <strong>Get the keys.</strong> Create a Supabase project and a Google AI Studio (Gemini) key.</p>
+<p>2. <strong>Fill in <code>.env</code>.</strong> In the project there's a file called <code>.env.example</code>. Copy it to <code>.env</code> and paste your keys into the blanks (Supabase URL + keys, Gemini key). Each blank is labelled.</p>
+<p>3. <strong>Set up the database.</strong> Run the included <code>schema.sql</code> and the migration file against your Supabase project (one click in Supabase's SQL editor).</p>
+<p>4. <strong>Start it.</strong> <code>bun run dev</code> — Sona is now running on your computer at <code>http://localhost:4000</code>.</p>
+<p>That's the whole technical bit. Everything below is point-and-click.</p>
+<hr>
+<h2>4. Using the dashboard</h2>
+<p>Open <code>/dashboard</code> and sign in with your email (a magic link arrives — no password).</p>
+<ul>
+<li><strong>First-run wizard:</strong> paste your website → Sona claims a name for your bot, reads your site, and shows you a live preview. Done in a couple of minutes.</li>
+<li><strong>Preview tab:</strong> see and test your bot exactly as visitors will.</li>
+<li><strong>Install tab:</strong> copy your embed snippet (see §6); add more pages or <em>"Read my whole site"</em>.</li>
+<li><strong>Leads / Bookings / Conversations:</strong> everything your bot captured (see §5).</li>
+<li><strong>Settings:</strong> brand colour, logo, tone of voice, booking link, and where lead alerts go.</li>
+<li><strong>Billing:</strong> your plan and usage (only matters once you charge customers).</li>
+</ul>
+<hr>
+<h2>5. Where your leads go (important!)</h2>
+<p>When a visitor leaves their details, the lead appears in <strong>three</strong> places — there is <strong>no file on your computer</strong> to hunt for:</p>
+<p>1. <strong>Dashboard → Leads tab</strong> — newest first, with a hot/warm/cold rating and what they asked. Click <strong>⬇ Download CSV</strong> to open them in Excel or Google Sheets.</p>
+<p>2. <strong>Your email</strong> (if you set a notify email in Settings) — instantly.</p>
+<p>3. <strong>Your phone by text</strong> (if you connect Twilio) — instantly.</p>
+<blockquote><strong>A note on files you might see:</strong> files ending in <code>.ts</code>, <code>.js</code>, or <code>.sql</code> inside the project are <strong>source code</strong> — the recipe Sona is built from. They are not your leads and you never need to open them. Your leads are in the dashboard.</blockquote>
+<hr>
+<h2>6. Putting Sona on your real website</h2>
+<p>In the dashboard <strong>Install</strong> tab, copy the one-line snippet. It looks like this:</p>
+<pre><code>&lt;script src="https://your-sona-domain.com/widget.js?tenant=your-bot-name"&gt;&lt;/script&gt;</code></pre>
+<p>Paste it just before the <code>&lt;/body&gt;</code> tag of your site (most site builders have a "custom code" or "footer code" box for exactly this). Save. The chat bubble now appears on your site, themed to your brand. That's it.</p>
+<p>No website yet to edit? Just <strong>send people your demo link</strong> (<code>/demo/your-bot-name</code>) — it's a full working chat page on its own.</p>
+<hr>
+<h2>7. Getting customers (without cold-calling)</h2>
+<p>Sona comes with a built-in, low-touch acquisition engine. Two free channels:</p>
+<h3>A. Search traffic (totally hands-off)</h3>
+<p>The pages at <code>/for/salons</code>, <code>/for/dental-practices</code>, <code>/for/trades</code>, etc. are built to rank on Google for "AI receptionist for [your trade]". Once you're live, they pull in visitors with zero effort from you. Slow to build, but free and automatic.</p>
+<h3>B. Personalised-demo outreach (you press send)</h3>
+<p>This is the strong one. For each business you'd like as a customer, Sona builds them <strong>their own</strong> live demo and writes a short, honest email with the link — <em>"I built this for you, have a look."</em> The demo is the pitch.</p>
+<pre><code># Find local businesses with websites (free, no account needed)
+bun scripts/find-prospects.ts salons "Leeds"
+
+# Build each a live demo + write the emails (review them first!)
+bun scripts/generate-outreach.ts prospects-salons.json 5</code></pre>
+<p>This produces <strong><code>outreach.md</code></strong> (read every email before sending) and <strong><code>outreach.csv</code></strong> (for a mail tool). You then send them from <strong>your own email account</strong> — start with 20–40 a day. We never send for you; you stay in control.</p>
+<blockquote><strong>The honest bit:</strong> no tool can magically get customers for free with zero effort. You need the site live (a few pounds) and to actually send the emails (your inbox or a ~£30/month sender). Sona does everything <em>up to</em> the send.</blockquote>
+<hr>
+<h2>8. What it costs</h2>
+<table><thead><tr><th>Stage</th><th>Monthly</th><th>One-off</th></tr></thead><tbody><tr><td>Trying it locally</td><td>£0</td><td>£0</td></tr><tr><td>Live, no paying customers yet</td><td>~£5 (host)</td><td>~£10 domain/yr</td></tr><tr><td>Sending outreach via your inbox</td><td>£0</td><td>—</td></tr><tr><td>Sending outreach via a tool</td><td>~£30</td><td>—</td></tr><tr><td>Taking payments (Stripe)</td><td>£0 + ~2% per sale</td><td>—</td></tr></tbody></table>
+<p>The AI itself costs roughly a fraction of a penny per conversation on the Gemini paid tier.</p>
+<hr>
+<h2>9. Troubleshooting</h2>
+<table><thead><tr><th>You see…</th><th>What's happening</th><th>Do this</th></tr></thead><tbody><tr><td>"Reading your site…" for a few seconds</td><td>It's reading the homepage; more pages load in the background</td><td>Normal — the bot answers within seconds and keeps improving</td></tr><tr><td>The demo gives weak answers</td><td>The site has little text to read (or is very image/JS-heavy)</td><td>Add more pages in the Install tab, or pick a content-richer site</td></tr><tr><td>A <code>.ts</code> / <code>.sql</code> file "is a mess"</td><td>That's source code, not your data</td><td>Ignore it — your leads are in the dashboard</td></tr><tr><td>Login email didn't arrive</td><td>Magic-link delivery</td><td>Check spam; confirm Supabase Auth is configured</td></tr><tr><td>Chat says "couldn't connect"</td><td>The AI provider had a brief spike</td><td>It retries automatically; try again in a moment</td></tr></tbody></table>
+<hr>
+<h2>10. Go-live checklist</h2>
+<ul>
+<li class="chk"><span class="bx"></span> <code>.env</code> filled with Supabase + Gemini keys; database schema + migration run</li>
+<li class="chk"><span class="bx"></span> Deployed to a host (Railway) with a real <code>https://</code> domain</li>
+<li class="chk"><span class="bx"></span> <code>PUBLIC_BASE_URL</code> set to that exact domain</li>
+<li class="chk"><span class="bx"></span> Your domain added to Supabase Auth → redirect allow-list</li>
+<li class="chk"><span class="bx"></span> Logged in, added your site, tested the preview</li>
+<li class="chk"><span class="bx"></span> Embed snippet on your website (or sharing your demo link)</li>
+<li class="chk"><span class="bx"></span> Lead alert email/SMS set in Settings and tested</li>
+<li class="chk"><span class="bx"></span> <em>(To charge)</em> Stripe products + prices created, keys + webhook added</li>
+<li class="chk"><span class="bx"></span> <em>(Security)</em> Rotated any keys that were ever shared in chat/email</li>
+<li class="chk"><span class="bx"></span> <em>(Optional)</em> Email domain verified (SPF/DKIM) so alerts don't go to spam</li>
+</ul>
+<hr>
+<p><em>Sona — the front desk that never clocks out. Built to run itself, so you don't have to.</em></p></body></html>

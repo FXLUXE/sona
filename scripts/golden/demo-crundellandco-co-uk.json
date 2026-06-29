@@ -1,0 +1,198 @@
+{
+  "tenant": "demo-crundellandco-co-uk",
+  "industry": "accountants",
+  "questions": [
+    {
+      "q": "What type of firm is Crundell & Co Accountancy?",
+      "must_include": ["family run firm", "chartered certified accountants"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where are Crundell & Co based?",
+      "must_include": ["shrewsbury", "shropshire"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What phone number can I call you on?",
+      "must_include": ["01743 362141"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is your office address?",
+      "must_include": ["napoleon drive", "sy3 5ph"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When was Crundell & Co established?",
+      "must_include": ["2007"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who founded or set up the firm?",
+      "must_include": ["tony crundell", "2007"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What professional qualifications does Tony Crundell hold?",
+      "must_include": ["fcca", "acca"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much experience does Tony Crundell have in accountancy?",
+      "must_include": ["over 20 year"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What areas does Tony Crundell specialise in day to day?",
+      "must_include": ["year-end accounts", "corporation tax and personal tax"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who handles bookkeeping and payroll at the firm?",
+      "must_include": ["lucille", "heads up", "management accounts"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What qualifications does Lucille Crundell hold?",
+      "must_include": ["icaew", "institute of certified bookkeepers"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you help me complete and submit my self-assessment tax return?",
+      "must_include": ["self assessment tax return"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you prepare and submit VAT returns?",
+      "must_include": ["vat returns", "each quarter"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What payroll services do you offer?",
+      "must_include": ["payroll", "real time submission"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What accounting services do you provide for sole traders?",
+      "must_include": ["annual accounts", "cis returns"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What services do you offer to limited companies?",
+      "must_include": ["corporation tax returns", "company secretarial"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I receive rental income from a property – can you help me with my tax?",
+      "must_include": ["rental property accounts", "self assessment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you handle CIS returns for people in the construction industry?",
+      "must_include": ["cis", "contractors"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer a bookkeeping service?",
+      "must_include": ["full bookkeeping service", "core business activities"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you Making Tax Digital ready?",
+      "must_include": ["making tax digital", "mtd"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you help me form a new limited company?",
+      "must_include": ["company formation"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What does your company secretarial service include?",
+      "must_include": ["minutes", "dividend vouchers", "share registers"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you advise on capital gains tax if I sell a property or shares?",
+      "must_include": ["capital gains tax"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I think I may have overpaid tax – do you handle tax repayment claims?",
+      "must_include": ["tax repayment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you provide general business advice and support?",
+      "must_include": ["business advice", "included in our fees as standard"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do your fees work – is it a fixed price or hourly?",
+      "must_include": ["fixed fees", "clear fee structure", "no surprises"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Will I be charged every time I phone or email you?",
+      "must_include": ["phone call", "letter or email"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a free initial meeting or consultation?",
+      "must_include": ["free initial meeting", "free of charge"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I pay my accountancy fees monthly rather than in one lump sum?",
+      "must_include": ["monthly payment plans"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer tax planning to help reduce the amount of tax I pay?",
+      "must_include": ["tax planning", "minimise"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you help me with my workplace pension obligations?",
+      "must_include": ["workplace pension", "obligations"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What kinds of businesses and sectors do you typically work with?",
+      "must_include": ["construction industry workers", "publicans"],
+      "should_not_escalate": true
+    },
+    {
+      "expect_escalate": true,
+      "q": "How much do you charge for completing a self-assessment tax return?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "What are your office opening hours?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "Do you provide statutory audit or assurance services?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "Can you help me make a claim for R&D tax credits?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "Are you a certified Xero or QuickBooks partner?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "Do you support clients who are under HMRC investigation?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "Do you offer financial planning or investment advice?"
+    },
+    {
+      "expect_escalate": true,
+      "q": "Do you have any appointments available this week?"
+    }
+  ]
+}

@@ -1,0 +1,570 @@
+{
+  "tenant": "demo-yazzhair-co",
+  "industry": "salons",
+  "questions": [
+    {
+      "q": "Where is your Guiseley salon?",
+      "must_include": [
+        "14 otley road",
+        "guiseley"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What address should I go to?",
+      "must_include": [
+        "otley road",
+        "ls20"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have more than one salon?",
+      "must_include": [
+        "guiseley",
+        "rawdon"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the address for the Rawdon salon?",
+      "must_include": [
+        "34 new road side"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where is the barbers?",
+      "must_include": [
+        "guiseley"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your opening hours?",
+      "must_include": [
+        "tuesday",
+        "9am"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What time do you open on a Tuesday?",
+      "must_include": [
+        "9am"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you open on Saturdays?",
+      "must_include": [
+        "4pm"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What time do you close on Thursday evenings?",
+      "must_include": [
+        "8pm"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you open on Sundays?",
+      "must_include": [
+        "closed",
+        "sunday"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you shut on Mondays?",
+      "must_include": [
+        "monday",
+        "closed"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the phone number?",
+      "must_include": [
+        "01943 870 333"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What number do I call to make a booking?",
+      "must_include": [
+        "01943"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the email address for the salon?",
+      "must_include": [
+        "yazzhair@live.co.uk"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I get in touch?",
+      "must_include": [
+        "01943",
+        "yazzhair"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I just walk in or do I need to book?",
+      "must_include": [
+        "appointment"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you take walk-ins?",
+      "must_include": [
+        "appointment"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I book an appointment?",
+      "must_include": [
+        "book"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who owns Yazz?",
+      "must_include": [
+        "paul shakeshaft"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is the manager at Guiseley?",
+      "must_include": [
+        "stacy ramsey"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long has Anthony Donaghue been working in hair?",
+      "must_include": [
+        "30 years"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When did Stacy Ramsey start at Yazz?",
+      "must_include": [
+        "2016"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is the Wella colour specialist?",
+      "must_include": [
+        "yasmin"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What days does Joe the barber work?",
+      "must_include": [
+        "tuesday",
+        "saturday"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a barber on the team?",
+      "must_include": [
+        "joe tetley"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which Creative Director has worked in London and Sydney?",
+      "must_include": [
+        "marc thibault"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is Grace Simms?",
+      "must_include": [
+        "senior stylist"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What role does Mel Perkins have?",
+      "must_include": [
+        "academy educator"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you cut children's hair?",
+      "must_include": [
+        "children"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you do party hair or hair ups for events?",
+      "must_include": [
+        "hair ups"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer cutthroat shaves or beard trims for men?",
+      "must_include": [
+        "cutthroat"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you do men's barbering?",
+      "must_include": [
+        "yazz barbers"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you run a hairdressing academy?",
+      "must_include": [
+        "academy",
+        "rawdon"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What qualifications do apprentices get?",
+      "must_include": [
+        "nvq",
+        "city and guilds"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I take a barbering course?",
+      "must_include": [
+        "barbering course"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When was Yazz first opened?",
+      "must_include": [
+        "1994"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Has the salon won any awards?",
+      "must_include": [
+        "british hairdressing"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you sell gift vouchers?",
+      "must_include": [
+        "voucher"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does a haircut cost?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is there parking near the salon?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What are the opening hours for the Rawdon salon?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you accept card payments?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer wedding or bridal hair packages?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Where was the very first Yazz shop located?",
+      "must_include": [
+        "1994",
+        "yeadon"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is the full address of the Yazz Hairdressing Academy?",
+      "must_include": [
+        "1 gladstone road",
+        "rawdon"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where did Marc Thibault do his professional training?",
+      "must_include": [
+        "toni&guy academy"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How experienced is Olivia Steele as a stylist?",
+      "must_include": [
+        "nearly two decades"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where did Anthony Donaghue come from before moving to Leeds?",
+      "must_include": [
+        "northeast"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How many years has Joe Tetley been cutting hair?",
+      "must_include": [
+        "9 years"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What specialist barbering services does Joe offer?",
+      "must_include": [
+        "skin fades",
+        "beard line-ups"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is the Training Administrator at the Yazz Academy?",
+      "must_include": [
+        "carolyn jacobs"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is Connor Bostock and where does he work?",
+      "must_include": [
+        "connor bostock",
+        "guiseley"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who handles front of house duties at the Rawdon salon?",
+      "must_include": [
+        "molly shakeshaft"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I book an appointment online as well as by phone?",
+      "must_include": [
+        "book on-line"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which awarding bodies accredit Yazz Academy courses?",
+      "must_include": [
+        "city and guilds",
+        "vtct"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which college does Yazz Academy work with for apprenticeships?",
+      "must_include": [
+        "leeds city college"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What age group are your apprenticeships aimed at?",
+      "must_include": [
+        "16 to 18"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How is an apprentice's week split between the salon and college?",
+      "must_include": [
+        "four days a week"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a short course at the academy I could take?",
+      "must_include": [
+        "10 weeks",
+        "cutting techniques"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are there private courses for people looking to retrain or improve?",
+      "must_include": [
+        "tailored private courses"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Does Yasmin Ellis do ladies' restyles as well as colour?",
+      "must_include": [
+        "ladies restyles"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What hair and beauty qualifications does Grace Simms hold?",
+      "must_include": [
+        "diploma in level 3 hair and makeup"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is the salon assistant at the Guiseley salon?",
+      "must_include": [
+        "cheyenne hansby"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is the apprentice based at the Rawdon salon?",
+      "must_include": [
+        "layla parker-west"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Who is Sophie Stirk and which salon is she based at?",
+      "must_include": [
+        "sophie stirk",
+        "rawdon"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is Anthony Donaghue most passionate about within hairdressing?",
+      "must_include": [
+        "precision and shorter hair"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Has Yazz ever been named TIGI Salon of the Year?",
+      "must_include": [
+        "tigi",
+        "salon of the year"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which British Hairdressing Award was Yazz a finalist for?",
+      "must_include": [
+        "north western hairdresser"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Were you ever a Great Lengths award finalist?",
+      "must_include": [
+        "great lengths",
+        "bridal creation"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When and where is Salon International 2025?",
+      "must_include": [
+        "october 11",
+        "excel london"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do you keep the salon clean between clients?",
+      "must_include": [
+        "stations and equipment after each appointment"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do Yazz staff get any travel perks or rewards?",
+      "must_include": [
+        "barbados",
+        "las vegas"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I volunteer as a model for the Hair Academy?",
+      "must_include": [
+        "models",
+        "yazz hair academy"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When did Yazz win the L'Oréal Men's Image Award?",
+      "must_include": [
+        "2016"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "When did Anthony Donaghue first join Yazz?",
+      "must_include": [
+        "2018"
+      ],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does a barbering course at the academy cost?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I get a price estimate for a balayage?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer hair extension services?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What is your cancellation or rescheduling policy?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is the salon wheelchair accessible?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you have a loyalty card or rewards scheme for regular clients?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you sell hair care products in the salon to take home?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer eyebrow or eyelash treatments?",
+      "expect_escalate": true
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "tenant": "demo-johncayley-plumbing-co-uk",
+  "industry": "plumbers",
+  "questions": [
+    {
+      "q": "Can you fix a broken boiler?",
+      "must_include": ["gas boiler repair", "gas safe registered"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you service boilers?",
+      "must_include": ["annual boiler service", "central heating system"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I need a new boiler fitted — can you help?",
+      "must_include": ["boiler installation", "gas safe"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My boiler keeps shutting down and I have no hot water — what can you do?",
+      "must_include": ["gas boiler repair", "diagnose"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you repair or service a gas fire?",
+      "must_include": ["gas fire", "gas safe"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've got an inset gas fire — do you work on those?",
+      "must_include": ["inset fires"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you work on central heating systems?",
+      "must_include": ["central heating"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you carry out powerflushing?",
+      "must_include": ["powerflush"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you work on water heaters?",
+      "must_include": ["water heaters"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I think there's a gas leak at my property — can you help?",
+      "must_include": ["emergency gas leak"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm a landlord — do I need a gas safety certificate?",
+      "must_include": ["landlord gas safety certificate", "12 months"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is a CP12 certificate?",
+      "must_include": ["cp12", "landlord gas safety certificate"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How often does a landlord gas safety check need to be done?",
+      "must_include": ["12 months", "rental property"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you based in Burnley?",
+      "must_include": ["burnley", "pendle"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you cover the Nelson area?",
+      "must_include": ["nelson"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you come out to Barnoldswick?",
+      "must_include": ["barnoldswick"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What areas do you cover?",
+      "must_include": ["burnley and pendle", "nelson, colne, brierfield, padiham"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm in Trawden — is that within your area?",
+      "must_include": ["trawden"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you Gas Safe registered?",
+      "must_include": ["gas safe registered engineer", "registration no. 66907"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I see your Gas Safe registration number?",
+      "must_include": ["registration no. 66907"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I know you're legally allowed to do gas work?",
+      "must_include": ["gas safe id card", "gas safe register website"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you a Baxi approved installer?",
+      "must_include": ["baxi installer"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do Baxi boilers come with a warranty when you fit them?",
+      "must_include": ["parts and labour warranty", "baxi"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What warranty lengths are available on a new Baxi boiler?",
+      "must_include": ["three, five, seven or 10 year parts and labour warranty"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How many years have you been a gas engineer?",
+      "must_include": ["30 years' experience"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's your phone number?",
+      "must_include": ["07977 073 881"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where are you based?",
+      "must_include": ["53 barrowford road", "lancashire"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I get a free quote?",
+      "must_include": ["free", "no-obligation quote"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you an independent engineer or part of a larger company?",
+      "must_include": ["independent gas engineer"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Will I always get the same person when you come out?",
+      "must_include": ["same friendly face"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I've had engineers not show up before — are you reliable?",
+      "must_include": ["reliable where many others aren't"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Will you try to push me into buying a new boiler rather than repairing it?",
+      "must_include": ["no hard sell", "extend the life of"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you insured to work in my home?",
+      "must_include": ["fully insured to work in your home"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I don't have a Baxi boiler — can you still work on it?",
+      "must_include": ["almost all brands and models of domestic gas boiler"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Why should I bother getting an annual boiler service?",
+      "must_include": ["essential to the continued smooth running", "reduce your energy bill"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much do you charge for a boiler service?",
+      "expect_escalate": true
+    },
+    {
+      "q": "What are your working hours?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer finance or payment plans for a new boiler?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you fit a bathroom suite?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you unblock a toilet or drain?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you cover the Manchester or Leeds area?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How long does it take to install a new boiler?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I book an appointment online?",
+      "expect_escalate": true
+    }
+  ]
+}

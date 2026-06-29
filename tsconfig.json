@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["bun"],
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "moduleDetection": "force"
+  },
+  "include": ["src", "scripts"]
+}

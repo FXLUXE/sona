@@ -1,0 +1,198 @@
+{
+  "tenant": "demo-electrician-norwich-co-uk",
+  "industry": "electricians",
+  "questions": [
+    {
+      "q": "What is Excel Electrical's phone number?",
+      "must_include": ["01508 488007"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I contact you by email?",
+      "must_include": ["enquiries@excelelectrical.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where is Excel Electrical based?",
+      "must_include": ["ashwellthorpe"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What parts of Norfolk do you cover?",
+      "must_include": ["norfolk", "north suffolk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Which towns near Norwich do you serve?",
+      "must_include": ["diss", "attleborough", "wymondham"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long has Excel Electrical been in business?",
+      "must_include": ["2001"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you NICEIC approved?",
+      "must_include": ["niceic", "approved contractor"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What accreditations does Excel Electrical hold?",
+      "must_include": ["trustmark", "norfolk trusted trader"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you a family-run business?",
+      "must_include": ["family run", "2001"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer a guarantee on your work?",
+      "must_include": ["24 months"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you rewire a house in Norfolk?",
+      "must_include": ["rewire", "niceic"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does a full house rewire cost in Norfolk?",
+      "must_include": ["3,000", "12,000"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long does it take to rewire a 3-bedroom house?",
+      "must_include": ["3 to 4 days"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you replace my old fuse board?",
+      "must_include": ["consumer unit", "fuse"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you carry out EICR electrical safety inspections?",
+      "must_include": ["eicr", "electrical installation condition report"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How often does a rental property need an EICR?",
+      "must_include": ["five years"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What fine can a landlord get for not having a valid EICR?",
+      "must_include": ["£30,000"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you install home EV charging points?",
+      "must_include": ["ev", "ozev"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does installing a home EV charger cost in Norfolk?",
+      "must_include": ["£800", "£1,200"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you handle the OZEV grant paperwork for my home EV charger?",
+      "must_include": ["ozev", "grant"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you install solar panels in Norfolk?",
+      "must_include": ["solar", "niceic"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you add battery storage to a solar system?",
+      "must_include": ["battery storage"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What types of electric heating systems do you install?",
+      "must_include": ["storage heaters", "underfloor heating"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer PAT testing for businesses?",
+      "must_include": ["pat testing"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you install outdoor and security lighting?",
+      "must_include": ["outdoor lighting"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you do electrical work on commercial or industrial properties?",
+      "must_include": ["commercial", "industrial"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you install or service emergency lighting?",
+      "must_include": ["emergency lighting"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What is the NICEIC Platinum Promise?",
+      "must_include": ["platinum promise", "ceased trading"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How long does an EICR inspection usually take?",
+      "must_include": ["one and four hours"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do I need to notify Building Control when I get my house rewired?",
+      "must_include": ["self-certify", "competent person scheme"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you run data cabling for a small office?",
+      "must_include": ["data cabling"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you connect a hot tub to the electricity supply?",
+      "must_include": ["hot-tub"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your opening hours?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer a 24-hour emergency callout service?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I pay for the work in monthly instalments?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you cover Cambridge or Peterborough?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How long is your current waiting list for new bookings?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you install smart lighting I can control with my phone?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you repair or install CCTV cameras?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can you service or install a gas boiler?",
+      "expect_escalate": true
+    }
+  ]
+}

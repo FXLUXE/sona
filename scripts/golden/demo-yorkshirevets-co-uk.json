@@ -1,0 +1,257 @@
+{
+  "tenant": "demo-yorkshirevets-co-uk",
+  "industry": "vets",
+  "questions": [
+    {
+      "q": "Where is Yorkshire Vets Horsforth?",
+      "must_include": ["1 station road", "horsforth", "ls18 5pa"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How do I get to you? What's the address?",
+      "must_include": ["1 station road", "ls18 5pa"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you open on Saturdays?",
+      "must_include": ["saturday", "closed"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What time do you open on a Monday morning?",
+      "must_include": ["8:30am", "monday"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What are your opening hours through the week?",
+      "must_include": ["8:30am - 6:00pm", "monday"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the phone number for the Horsforth practice?",
+      "must_include": ["0113 2591196"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I email rather than call you?",
+      "must_include": ["horsforthadmin@yorkshirevets.co.uk"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My dog got into something bad and it's 2am — what do I do?",
+      "must_include": ["01274 722721", "vets now bradford"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Where do I go for an out-of-hours emergency?",
+      "must_include": ["01274 722721", "bradford"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My cat seems really unwell right now and you're open — who should I ring?",
+      "must_include": ["0113 2591196"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you do vaccinations?",
+      "must_include": ["vaccinations"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you neuter my dog?",
+      "must_include": ["neutering"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there parking at the practice?",
+      "must_include": ["on-site parking"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm new to the area and want to register my pet — how do I do that?",
+      "must_include": ["register"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I'm already a client — how do I book an appointment online?",
+      "must_include": ["book appointment", "logging into their account"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have a monthly health plan so I can spread the cost of my pet's care?",
+      "must_include": ["pet health club", "monthly payment", "no joining fee"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's included in the Pet Health Club?",
+      "must_include": ["vaccinations", "parasite", "six-monthly check"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you do dental work for pets?",
+      "must_include": ["dental"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have an on-site laboratory?",
+      "must_include": ["on-site laboratory"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can you microchip my puppy?",
+      "must_include": ["microchipping"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I just got a new puppy — is there some kind of starter package?",
+      "must_include": ["puppy", "£99"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Can I request my dog's repeat medication without coming into the practice?",
+      "must_include": ["repeat medication"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My dog is really anxious — do you have any kind of behavioural support?",
+      "must_include": ["behavioural clinics"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's your Google rating?",
+      "must_include": ["4.4"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer flea and worming treatments?",
+      "must_include": ["parasite", "flea"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How much does a standard consultation cost?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you accept pet insurance, for example PetPlan?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How much is the Pet Health Club per month?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer home visits for elderly or very unwell animals?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you see rabbits or guinea pigs?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you have an X-ray machine on site?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Is the practice wheelchair accessible?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How long am I likely to wait for a routine appointment?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Are you open on Sundays?",
+      "must_include": ["sunday", "closed"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "I need to pay my bill — can I do that online through my account?",
+      "must_include": ["make a payment"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you clip nails for dogs and cats?",
+      "must_include": ["nail clipping"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My dog is overweight — do you offer any weight management or nutrition advice?",
+      "must_include": ["weight clinics and nutrition"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you carry out routine health checks and wellness screening?",
+      "must_include": ["health checks", "wellness screening"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My cat needs to stay in overnight after her operation — is that something you can do?",
+      "must_include": ["in patient care"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "How many pets does the Pet Health Club cover across the UK?",
+      "must_include": ["900,000 pets"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Does your practice have a pain management service for animals?",
+      "must_include": ["pain management clinic"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "My dog keeps having problems with his anal glands — is that something you treat?",
+      "must_include": ["anal glands"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a Yorkshire Vets near Armley?",
+      "must_include": ["236 tong road", "armley"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you have a practice in Meanwood?",
+      "must_include": ["52 green road", "meanwood"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Is there a Yorkshire Vets branch in Morley?",
+      "must_include": ["topcliffe lane", "morley"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "What's the exact address of the out-of-hours emergency vet I should go to?",
+      "must_include": ["515 bradford road", "thornbury"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Are you part of a bigger veterinary group or network?",
+      "must_include": ["inspiring vet care"],
+      "should_not_escalate": true
+    },
+    {
+      "q": "Do you offer payment plans for expensive treatments or operations?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Are there any age limits for a pet joining the Pet Health Club?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Can I book an appointment before I've formally registered my pet with you?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you offer palliative or end-of-life care for terminally ill pets?",
+      "expect_escalate": true
+    },
+    {
+      "q": "Do you treat exotic pets such as reptiles or parrots?",
+      "expect_escalate": true
+    },
+    {
+      "q": "How do I cancel or reschedule an existing appointment?",
+      "expect_escalate": true
+    }
+  ]
+}
