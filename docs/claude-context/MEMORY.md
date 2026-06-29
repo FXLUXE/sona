@@ -1,6 +1,7 @@
 # Memory Index
 
 - [Venture AI Website Assistant](venture-ai-website-assistant.md) — what venture/ is + how to run product (Bun/Hono/Supabase RAG chatbot), port 3000 conflict, .env needed
+- [GitHub sync](github-sync.md) — code on GitHub FXLUXE/sona (private) for cross-device; gh setup, sync loop, secrets kept off, memory snapshot in docs/claude-context
 - [Sona Build State](sona-build-state.md) — current product state: bugs fixed, helpers added, locked decisions, ordered NEXT STEPS for feature work
 - [Hookify python3 error](hookify-python3-error.md) — the repeating "python3: command not found" hook error + fix (disabled hookify)
 - [Fix flagged insights](fix-flagged-insights.md) — user wants security-hook/insight warnings fixed in-turn, not just noted
