@@ -240,7 +240,7 @@ go.addEventListener('click',run);u.addEventListener('keydown',function(e){if(e.k
 export function sitemapXml(base: string): string {
   const urls = [`${base}/`, `${base}/privacy`, `${base}/terms`, ...VERTICALS.map((v) => `${base}/for/${v.slug}`)];
   return (
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">\n` +
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map((u) => `  <url><loc>${esc(u)}</loc></url>`).join("\n") +
     `\n</urlset>`
   );

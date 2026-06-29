@@ -1535,6 +1535,20 @@ async function renderSettings(main){
         '<p class=hint>A rough average is fine — your assistant uses it to estimate your pipeline.</p></div>'+
     '</div>'+
 
+    '<div class="card pad stack" style="margin-top:14px">'+
+      '<div class=eyebrow style="margin-bottom:4px">Your data (GDPR)</div>'+
+      '<div class=h-sec style="margin-bottom:2px">Data subject requests</div>'+
+      '<p class=sub style="margin-bottom:10px">Enter a visitor\\'s email address to export or permanently delete everything your assistant has stored about them.</p>'+
+      '<div><label class=field for=gdpr_em>Visitor email address</label>'+
+        '<input id=gdpr_em type=email placeholder="visitor@example.com">'+
+        '<p class=hint>Export downloads a JSON file of all stored data. Delete wipes it permanently — use with care.</p></div>'+
+      '<div class=row style="gap:8px;margin-top:10px">'+
+        '<button type=button class="btn ghost" id=gdpr_exp>⬇ Export data</button>'+
+        '<button type=button class="btn ghost" id=gdpr_del style="color:var(--rose)">Delete data</button>'+
+      '</div>'+
+      '<span id=gdpr_msg class=msg style="margin-top:4px"></span>'+
+    '</div>'+
+
     '<div class=row style="margin-top:18px;position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 60%,transparent);padding:10px 0">'+
       '<button type=submit class=btn id=set_save>Save changes</button>'+
       '<span id=set_msg class=msg style="margin-top:0"></span>'+
@@ -1563,6 +1577,31 @@ async function renderSettings(main){
     catch(e){m.className='msg err';m.textContent=e.message}
     btn.disabled=false;
   });
+  document.getElementById('gdpr_exp').onclick=async function(){
+    var ge=document.getElementById('gdpr_em').value.trim();
+    if(!ge){alert('Please enter a visitor email address.');return;}
+    var gm=document.getElementById('gdpr_msg');
+    gm.className='msg info';gm.textContent='Exporting…';
+    try{
+      var gdata=await api('/api/t/'+encodeURIComponent(active)+'/gdpr/export',{method:'POST',body:JSON.stringify({email:ge})});
+      var gblob=new Blob([JSON.stringify(gdata,null,2)],{type:'application/json'});
+      var ga=document.createElement('a');ga.href=URL.createObjectURL(gblob);
+      ga.download='sona-data-'+active+'.json';document.body.appendChild(ga);ga.click();
+      setTimeout(function(){URL.revokeObjectURL(ga.href);ga.remove()},1000);
+      gm.className='msg ok';gm.textContent='Data downloaded ✓';setTimeout(function(){gm.textContent=''},3000);
+    }catch(e){gm.className='msg err';gm.textContent=e.message}
+  };
+  document.getElementById('gdpr_del').onclick=async function(){
+    var ge=document.getElementById('gdpr_em').value.trim();
+    if(!ge){alert('Please enter a visitor email address.');return;}
+    if(!confirm('This permanently deletes all data stored about '+ge+'. This action cannot be undone.'))return;
+    var gm=document.getElementById('gdpr_msg');
+    gm.className='msg info';gm.textContent='Deleting…';
+    try{
+      await api('/api/t/'+encodeURIComponent(active)+'/gdpr/delete',{method:'POST',body:JSON.stringify({email:ge})});
+      gm.className='msg ok';gm.textContent='Data deleted ✓';setTimeout(function(){gm.textContent=''},3000);
+    }catch(e){gm.className='msg err';gm.textContent=e.message}
+  };
   wireMobileFoot();
 }
 

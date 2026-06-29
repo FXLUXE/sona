@@ -1068,6 +1068,22 @@ function escHtml(s: any): string {
 
 export async function sendLeadEmail(to: string, tenant: string, lead: any) {
   if (!cfg.resendKey || !to) return;
+  const row = (label: string, val: string) =>
+    `<tr><td style="padding:6px 0;color:#6b7280">${escHtml(label)}</td><td style="padding:6px 0;text-align:right;font-weight:600">${escHtml(val)}</td></tr>`;
+  const html =
+    `<div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto">` +
+    `<h2 style="color:#11212b">New lead captured</h2>` +
+    `<p style="color:#54606a">Your Sona assistant captured a new enquiry for <strong>${escHtml(tenant)}</strong>.</p>` +
+    `<table style="width:100%;border-collapse:collapse;font-size:15px">` +
+    row("Name", String(lead.name ?? "—")) +
+    row("Email", String(lead.email ?? "—")) +
+    row("Phone", String(lead.phone ?? "—")) +
+    row("Score", String(lead.score ?? "—") + "/100") +
+    row("Page", String(lead.page_url ?? "—")) +
+    `</table>` +
+    (lead.question ? `<p style="margin-top:14px;font-size:15px;color:#11212b"><span style="color:#6b7280">They asked:</span><br>${escHtml(lead.question)}</p>` : ``) +
+    `<p style="margin-top:18px"><a href="${escHtml(cfg.baseUrl)}/dashboard" style="background:#c79a4b;color:#231706;text-decoration:none;font-weight:600;padding:11px 18px;border-radius:9px;display:inline-block">View in dashboard →</a></p>` +
+    `</div>`;
   await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${cfg.resendKey}`, "content-type": "application/json" },
@@ -1075,14 +1091,7 @@ export async function sendLeadEmail(to: string, tenant: string, lead: any) {
       from: cfg.fromEmail,
       to,
       subject: `New lead from your Sona assistant (${escHtml(tenant)})`,
-      html:
-        `<h2>New lead captured</h2>` +
-        `<p><b>Email:</b> ${escHtml(lead.email ?? "—")}<br>` +
-        `<b>Name:</b> ${escHtml(lead.name ?? "—")}<br>` +
-        `<b>Phone:</b> ${escHtml(lead.phone ?? "—")}<br>` +
-        `<b>Score:</b> ${escHtml(lead.score ?? "—")}/100</p>` +
-        `<p><b>They asked:</b><br>${escHtml(lead.question ?? "")}</p>` +
-        `<p><b>Page:</b> ${escHtml(lead.page_url ?? "—")}</p>`,
+      html,
     }),
   }).catch(() => {});
 }

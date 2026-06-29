@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { compress } from "hono/compress";
 import {
   cfg, ingestUrl, answer, getTenant, overQuota, rateLimit, sessionExists,
   configWarnings, recordBooking, tenantStats, getUser, userTenants, isMember, claimTenant,
@@ -8,6 +9,7 @@ import {
   recentBookings, conversationMessages, resolveGap, recordFeedback, ingestSite,
   chat, sampleChunks, retrieve, finalizeDemo, purgeTenant, findContactEmail,
   safeFetch, detectChatWidget, feedbackList, cleanUrl, unlocksProFeatures,
+  purgeOldDemos, sendWeeklyDigest, tenantsForDigest,
 } from "./lib";
 import { buildOutreach, linkedinMessage } from "./outreach";
 import { findProspects, slugForUrl, geocodePlace, VERTICAL_OPTIONS } from "./prospects";
@@ -35,8 +37,16 @@ function ingestError(c: any, e: any) {
 
 // Surface missing-but-required env at boot so failures are obvious, not cryptic.
 for (const w of configWarnings()) console.warn("⚠ config:", w);
+// PUBLIC_BASE_URL feeds every outreach + weekly-digest link and the widget script src. If it's unset
+// or still localhost in a deployed environment, those links 404 for recipients — warn loudly at boot.
+if (!process.env.PUBLIC_BASE_URL || /localhost|127\.0\.0\.1/.test(process.env.PUBLIC_BASE_URL))
+  console.warn("⚠ config: PUBLIC_BASE_URL is unset or localhost — outreach/digest links and the widget embed will point at localhost. Set it to your live domain before launch.");
 
 const app = new Hono();
+
+// Gzip/brotli every response. Biggest single payload win — the landing, dashboard and widget.js are
+// large text assets that compress ~75%. Registered first so it wraps all routes on the way out.
+app.use("*", compress());
 
 // The embeddable widget runs on customers' OWN domains, so its public API calls are
 // cross-origin and (sending JSON) trigger a CORS preflight. Without these headers the
@@ -1054,15 +1064,15 @@ var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wgh
 +'.sona-book{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:#fff;color:#16222b;font-size:12.5px;font-weight:700;border:0;border-radius:999px;padding:7px 13px 7px 11px;white-space:nowrap;cursor:pointer;box-shadow:0 5px 14px -6px rgba(0,0,0,.45);transition:transform .12s ease,box-shadow .12s ease}'
 +'.sona-book:hover{transform:translateY(-1px);box-shadow:0 9px 20px -6px rgba(0,0,0,.5)}'
 +'.sona-book svg{width:14px;height:14px;color:'+C+'}'
-+'.sona-x{margin-left:auto;background:none;border:0;color:'+ON+';cursor:pointer;font-size:20px;opacity:.8;line-height:1}'
++'.sona-x{margin-left:auto;background:none;border:0;color:'+ON+';cursor:pointer;font-size:22px;opacity:.85;line-height:1;width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.sona-x:hover{background:rgba(255,255,255,.14);opacity:1}'
 +'.sona-msgs{flex:1;overflow:auto;padding:16px;background:#f7f5f1;display:flex;flex-direction:column;gap:10px}'
 +'.sona-row{display:flex;gap:8px;max-width:88%}'
 +'.sona-row.u{align-self:flex-end;flex-direction:row-reverse}'
 +'.sona-bub{padding:10px 13px;border-radius:14px;font-size:14.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere;min-width:0}'
 +'.sona-row.a .sona-bub{background:#fff;color:#1a2530;border:1px solid #eadfce;border-bottom-left-radius:5px}'
 +'.sona-row.u .sona-bub{background:'+C+';color:'+ON+';border-bottom-right-radius:5px}'
-+'.sona-fb{display:flex;gap:2px;margin-top:5px;font-size:13px;color:#9aa3ab}'
-+'.sona-fb button{border:0;background:none;cursor:pointer;font-size:14px;padding:1px 4px;border-radius:6px;line-height:1}'
++'.sona-fb{display:flex;gap:4px;margin-top:5px;font-size:13px;color:#6b7480}'
++'.sona-fb button{border:0;background:none;cursor:pointer;font-size:15px;padding:6px 9px;min-width:34px;min-height:32px;border-radius:8px;line-height:1}'
 +'.sona-fb button:hover{background:#eee}'
 +'.sona-dots{display:inline-flex;gap:4px;padding:4px 2px}.sona-dots i{width:6px;height:6px;border-radius:50%;background:#b8bfc6'+(RM?'':';animation:sona-blink 1.2s ease-in-out infinite')+'}'
 +'.sona-dots i:nth-child(2){animation-delay:.15s}.sona-dots i:nth-child(3){animation-delay:.3s}'
@@ -1258,8 +1268,9 @@ var root=document.createElement('div');root.id='sona-root';if(EMBEDDED)root.clas
 var avatar=L?('<img src="'+L+'" alt="">'):bell;
 var panel=document.createElement('div');panel.className='sona-panel';
 panel.innerHTML='<div class="sona-head"><div class="sona-ava">'+avatar+'</div><div><div class="sona-ttl"></div><div class="sona-sub"><span class="sona-on"></span>Online now</div></div>'+(BOOKON?'<button class="sona-book" type="button" aria-label="Book an appointment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Book</button>':'')+'<button class="sona-x" aria-label="Close">×</button></div>'
-+'<div class="sona-msgs"></div>'
++'<div class="sona-msgs" role="log" aria-live="polite" aria-relevant="additions" aria-atomic="false" aria-label="Conversation"></div>'
 +'<div class="sona-foot"><div class="sona-in"><input aria-label="Ask us anything" placeholder="Ask us anything…"><button class="sona-send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button></div>'+(BRAND?'<div class="sona-pb">Powered by <a href="'+B+'" target="_blank" rel="noopener">Sona</a></div>':'')+'</div>';
+panel.setAttribute('role','dialog');panel.setAttribute('aria-label',N+' — chat assistant');
 panel.querySelector('.sona-ttl').textContent=N;
 // Live opening-hours in the header sub-line when we know the hours; else neutral "Online now".
 (function(){var hs=hoursStatus();if(!hs)return;var sub=panel.querySelector('.sona-sub');if(!sub)return;sub.textContent='';var dt=document.createElement('span');dt.className='sona-on';if(!hs.open)dt.style.background='#c2c8cd';sub.appendChild(dt);var tx=document.createElement('span');tx.textContent=hs.open?('Open now'+(hs.label?' · '+hs.label:'')):'Closed now';sub.appendChild(tx)})();
@@ -1282,7 +1293,7 @@ function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b
 function fmtDay(d){return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]}
 function monShort(d){return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]}
 function fmtDate(d){return d.getDate()+' '+monShort(d)}
-function slotsFor(d){var R=parseHours(FACTS.hours),day=d.getDay(),ranges=null;if(R){if(R[day]&&R[day].length)ranges=R[day]}else if(day>=1&&day<=5){ranges=[[540,1020]]}if(!ranges)return [];var out=[],now=new Date(),cut=sameDay(d,now)?(now.getHours()*60+now.getMinutes()+60):-1;ranges.forEach(function(rg){for(var t=rg[0];t+30<=rg[1];t+=30){if(t>cut)out.push(t)}});return out}
+function slotsFor(d){var R=parseHours(FACTS.hours),day=d.getDay(),ranges=null;if(R){if(R[day]&&R[day].length)ranges=R[day]}else if(day>=1&&day<=5){ranges=[[540,1020]]}if(!ranges)return [];var out=[],now=new Date(),cut=sameDay(d,now)?(now.getHours()*60+now.getMinutes()+60):-1;ranges.forEach(function(rg){var a=rg[0],b=rg[1];if(b<=a)b=1440;/* overnight (e.g. 20:00–02:00): show the evening up to midnight instead of dropping it silently */for(var t=a;t+30<=b;t+=30){if(t>cut)out.push(t)}});return out}
 function monLong(d){return ['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]}
 // Natural-language "when" parser → {date, min}. Lets a typed request like "12:30 tuesday next week"
 // pre-select the day + nearest time instead of dumping the visitor on a blank calendar.
@@ -1353,7 +1364,7 @@ function openBook(prefill){
    var re=document.createElement('div');re.className='sona-bkre';re.textContent='\u{1F512} No payment now — '+N+' confirms by email.';body.appendChild(re);
    foot.style.display='flex';
    var go=document.createElement('button');go.type='button';go.className='sona-bkgo';go.textContent='Request appointment';foot.appendChild(go);
-   go.onclick=function(){var nm=ni.value.trim(),em=ei.value.trim();if(!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(em)){err.textContent='Please enter a valid email so we can confirm.';ei.focus();return}err.textContent='';go.disabled=true;go.textContent='Sending…';var dt=new Date(sel.date);dt.setHours(Math.floor(sel.min/60),sel.min%60,0,0);fetch(B+'/api/book',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tenant:T,conversationId:SID,name:nm,email:em,startAt:dt.toISOString()})}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok){success(dt,em)}else{err.textContent='Could not send that — please try again.';go.disabled=false;go.textContent='Request appointment'}}).catch(function(){err.textContent='Connection problem — please try again.';go.disabled=false;go.textContent='Request appointment'})};
+   go.onclick=function(){var nm=ni.value.trim(),em=ei.value.trim();if(!nm){err.textContent='Please enter your name so we know who the booking is for.';ni.focus();return}if(!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(em)){err.textContent='Please enter a valid email so we can confirm.';ei.focus();return}err.textContent='';go.disabled=true;go.textContent='Sending…';var dt=new Date(sel.date);dt.setHours(Math.floor(sel.min/60),sel.min%60,0,0);fetch(B+'/api/book',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tenant:T,conversationId:SID,name:nm,email:em,startAt:dt.toISOString()})}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok){success(dt,em)}else{err.textContent='Could not send that — please try again.';go.disabled=false;go.textContent='Request appointment'}}).catch(function(){err.textContent='Connection problem — please try again.';go.disabled=false;go.textContent='Request appointment'})};
    setTimeout(function(){ni.focus()},60);
   }
  }
@@ -1382,12 +1393,14 @@ function greet(){if(opened)return;opened=true;if(EMBEDDED){welcome()}else{row('a
 function open(){panel.classList.add('open');requestAnimationFrame(function(){panel.classList.add('in')});if(launch)launch.style.display='none';greet();setTimeout(function(){I.focus()},120)}
 function close(){if(!launch)return;panel.classList.remove('in');launch.style.display='flex';setTimeout(function(){panel.classList.remove('open')},RM?0:220)}
 if(launch)launch.onclick=open;panel.querySelector('.sona-x').onclick=close;
+// Escape: step out of the booking overlay if it's open, otherwise close the floating widget.
+panel.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var bv=panel.querySelector('.sona-bkview');if(bv){bv.remove()}else if(launch){close()}});
 var bkBtn=panel.querySelector('.sona-book');if(bkBtn)bkBtn.onclick=openBook;
 if(EMBEDDED){greet();setTimeout(function(){I.focus()},150)}
 function row(who,text){var r=document.createElement('div');r.className='sona-row '+who;var bub=document.createElement('div');bub.className='sona-bub';bub.textContent=text;r.appendChild(bub);M.appendChild(r);M.scrollTop=M.scrollHeight;return {row:r,bub:bub}}
 function typing(){var r=document.createElement('div');r.className='sona-row a';r.innerHTML='<div class="sona-bub"><span class="sona-dots"><i></i><i></i><i></i></span></div>';M.appendChild(r);M.scrollTop=M.scrollHeight;return r}
 function fb(after,mid){var w=document.createElement('div');w.className='sona-fb';
-function mk(lab,rt){var x=document.createElement('button');x.textContent=lab;x.onclick=function(){w.textContent='Thanks for the feedback';fetch(B+'/api/feedback',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tenant:T,messageId:mid,rating:rt})}).catch(function(){})};return x}
+function mk(lab,rt){var x=document.createElement('button');x.type='button';x.setAttribute('aria-label',rt>0?'This answer was helpful':'This answer was not helpful');x.textContent=lab;x.onclick=function(){w.textContent='Thanks for the feedback';fetch(B+'/api/feedback',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tenant:T,messageId:mid,rating:rt})}).catch(function(){})};return x}
 w.appendChild(mk('\u{1F44D}',1));w.appendChild(mk('\u{1F44E}',-1));after.appendChild(w)}
 async function send(){var q=I.value.trim();if(!q)return;var wel=M.querySelector('.sona-welcome');if(wel){wel.remove();root.classList.add('chatting');Array.prototype.forEach.call(panel.querySelectorAll('.sona-fbub'),function(n){n.remove()})}else if(!root.classList.contains('chatting')){root.classList.add('chatting');M.innerHTML=''}row('u',q);I.value='';
 // Clear booking intent → jump straight to the booking form (don't ask the LLM, which would just
@@ -1406,5 +1419,41 @@ SB.onclick=send;I.addEventListener('keydown',function(e){if(e.key==='Enter')send
 (async () => {
   try { await Promise.allSettled([retrieve("__warmup__", "hi", 1), chat("Reply with OK.", "warmup")]); } catch {}
 })();
+
+// ── In-process scheduler ──────────────────────────────────────────────────────────────────────
+// No external cron in the deploy, so the two recurring jobs run here: clean up old demo tenants
+// (controls accrued storage/cost) and send each owner their weekly recap (retention). Gated to a
+// real deployment — never fires on localhost, so local dev never emails anyone or deletes demos.
+// Single-instance assumption: if scaled horizontally, move these to one worker / a real cron.
+const IS_PRODUCTION = !!process.env.PUBLIC_BASE_URL && !/localhost|127\.0\.0\.1/.test(process.env.PUBLIC_BASE_URL);
+if (IS_PRODUCTION) {
+  const DAY = 864e5;
+  // Purge demos older than 14 days, daily.
+  const purgeTick = async () => {
+    try { const r = await purgeOldDemos(14); if (r.purged) console.log(`🧹 purged ${r.purged} old demo tenant(s)`); }
+    catch (e) { console.warn("scheduler: demo purge failed", e); }
+  };
+  // Weekly recap to every claimed tenant with a notify email.
+  let lastDigest = 0;
+  const digestTick = async () => {
+    if (Date.now() - lastDigest < 7 * DAY) return; // once a week even though we check daily
+    lastDigest = Date.now();
+    try {
+      const tenants = await tenantsForDigest();
+      let sent = 0;
+      for (const t of tenants) {
+        try { const r = await sendWeeklyDigest(t.slug, t.name || t.slug, (t as any).lead_notify_email); if (r.sent) sent++; }
+        catch (e) { console.warn("scheduler: digest failed for", t.slug, e); }
+      }
+      console.log(`📬 weekly digest sent to ${sent}/${tenants.length} tenant(s)`);
+    } catch (e) { console.warn("scheduler: digest sweep failed", e); }
+  };
+  // First purge shortly after boot, then daily. Digest checks daily but self-throttles to weekly so a
+  // restart can't double-send. (lastDigest starts at 0 → the first daily check WILL send; acceptable.)
+  setTimeout(purgeTick, 60_000);
+  setInterval(purgeTick, DAY);
+  setInterval(digestTick, DAY);
+  console.log("⏰ scheduler on: daily demo purge + weekly owner digest");
+}
 
 export default { port: Number(process.env.PORT ?? 3000), fetch: app.fetch };
