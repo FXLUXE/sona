@@ -1234,17 +1234,17 @@ var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wgh
 +'.sona-embed .sona-in{padding:12px 0}'
 +'.sona-embed .sona-row{max-width:1040px;width:100%}'
 /* welcome — logo floats + pulses continuously (visible motion you actually catch) */
-+'.sona-welcome{text-align:center;max-width:440px;margin:0 auto;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);border-radius:26px;padding:34px 30px 28px;box-shadow:0 40px 90px -34px rgba(0,0,0,.6)}'
++'.sona-welcome{text-align:center;max-width:520px;margin:0 auto;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);border-radius:26px;padding:34px 30px 28px;box-shadow:0 40px 90px -34px rgba(0,0,0,.6)}'
 +'.sona-welcome .wl{position:relative;min-width:84px;height:84px;max-width:200px;padding:14px 18px;border-radius:22px;margin:-72px auto 16px;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:'+C+';overflow:hidden;border:1px solid rgba(17,33,43,.07);box-shadow:0 20px 44px -16px rgba(0,0,0,.5)'+(RM?'':';animation:sona-float 4.5s ease-in-out infinite')+'}'
 +'.sona-welcome .flow-cap{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:'+C+';margin:26px 0 0;padding-top:22px;border-top:1px solid rgba(228,220,203,.8)}'
-+'.sona-welcome .flow{display:flex;align-items:flex-start;justify-content:center;gap:3px;margin-top:14px}'
-+'.sona-welcome .fstep{display:flex;flex-direction:column;align-items:center;gap:9px;flex:0 0 auto;width:auto;min-width:62px;max-width:120px;padding:0 2px}'
++'.sona-welcome .flow{display:flex;align-items:flex-start;justify-content:center;gap:3px;margin-top:14px;width:100%}'
++'.sona-welcome .fstep{display:flex;flex-direction:column;align-items:center;gap:9px;flex:1 1 0;min-width:0;padding:0 2px}'
 +'.sona-welcome .fic{position:relative;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #e4dccb;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px -10px rgba(17,33,43,.45)'+(RM?'':';animation:sona-step 9s ease-in-out infinite')+'}'
 // One calm motion: a soft highlight travels step-by-step (border+shadow tint, a 3px lift). No colour
 // flip, no flying dots — barely-there, premium. Sequential delays make it read left to right.
 +'.sona-welcome .fstep:nth-child(3) .fic{animation-delay:.9s}.sona-welcome .fstep:nth-child(5) .fic{animation-delay:1.8s}.sona-welcome .fstep:nth-child(7) .fic{animation-delay:2.7s}'
 +'@keyframes sona-step{0%,30%,100%{border-color:#e4dccb;box-shadow:0 8px 18px -10px rgba(17,33,43,.45);transform:translateY(0)}13%,19%{border-color:'+C+';box-shadow:0 13px 26px -10px '+ACC+'.45);transform:translateY(-3px)}}'
-+'.sona-welcome .flb{font-size:11px;color:#56616b;font-weight:500;line-height:1.2;text-align:center;white-space:nowrap}'
++'.sona-welcome .flb{font-size:11px;color:#56616b;font-weight:500;line-height:1.2;text-align:center}'
 // Static brass connector, vertically centred on the 46px tiles. No motion of its own.
 +'.sona-welcome .farrow{flex:0 0 auto;width:22px;height:2px;margin-top:22px;border-radius:2px;background:'+ACC+'.4)}'
 +'.sona-welcome .wl::after{content:"";position:absolute;inset:-7px;border-radius:24px;border:1.5px solid '+C+';opacity:.14}'
