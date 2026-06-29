@@ -7,7 +7,7 @@ import {
   getTenantSettings, updateTenantSettings, validCalLink, ensureTenant,
   recentBookings, conversationMessages, resolveGap, recordFeedback, ingestSite,
   chat, sampleChunks, retrieve, finalizeDemo, purgeTenant, findContactEmail,
-  safeFetch, detectChatWidget, feedbackList, cleanUrl,
+  safeFetch, detectChatWidget, feedbackList, cleanUrl, unlocksProFeatures,
 } from "./lib";
 import { buildOutreach, linkedinMessage } from "./outreach";
 import { findProspects, slugForUrl, geocodePlace, VERTICAL_OPTIONS } from "./prospects";
@@ -746,7 +746,10 @@ app.get("/widget.js", async (c) => {
   // Tenant-controlled values are concatenated into widget innerHTML — validate to block self-XSS.
   const safeColor = /^#[0-9a-f]{3,8}$/i.test(t?.brand_color ?? "") ? t.brand_color : "#11212b";
   const safeLogo = /^https:\/\/[^"'<>]+$/i.test(t?.logo_url ?? "") ? t.logo_url : "";
-  const rawBook = t?.booking_enabled ? cleanUrl(t?.booking_config?.calLink) : "";
+  // Booking is a Pro perk: a Starter tenant with a saved cal link still shouldn't get the in-chat
+  // calendar. Trials/demos pass (unlocksProFeatures) so the pitch stays whole.
+  const proUnlocked = unlocksProFeatures(t);
+  const rawBook = t?.booking_enabled && proUnlocked ? cleanUrl(t?.booking_config?.calLink) : "";
   const safeBook = rawBook && validCalLink(rawBook) ? rawBook : "";
   const safeHero = /^https:\/\/[^"'<>]+$/i.test(t?.facts?.__hero ?? "") ? t.facts.__hero : "";
   // Surface extracted facts in the chrome so the demo VISIBLY proves it already knows THIS
@@ -784,7 +787,8 @@ app.get("/widget.js", async (c) => {
       ? `Hello — I'm ${t?.name ?? tenant}'s assistant. I've read the whole website, so please ask anything below.`
       : `Hi! I'm ${t?.name ?? tenant}'s assistant — I've just read the whole website, so ask me anything below.`,
     book: safeBook,
-    bookOn: !!t?.booking_enabled,
+    bookOn: !!t?.booking_enabled && proUnlocked,
+    brand: !proUnlocked, // show "Powered by Sona" only on Starter/unpaid; hidden for Pro+/trial/demo
     hero: safeHero,
     industry,
     facts,
@@ -987,13 +991,13 @@ function motifFor(ind: Industry): string {
   }
 }
 
-function widgetJs(tenant: string, base: string, theme: { name: string; color: string; logo: string; greeting: string; book: string; bookOn?: boolean; hero?: string; industry?: Industry; facts?: { hours: string; phone: string; address: string; price: string } }, embed = false): string {
+function widgetJs(tenant: string, base: string, theme: { name: string; color: string; logo: string; greeting: string; book: string; bookOn?: boolean; brand?: boolean; hero?: string; industry?: Industry; facts?: { hours: string; phone: string; address: string; price: string } }, embed = false): string {
   // Premium "concierge" chat widget. Loads on customers' sites, so: styles are scoped to a
   // .sona- prefix (no host-page clashes), all message text is set via textContent (XSS-safe),
   // and the only interpolated values (C/L/K/N/G) are server-validated in /widget.js.
   // embed mode (the /demo preview): renders as a full panel inside #sona-mount, opens on load,
   // shows suggested-question chips — instead of a floating corner bubble.
-  return `(()=>{var T=${JSON.stringify(tenant)},B=${JSON.stringify(base)},C=${JSON.stringify(theme.color)},N=${JSON.stringify(theme.name)},G=${JSON.stringify(theme.greeting)},L=${JSON.stringify(theme.logo)},K=${JSON.stringify(theme.book)},H=${JSON.stringify(theme.hero || "")},MOTIF=${JSON.stringify(motifFor(theme.industry ?? "ai"))},IND=${JSON.stringify(theme.industry ?? "ai")},FACTS=${JSON.stringify(theme.facts ?? { hours: "", phone: "", address: "", price: "" })},BOOKON=${theme.bookOn ? "true" : "false"},EMBED=${embed ? "true" : "false"};
+  return `(()=>{var T=${JSON.stringify(tenant)},B=${JSON.stringify(base)},C=${JSON.stringify(theme.color)},N=${JSON.stringify(theme.name)},G=${JSON.stringify(theme.greeting)},L=${JSON.stringify(theme.logo)},K=${JSON.stringify(theme.book)},H=${JSON.stringify(theme.hero || "")},MOTIF=${JSON.stringify(motifFor(theme.industry ?? "ai"))},IND=${JSON.stringify(theme.industry ?? "ai")},FACTS=${JSON.stringify(theme.facts ?? { hours: "", phone: "", address: "", price: "" })},BOOKON=${theme.bookOn ? "true" : "false"},BRAND=${theme.brand === false ? "false" : "true"},EMBED=${embed ? "true" : "false"};
 if(document.getElementById('sona-root'))return;
 var SID=(function(){try{var s=localStorage.getItem('sona-sid:'+T);if(!s){s=(Date.now().toString(36)+Math.random().toString(36).slice(2));localStorage.setItem('sona-sid:'+T,s)}return s}catch(e){return 'anon-'+Date.now()}})();
 function lum(h){h=String(h||'').replace('#','');if(h.length===3||h.length===4)h=h.split('').map(function(x){return x+x}).join('');var r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);return (0.299*r+0.587*g+0.114*b)/255}
@@ -1254,7 +1258,7 @@ var avatar=L?('<img src="'+L+'" alt="">'):bell;
 var panel=document.createElement('div');panel.className='sona-panel';
 panel.innerHTML='<div class="sona-head"><div class="sona-ava">'+avatar+'</div><div><div class="sona-ttl"></div><div class="sona-sub"><span class="sona-on"></span>Online now</div></div>'+(BOOKON?'<button class="sona-book" type="button" aria-label="Book an appointment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Book</button>':'')+'<button class="sona-x" aria-label="Close">×</button></div>'
 +'<div class="sona-msgs"></div>'
-+'<div class="sona-foot"><div class="sona-in"><input aria-label="Ask us anything" placeholder="Ask us anything…"><button class="sona-send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button></div><div class="sona-pb">Powered by <a href="'+B+'" target="_blank" rel="noopener">Sona</a></div></div>';
++'<div class="sona-foot"><div class="sona-in"><input aria-label="Ask us anything" placeholder="Ask us anything…"><button class="sona-send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button></div>'+(BRAND?'<div class="sona-pb">Powered by <a href="'+B+'" target="_blank" rel="noopener">Sona</a></div>':'')+'</div>';
 panel.querySelector('.sona-ttl').textContent=N;
 // Live opening-hours in the header sub-line when we know the hours; else neutral "Online now".
 (function(){var hs=hoursStatus();if(!hs)return;var sub=panel.querySelector('.sona-sub');if(!sub)return;sub.textContent='';var dt=document.createElement('span');dt.className='sona-on';if(!hs.open)dt.style.background='#c2c8cd';sub.appendChild(dt);var tx=document.createElement('span');tx.textContent=hs.open?('Open now'+(hs.label?' · '+hs.label:'')):'Closed now';sub.appendChild(tx)})();

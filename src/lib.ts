@@ -63,6 +63,15 @@ export const PLAN_LIMITS: Record<string, { conversations: number; sources: numbe
   business: { conversations: 3000, sources: 200 },
 };
 
+// Pro-tier perks: in-chat booking + a hidden "Powered by Sona" badge. Trials get them so a new
+// signup feels the full product; demo tenants always get them (they're the sales pitch). Starter is
+// the one paid tier WITHOUT — that's the upgrade nudge. Drives the widget + demo, not just the UI.
+export function unlocksProFeatures(t: any): boolean {
+  if (typeof t?.slug === "string" && t.slug.startsWith("demo-")) return true;
+  const plan = t?.plan ?? "trial";
+  return plan === "trial" || plan === "pro" || plan === "business";
+}
+
 // Shared calLink validator — used by settings (write), answer() (prompt), and the
 // widget (Book button) so a saved link is honored everywhere or rejected everywhere.
 // Recognised scheduling providers — the only hosts we'll auto-wire as a tenant's Book button
