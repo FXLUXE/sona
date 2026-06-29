@@ -514,7 +514,7 @@ export function landingHtml(base: string): string {
             </div>
             <iframe id="frame" title="Your live Sona receptionist preview"></iframe>
             <div class="result-cta">
-              <a class="btn btn-primary" href="${esc(base)}/dashboard">Put this on my site →</a>
+              <a class="btn btn-primary" id="resultCta" href="${esc(base)}/dashboard">Put this on my site →</a>
             </div>
           </div>
         </div>
@@ -978,6 +978,10 @@ export function landingHtml(base: string): string {
           return;
         }
         setStatus('Your receptionist is on duty. Ask it anything — bottom-right of the preview.','done');
+        // Carry the tested demo into signup: "Put this on my site" now claims THIS demo (copies its
+        // knowledge into the new account) instead of dropping it and rebuilding from scratch.
+        var rc=document.getElementById('resultCta');
+        if(rc&&res.j.slug){ rc.href=B+'/dashboard?from='+encodeURIComponent(res.j.slug); }
         // preview mounts in an overlay — leave the desk UNLOCKED so a second site can be tried
         // without a refresh (the stray re-lock here was the re-generate bug).
         openDemo(res.j.demoUrl);

@@ -1648,6 +1648,66 @@ export async function claimTenant(slug: string, userId: string, name?: string) {
   return await getTenant(slug);
 }
 
+// Promote a tested demo (`demo-<host>`) into a real, OWNED tenant by COPYING its knowledge + config
+// into a fresh clean-slug tenant. The throwaway demo tenant is left untouched (it gets purged on the
+// normal schedule); the customer's data lives under an owned slug that purgeOldDemos never deletes.
+// So "the assistant you just tested" becomes theirs instantly — no rebuild, no re-ingest.
+export async function promoteDemo(
+  fromSlug: string,
+  userId: string,
+  name?: string,
+): Promise<{ ok: true; tenant: string } | { error: string }> {
+  if (typeof fromSlug !== "string" || !/^demo-[a-z0-9-]{1,40}$/.test(fromSlug)) return { error: "bad_slug" };
+  const demo = await getTenant(fromSlug);
+  if (!demo) return { error: "not_found" };
+  if ((demo as any).owner_id) return { error: "already_claimed" };
+  const db = sb();
+
+  // 1. Clean slug derived from the demo host; claim it (creates the owned tenant + membership),
+  //    retrying with a numeric suffix if the slug is already taken by someone else.
+  const base = (fromSlug.replace(/^demo-/, "").replace(/^-+|-+$/g, "").slice(0, 38)) || "site";
+  let tenant: any = null, slug = "";
+  for (let i = 0; i < 6 && !tenant; i++) {
+    slug = i === 0 ? base : base.slice(0, 36).replace(/-+$/, "") + "-" + (i + 1);
+    tenant = await claimTenant(slug, userId, name || (demo as any).name);
+  }
+  if (!tenant) return { error: "slug_taken" };
+
+  // 2. Copy config: facts (incl. the __hero backdrop), brand colour, logo. Booking stays off (paid).
+  const patch: Record<string, any> = {};
+  if ((demo as any).facts && typeof (demo as any).facts === "object") patch.facts = (demo as any).facts;
+  if ((demo as any).brand_color) patch.brand_color = (demo as any).brand_color;
+  if ((demo as any).logo_url) patch.logo_url = (demo as any).logo_url;
+  if (Object.keys(patch).length) await db.from("tenants").update(patch).eq("slug", slug);
+
+  // 3. Copy documents → build old-doc-id → new-doc-id map (source_url is unique per tenant).
+  const { data: docs } = await db
+    .from("documents").select("id, source_url, title, content_hash").eq("tenant", fromSlug);
+  const idMap = new Map<string, string>();
+  if (docs && docs.length) {
+    const rows = (docs as any[]).map((d) => ({ tenant: slug, source_url: d.source_url, title: d.title, content_hash: d.content_hash }));
+    const { data: inserted } = await db
+      .from("documents").upsert(rows, { onConflict: "tenant,source_url" }).select("id, source_url");
+    const bySrc = new Map<string, string>(((inserted ?? []) as any[]).map((r) => [r.source_url, r.id]));
+    for (const d of docs as any[]) { const nid = bySrc.get(d.source_url); if (nid) idMap.set(d.id, nid); }
+  }
+
+  // 4. Copy chunks (content + existing embedding — same model, no re-embed) under the new tenant,
+  //    remapping document_id. pgvector round-trips its text form on select→insert.
+  const { data: ch } = await db
+    .from("chunks").select("content, embedding, document_id").eq("tenant", fromSlug).limit(2000);
+  if (ch && ch.length) {
+    const rows = (ch as any[])
+      .map((c) => ({ tenant: slug, document_id: idMap.get(c.document_id) ?? null, content: c.content, embedding: c.embedding }))
+      .filter((r) => r.document_id);
+    for (let i = 0; i < rows.length; i += 200) {
+      const { error } = await db.from("chunks").insert(rows.slice(i, i + 200));
+      if (error) console.error("[promoteDemo] chunk copy failed:", error.message);
+    }
+  }
+  return { ok: true, tenant: slug };
+}
+
 // ── Tenant settings (owner-editable config from the dashboard) ──
 const SETTINGS_FIELDS = [
   "brand_color", "logo_url", "persona", "lead_notify_email", "lead_notify_sms",

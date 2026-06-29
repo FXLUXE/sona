@@ -9,7 +9,7 @@ import {
   recentBookings, conversationMessages, resolveGap, recordFeedback, ingestSite,
   chat, sampleChunks, retrieve, finalizeDemo, purgeTenant, findContactEmail,
   safeFetch, detectChatWidget, feedbackList, cleanUrl, unlocksProFeatures,
-  purgeOldDemos, sendWeeklyDigest, tenantsForDigest, normalizeUrlInput,
+  purgeOldDemos, sendWeeklyDigest, tenantsForDigest, normalizeUrlInput, promoteDemo,
 } from "./lib";
 import { buildOutreach, linkedinMessage } from "./outreach";
 import { findProspects, slugForUrl, geocodePlace, VERTICAL_OPTIONS } from "./prospects";
@@ -330,6 +330,24 @@ app.post("/api/me/claim", async (c) => {
   const t = await claimTenant(slug, user.id, name);
   if (!t) return c.json({ error: "that slug is already taken" }, 409);
   return c.json({ ok: true, tenant: t });
+});
+
+// Promote a tested demo into the signed-in user's account: copies the demo's knowledge + branding
+// into a fresh OWNED clean-slug tenant (the demo- tenant itself is never claimed — it's left to be
+// purged). This is the only controlled path that reads a demo- tenant for a logged-in user; it only
+// ever copies OUT, so the demo- reservation/SSRF guarantees are untouched.
+app.post("/api/me/promote", async (c) => {
+  const user = await requireUser(c);
+  if (!user) return c.json({ error: "unauthorized" }, 401);
+  const { from, name } = await c.req.json().catch(() => ({}));
+  if (!from || typeof from !== "string" || !/^demo-[a-z0-9-]{1,40}$/.test(from))
+    return c.json({ error: "from must be a demo- slug" }, 400);
+  const r = await promoteDemo(from, user.id, typeof name === "string" ? name.slice(0, 80) : undefined);
+  if ("error" in r) {
+    const code = r.error === "not_found" ? 404 : (r.error === "already_claimed" || r.error === "slug_taken") ? 409 : 400;
+    return c.json({ error: r.error }, code);
+  }
+  return c.json({ ok: true, tenant: r.tenant });
 });
 
 // Generic guarded read for the per-tenant dashboard tabs.
@@ -966,7 +984,7 @@ app.get("/demo/:tenant", async (c) => {
       `<div class="frame">` +
       `<div class="bar"><div class="brand"><span class="b">&#128276;</span> Sona <span class="tag">· demo for ${label}</span></div>` +
       `<div style="display:flex;align-items:center;gap:12px"><span class="tag" style="font-size:12.5px;color:#6b7280"><span class="dot"></span>On duty</span>` +
-      `<a class="cta" href="${cfg.baseUrl}/dashboard">Get this on my site &rarr;</a></div></div>` +
+      `<a class="cta" href="${cfg.baseUrl}/dashboard?from=${q}">Get this on my site &rarr;</a></div></div>` +
       `<div id="sona-mount"></div>` +
       `</div>` +
       `<script src="${cfg.baseUrl}/widget.js?tenant=${q}&embed=1"></script></body></html>`

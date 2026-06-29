@@ -491,6 +491,26 @@ async function dash(){
   dash._tries=0;
   isAdmin=!!(me&&me.isAdmin);
   tenants=((me&&me.tenants)||[]).filter(t=>/^[a-z0-9-]{2,40}$/.test(t.tenant));
+  // Arriving from "Get this on my site": ?from=<demo slug> means copy that tested demo into this
+  // account once, then land straight on its dashboard — no wizard, no rebuild. Guarded so the
+  // magic-link retry loop / re-renders can't promote twice. On failure (demo expired or already
+  // taken) we strip the param and fall through to the normal flow (wizard if they have no tenants).
+  var fromSlug=new URLSearchParams(location.search).get('from');
+  if(fromSlug&&/^demo-[a-z0-9-]{1,40}$/.test(fromSlug)&&dash._promoted!==fromSlug){
+    dash._promoted=fromSlug;
+    if(!tenants.some(function(t){return t.tenant===fromSlug})){
+      app.innerHTML='<div class="card pad" style="text-align:center"><p class=sub>Setting up your assistant…</p></div>';
+      try{
+        var pr=await api('/api/me/promote',{method:'POST',body:JSON.stringify({from:fromSlug})});
+        if(pr&&pr.tenant){
+          active=pr.tenant;
+          me=await api('/api/me/tenants');
+          tenants=((me&&me.tenants)||[]).filter(t=>/^[a-z0-9-]{2,40}$/.test(t.tenant));
+        }
+      }catch(e){ /* demo expired/taken — fall through to the normal flow below */ }
+    }
+    try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}
+  }
   if(!tenants.length){return wizard();}
   active=active&&tenants.find(t=>t.tenant===active)?active:tenants[0].tenant;
   // land on Billing if returning from a Stripe checkout/portal redirect
