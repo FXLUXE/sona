@@ -1228,16 +1228,17 @@ var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wgh
 +'.sona-welcome .wl{position:relative;min-width:84px;height:84px;max-width:200px;padding:14px 18px;border-radius:22px;margin:-72px auto 16px;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:'+C+';overflow:hidden;border:1px solid rgba(17,33,43,.07);box-shadow:0 20px 44px -16px rgba(0,0,0,.5)'+(RM?'':';animation:sona-float 4.5s ease-in-out infinite')+'}'
 +'.sona-welcome .flow-cap{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:'+C+';margin:26px 0 0;padding-top:22px;border-top:1px solid rgba(228,220,203,.8)}'
 +'.sona-welcome .flow{display:flex;align-items:flex-start;justify-content:center;gap:3px;margin-top:14px}'
-+'.sona-welcome .fstep{display:flex;flex-direction:column;align-items:center;gap:7px;flex:0 0 auto;width:74px}'
-+'.sona-welcome .fic{position:relative;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #e4dccb;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px -10px rgba(17,33,43,.5)'+(RM?'':';animation:sona-step 5.2s ease-in-out infinite')+'}'
-+'.sona-welcome .fstep:nth-child(3) .fic{animation-delay:.5s}.sona-welcome .fstep:nth-child(5) .fic{animation-delay:1s}.sona-welcome .fstep:nth-child(7) .fic{animation-delay:1.5s}'
-+'@keyframes sona-step{0%,72%,100%{background:#fff;color:inherit;box-shadow:0 8px 18px -10px rgba(17,33,43,.5);transform:translateY(0)}24%,48%{background:'+C+';color:'+ON+';box-shadow:0 12px 26px -8px '+ACC+'.6);transform:translateY(-4px)}}'
-+'.sona-welcome .flb{font-size:11px;color:#56616b;font-weight:500;line-height:1.25;text-align:center}'
-+'.sona-welcome .farrow{flex:0 0 auto;width:20px;height:3px;margin-top:21px;border-radius:3px;background:rgba(228,220,203,.95);position:relative;overflow:hidden}'
-+(RM?'':'.sona-welcome .farrow::after{content:"";position:absolute;top:-1px;left:-9px;width:9px;height:5px;border-radius:3px;background:'+C+';animation:sona-flow 1.7s linear infinite}.sona-welcome .farrow:nth-of-type(4)::after{animation-delay:.57s}.sona-welcome .farrow:nth-of-type(6)::after{animation-delay:1.14s}')
-+'@keyframes sona-flow{0%{left:-9px;opacity:0}30%{opacity:1}100%{left:20px;opacity:0}}'
-+'.sona-welcome .wl::after{content:"";position:absolute;inset:-7px;border-radius:24px;border:2px solid '+C+';opacity:.3'+(RM?'':';animation:sona-ring 2.8s ease-out infinite')+'}'
-+'.sona-welcome .wl img{max-width:160px;max-height:56px;width:auto;height:auto;object-fit:contain;display:block}.sona-welcome .wl svg{width:38px;height:38px}'
++'.sona-welcome .fstep{display:flex;flex-direction:column;align-items:center;gap:9px;flex:0 0 auto;width:auto;min-width:62px;max-width:120px;padding:0 2px}'
++'.sona-welcome .fic{position:relative;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #e4dccb;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px -10px rgba(17,33,43,.45)'+(RM?'':';animation:sona-step 9s ease-in-out infinite')+'}'
+// One calm motion: a soft highlight travels step-by-step (border+shadow tint, a 3px lift). No colour
+// flip, no flying dots — barely-there, premium. Sequential delays make it read left to right.
++'.sona-welcome .fstep:nth-child(3) .fic{animation-delay:.9s}.sona-welcome .fstep:nth-child(5) .fic{animation-delay:1.8s}.sona-welcome .fstep:nth-child(7) .fic{animation-delay:2.7s}'
++'@keyframes sona-step{0%,30%,100%{border-color:#e4dccb;box-shadow:0 8px 18px -10px rgba(17,33,43,.45);transform:translateY(0)}13%,19%{border-color:'+C+';box-shadow:0 13px 26px -10px '+ACC+'.45);transform:translateY(-3px)}}'
++'.sona-welcome .flb{font-size:11px;color:#56616b;font-weight:500;line-height:1.2;text-align:center;white-space:nowrap}'
+// Static brass connector, vertically centred on the 46px tiles. No motion of its own.
++'.sona-welcome .farrow{flex:0 0 auto;width:22px;height:2px;margin-top:22px;border-radius:2px;background:'+ACC+'.4)}'
++'.sona-welcome .wl::after{content:"";position:absolute;inset:-7px;border-radius:24px;border:1.5px solid '+C+';opacity:.14}'
++'.sona-welcome .wl img{max-width:172px;max-height:52px;width:auto;height:auto;object-fit:contain;display:block}.sona-welcome .wl svg{width:38px;height:38px}'
 +'.sona-welcome h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:31px;letter-spacing:-.015em;color:#11212b;margin:0;line-height:1.1}'
 +'.sona-welcome p{color:#5b6670;font-size:15px;margin:8px 0 0}'
 +'.sona-welcome .sona-chips{justify-content:center;margin-top:22px}'
@@ -1363,6 +1364,9 @@ function openBook(prefill){
 }
 function welcome(){var w=document.createElement('div');w.className='sona-welcome';
 var l=document.createElement('div');l.className='wl';l.innerHTML=avatar;
+// Same guard as the header tile: if the logo is missing, broken, or an extreme wordmark that would
+// render as a squished/blurry strip, fall back to the clean bell mark.
+(function(){var im=l.querySelector('img');if(!im)return;function fb(){l.innerHTML=bell}im.onload=function(){if(!im.naturalHeight||im.naturalWidth/im.naturalHeight>5)fb()};im.onerror=fb;if(im.complete&&im.naturalHeight===0)fb()})();
 var h=document.createElement('h3');h.textContent=N;
 var p=document.createElement('p');p.textContent="I've just read this website — ask me anything a customer would.";
 var c=document.createElement('div');c.className='sona-chips';
@@ -1372,7 +1376,7 @@ fillChips(['What do you offer?','Where are you based?','How do I get started?'])
 fetch(B+'/api/suggest/'+encodeURIComponent(T)).then(function(r){return r.json()}).then(function(j){if(j&&j.questions&&j.questions.length===3)fillChips(j.questions)}).catch(function(){});
 var cap=document.createElement('div');cap.className='flow-cap';cap.textContent='How I work for '+N;
 var flow=document.createElement('div');flow.className='flow';
-[['\u{1F4AC}','A visitor asks'],['\u{1F4D6}','I read your site'],['⚡','Answer in seconds'],['\u{1F4E5}','Capture the lead']].forEach(function(it,i){if(i){var ar=document.createElement('div');ar.className='farrow';flow.appendChild(ar)}var d=document.createElement('div');d.className='fstep';var ic=document.createElement('div');ic.className='fic';ic.textContent=it[0];var lb=document.createElement('div');lb.className='flb';lb.textContent=it[1];d.appendChild(ic);d.appendChild(lb);flow.appendChild(d)});
+[['\u{1F4AC}','Visitor asks'],['\u{1F4D6}','Reads your site'],['⚡','Instant answer'],['\u{1F4E5}','Captures lead']].forEach(function(it,i){if(i){var ar=document.createElement('div');ar.className='farrow';flow.appendChild(ar)}var d=document.createElement('div');d.className='fstep';var ic=document.createElement('div');ic.className='fic';ic.textContent=it[0];var lb=document.createElement('div');lb.className='flb';lb.textContent=it[1];d.appendChild(ic);d.appendChild(lb);flow.appendChild(d)});
 w.appendChild(l);w.appendChild(h);w.appendChild(p);var kb=buildKB();if(kb){w.appendChild(kb.cap);w.appendChild(kb.el)}w.appendChild(c);w.appendChild(cap);w.appendChild(flow);M.appendChild(w)}
 function greet(){if(opened)return;opened=true;if(EMBEDDED){welcome()}else{row('a',G);var kb=buildKB();if(kb){kb.cap.style.textAlign='center';M.appendChild(kb.cap);M.appendChild(kb.el)}chips()}}
 function open(){panel.classList.add('open');requestAnimationFrame(function(){panel.classList.add('in')});if(launch)launch.style.display='none';greet();setTimeout(function(){I.focus()},120)}
