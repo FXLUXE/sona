@@ -767,10 +767,27 @@ app.get("/widget.js", async (c) => {
   // brackets defensively; everything is rendered via textContent client-side, so this is belt+braces.
   const f = t?.facts ?? {};
   const clean = (s: any, max: number) => (typeof s === "string" ? s.replace(/[<>]/g, "").trim().slice(0, max) : "");
+  // Junk-fact guard (belt+braces over extraction): never surface placeholders like a phone of
+  // "00000080" or an address that's just a region ("England"). Rule: show a real value or nothing.
+  const cleanPhone = (s: any) => {
+    const v = clean(s, 40);
+    const d = v.replace(/\D/g, "");
+    if (d.length < 9 || d.length > 13) return "";          // too short/long to be a real number
+    if (/^0{5,}/.test(d) || /^(\d)\1+$/.test(d)) return ""; // 0000008…, or all-same-digit = junk
+    return v;
+  };
+  const cleanAddress = (s: any) => {
+    const v = clean(s, 160);
+    if (!v) return "";
+    // A bare region word is a placeholder; a real address carries a number/postcode or a comma.
+    if (/^(england|scotland|wales|northern ireland|united kingdom|uk|gb|great britain)$/i.test(v.trim())) return "";
+    if (!/\d/.test(v) && !v.includes(",")) return "";
+    return v;
+  };
   const facts = {
     hours: clean(f.opening_hours, 300),
-    phone: clean(f.phone, 40),
-    address: clean(f.address, 160),
+    phone: cleanPhone(f.phone),
+    address: cleanAddress(f.address),
     price: clean(f.price_range, 40),
   };
   // embed=1 renders the chat as a full-panel surface (for the /demo preview) instead of a

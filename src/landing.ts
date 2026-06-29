@@ -859,6 +859,11 @@ export function landingHtml(base: string): string {
   var B=${B};
   var url=document.getElementById('url');
   var status=document.getElementById('status'), result=document.getElementById('result'), frame=document.getElementById('frame');
+  // The modal lives inside the hero's .desk-card, which has a transform (its float animation). A
+  // transformed ancestor becomes the containing block for position:fixed, so the modal would size to
+  // the card (~460px) instead of the viewport — rendering as a narrow panel overlapping the nav.
+  // Reparent it to <body> so inset:0 means the full screen and it centres properly.
+  if(result && result.parentElement!==document.body) document.body.appendChild(result);
   // Open/close the big demo modal. closeDemo clears the iframe so the live widget is fully torn
   // down between runs (prevents the re-run crash) and unlocks page scroll.
   function openDemo(src){ frame.src=src; result.classList.add('show'); document.body.style.overflow='hidden'; var c=document.getElementById('resultClose'); if(c)c.focus(); }
