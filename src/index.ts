@@ -902,7 +902,9 @@ app.get("/demo/:tenant", async (c) => {
       `<title>${label} — live Sona demo</title>` +
       `<link rel="preconnect" href="https://fonts.googleapis.com">` +
       `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>` +
-      `<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">` +
+      // Non-blocking font load (media=print then swap) so a slow Google Fonts never stalls the page.
+      `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">` +
+      `<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>` +
       // Direct link = framed ~62% window. Inside the landing modal's iframe the modal IS the window,
       // so fill it instead of nesting a second card. Set before paint to avoid a flash of the frame.
       `<script>try{if(window.self!==window.top)document.documentElement.className='embedded'}catch(e){document.documentElement.className='embedded'}</script>` +
@@ -1009,6 +1011,11 @@ function widgetJs(tenant: string, base: string, theme: { name: string; color: st
   // shows suggested-question chips — instead of a floating corner bubble.
   return `(()=>{var T=${JSON.stringify(tenant)},B=${JSON.stringify(base)},C=${JSON.stringify(theme.color)},N=${JSON.stringify(theme.name)},G=${JSON.stringify(theme.greeting)},L=${JSON.stringify(theme.logo)},K=${JSON.stringify(theme.book)},H=${JSON.stringify(theme.hero || "")},MOTIF=${JSON.stringify(motifFor(theme.industry ?? "ai"))},IND=${JSON.stringify(theme.industry ?? "ai")},FACTS=${JSON.stringify(theme.facts ?? { hours: "", phone: "", address: "", price: "" })},BOOKON=${theme.bookOn ? "true" : "false"},BRAND=${theme.brand === false ? "false" : "true"},EMBED=${embed ? "true" : "false"};
 if(document.getElementById('sona-root'))return;
+// Load the brand fonts WITHOUT blocking render: preconnect + a stylesheet <link> in the host head.
+// The widget paints immediately on system fonts and swaps to Fraunces/Inter when this resolves.
+(function(){try{var h=document.head||document.documentElement;
+['https://fonts.googleapis.com','https://fonts.gstatic.com'].forEach(function(u,i){var p=document.createElement('link');p.rel='preconnect';p.href=u;if(i)p.crossOrigin='anonymous';h.appendChild(p)});
+var fl=document.createElement('link');fl.rel='stylesheet';fl.href='https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap';h.appendChild(fl)}catch(e){}})();
 var SID=(function(){try{var s=localStorage.getItem('sona-sid:'+T);if(!s){s=(Date.now().toString(36)+Math.random().toString(36).slice(2));localStorage.setItem('sona-sid:'+T,s)}return s}catch(e){return 'anon-'+Date.now()}})();
 function lum(h){h=String(h||'').replace('#','');if(h.length===3||h.length===4)h=h.split('').map(function(x){return x+x}).join('');var r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);return (0.299*r+0.587*g+0.114*b)/255}
 var ON=lum(C)>0.6?'#1a1a1a':'#ffffff';
@@ -1044,8 +1051,11 @@ var D='rgb('+Math.round(BR[0]*.42)+','+Math.round(BR[1]*.42)+','+Math.round(BR[2
 // Vivid secondary accent (industry-themed) for the colour wash + glow orbs.
 var SR=hexrgb(DEF[1]),SEC='rgba('+SR[0]+','+SR[1]+','+SR[2]+',';
 var RM=false;try{RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
-var css='@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap");'
-+'#sona-root{position:fixed;bottom:20px;right:20px;z-index:2147483000;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}'
+// NOTE: fonts are loaded via a non-blocking <link> injected at startup (see top of the IIFE).
+// A CSS @import here would be render-blocking — it stalled the whole widget for seconds on slow
+// font connections. With the @import gone the widget paints instantly using the system-font
+// fallbacks below, then upgrades to Fraunces/Inter when the link finishes.
+var css='#sona-root{position:fixed;bottom:20px;right:20px;z-index:2147483000;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}'
 +'#sona-root *{box-sizing:border-box}'
 +'.sona-launch{display:flex;align-items:center;gap:10px;border:0;cursor:pointer;border-radius:999px;padding:16px 24px 16px 20px;background:'+C+';color:'+ON+';font-size:16.5px;font-weight:700;letter-spacing:.01em;box-shadow:0 0 0 4px rgba(255,255,255,.92),0 14px 34px -6px rgba(0,0,0,.5);transition:transform .18s ease,box-shadow .18s ease}'
 +'.sona-launch:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 4px rgba(255,255,255,.96),0 20px 44px -8px rgba(0,0,0,.58)}'
