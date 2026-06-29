@@ -4,9 +4,9 @@
 |---|---|
 | **Document** | Sona — Launch Implementation Guide |
 | **For** | Daniel (founder) |
-| **Version** | 1.0 |
-| **Date** | 29 June 2026 |
-| **Status** | Ready to action |
+| **Version** | 1.1 |
+| **Date** | 29 June 2026 (updated after full UAT) |
+| **Status** | Ready to action — product passed a full two-niche customer UAT |
 | **Product** | Sona — AI front-desk assistant for small UK businesses |
 | **Live domain (planned)** | asksona.co.uk |
 | **Launch tiers** | Starter £19 · Pro £39 · Business £79 (per month, 20% off annual) |
@@ -19,7 +19,7 @@ This is everything between "the product works on my laptop" and "a stranger can 
 It is split in two:
 
 - **Part A — Done for you (code).** What has already been built and committed. Nothing to do here; it's context.
-- **Part B — Your jobs (founder).** Six setup jobs only you can do, because they need accounts, payment details, or legal wording. Each is a numbered, plain-English walkthrough.
+- **Part B — Your jobs (founder).** The setup jobs only you can do, because they need accounts, payment details, or legal wording. Each is a numbered, plain-English walkthrough.
 
 There is no jargon you need to act on. Where a step needs a technical value, it's given to you to copy.
 Anything marked **[ask Claude]** is something I can do for you once you've supplied the account/keys.
@@ -32,7 +32,7 @@ Anything marked **[ask Claude]** is something I can do for you once you've suppl
 ## Table of contents
 
 1. [Part A — What's already built](#part-a--whats-already-built)
-2. [Part B — Your six founder jobs](#part-b--your-six-founder-jobs)
+2. [Part B — Your founder jobs](#part-b--your-founder-jobs)
    - [Job 1 — Register the domain](#job-1--register-the-domain-asksonacouk)
    - [Job 2 — Put it online (hosting)](#job-2--put-it-online-hosting)
    - [Job 3 — Set the environment values](#job-3--set-the-environment-values)
@@ -62,10 +62,17 @@ All of this is finished, tested, and saved to GitHub. No action needed — it's 
 | **Speed** | All pages and the widget are compressed (~75% smaller) for fast loading on customers' sites |
 | **Accessibility** | The chat is usable with screen readers and keyboard (Escape to close, labelled buttons, larger tap targets) |
 | **Privacy tools** | "Export / delete a customer's data" controls in Settings (for GDPR requests) |
+| **Tested demo becomes theirs** | When a prospect clicks "Get this on my site", the exact assistant they just tested copies straight into their new account — no rebuild, ready instantly |
+| **Forgives typos** | Customers can mistype their website (`htps://`, `.cmo`, missing `https`) when building a demo, and visitors can misspell their questions — both are understood |
+| **Reads hidden emails** | Sites that disguise their email to dodge spam bots are now decoded correctly (e.g. shows `info@vet.com`, not gibberish); fake placeholder emails like `info@mysite.com` are filtered out |
+| **Polished demo** | Clean light typing bar, the "How I work" steps adapt to what's switched on (adds a booking step for paid plans), gentle left-to-right motion |
+| **Works on any address** | The demo, preview and buttons always use the address the page is on, so nothing breaks if a setting points elsewhere |
+
+> **Verified in a full UAT (29 Jun 2026):** a start-to-finish customer run across two niches (barber + vet) — read the whole site, built a demo, asked 5 questions including typo / prompt-injection / urgent-emergency stress tests, checked the feedback buttons, and confirmed the "Get this on my site" button lands a logged-out visitor on the sign-in screen. All passed; small issues found were fixed the same day.
 
 ---
 
-## Part B — Your six founder jobs
+## Part B — Your founder jobs
 
 Do them roughly in this order. Jobs 1–3 get the site live; Job 4 makes it take money; Jobs 5–7 make it trustworthy.
 
@@ -92,18 +99,27 @@ web address. Right now it points at your laptop.
 The project already includes a **Dockerfile** (a recipe that lets any modern host run it), so this is
 mostly clicking through a host's setup.
 
-**Recommended host: Render or Railway** — both are beginner-friendly, run Docker out of the box, and
-cost roughly **$7–$10/month** to start. (Fly.io is a cheaper but slightly more technical alternative.)
+**Recommended host: Render** — beginner-friendly, runs Docker out of the box. The **free** tier works to
+start (it "sleeps" when idle and wakes on the first visit); **~£6/month** keeps it always-awake. (Railway
+and Fly.io are alternatives.)
 
 | Step | Do this |
 |---|---|
-| 1 | Create an account at **render.com** (or railway.app) |
-| 2 | Choose **"New → Web Service"** and connect your GitHub, pointing it at the **FXLUXE/sona** repo |
-| 3 | When it asks how to build, choose **Docker** (it will find the Dockerfile automatically) |
-| 4 | Set the **environment values** from [Job 3](#job-3--set-the-environment-values) before the first deploy |
-| 5 | Deploy. You'll get a temporary address like `sona.onrender.com` — check it loads |
-| 6 | In the host's **"Custom Domain"** settings, add **asksona.co.uk**; it shows you two DNS records |
-| 7 | Back in your domain registrar (Job 1), paste those DNS records in. Wait 10–60 min for it to connect |
+| 1 | Create an account at **render.com** |
+| 2 | Choose **"New → Web Service" → "Build and deploy from a Git repository" → Connect GitHub** |
+| 3 | **Important — pick the right GitHub account.** GitHub asks which account to install Render on: choose **FXLUXE** (the repo lives there, *not* your personal account). Then choose **All repositories** (simplest) or **Only select repositories → sona**, and click Install. The `sona` repo now appears in Render |
+| 4 | When it asks how to build, choose **Docker** (it finds the Dockerfile automatically) |
+| 5 | **Region:** Render has **no UK option** — choose **Frankfurt (EU Central)**. Your customer data stays in the EU, which is right for UK GDPR |
+| 6 | Set the **environment values** from [Job 3](#job-3--set-the-environment-values) before the first deploy |
+| 7 | Deploy. You'll get a temporary address like `sona.onrender.com` — check it loads |
+| 8 | In Render's **"Custom Domain"** settings, add **asksona.co.uk**; it shows you two DNS records |
+| 9 | Back in your domain registrar (Job 1), paste those DNS records in. Wait 10–60 min for it to connect |
+
+> **If the repo won't appear / "can't connect":** it's almost always that the Render app was installed on
+> your **personal** GitHub instead of **FXLUXE**. The repo-access toggle ("Only select repositories") lives
+> on **GitHub's** side, not Render's: **GitHub → Settings → Applications → Installed GitHub Apps → Render →
+> Configure → Repository access**. Making the repo public does **not** fix this — keep it private; your
+> secrets are meant to stay off GitHub.
 
 > **[ask Claude]** Once you've created the host account and connected the repo, I can walk you through the
 > exact screens and double-check the settings. I just can't create the account or hold the card.
@@ -179,7 +195,7 @@ Each price you create has an ID that looks like `price_1AbCd…`. Copy all six i
 | Step | Do this |
 |---|---|
 | 5 | Stripe → **Developers → API keys** → copy the **Secret key** → `STRIPE_SECRET_KEY` |
-| 6 | Stripe → **Developers → Webhooks → Add endpoint**. URL = `https://asksona.co.uk/api/stripe/webhook`. Select events for checkout & subscription updates |
+| 6 | Stripe → **Developers → Webhooks → Add endpoint**. URL = `https://asksona.co.uk/api/billing/webhook` (exactly this path). Select events for checkout & subscription updates |
 | 7 | Copy the webhook's **Signing secret** → `STRIPE_WEBHOOK_SECRET` |
 | 8 | Paste all six **price IDs** into the six `STRIPE_PRICE_*` settings |
 
@@ -229,12 +245,13 @@ reads:
 
 | Step | Do this |
 |---|---|
-| 1 | In **Supabase → Authentication → Emails → "Magic Link"** |
-| 2 | Set the **Subject** to `Your Sona login link` |
-| 3 | Open `docs/email-templates/login-magic-link.html`, copy the whole file, paste it into the **Message (HTML)** box |
-| 4 | Leave the `{{ .ConfirmationURL }}` part exactly as it is — Supabase fills in the real link |
-| 5 | **Send from your own domain:** Supabase → **Project Settings → Auth → SMTP**. Turn on custom SMTP and enter your **Resend** details so it sends from `hello@asksona.co.uk`, not a Supabase address |
-| 6 | Send yourself a test login to check it looks right |
+| 1 | **Allow your live address (required).** Supabase → **Authentication → URL Configuration** → set **Site URL** to `https://asksona.co.uk` and add `https://asksona.co.uk/**` under **Redirect URLs**. *Without this, login links bounce — this is exactly why signup failed in local testing* |
+| 2 | In **Supabase → Authentication → Emails → "Magic Link"** |
+| 3 | Set the **Subject** to `Your Sona login link` |
+| 4 | Open `docs/email-templates/login-magic-link.html`, copy the whole file, paste it into the **Message (HTML)** box |
+| 5 | Leave the `{{ .ConfirmationURL }}` part exactly as it is — Supabase fills in the real link |
+| 6 | **Send from your own domain:** Supabase → **Project Settings → Auth → SMTP**. Turn on custom SMTP and enter your **Resend** details so it sends from `hello@asksona.co.uk`, not a Supabase address. *Without this, Supabase's built-in email is rate-limited to a handful per hour and may block test addresses — fine for you testing, not for real signups* |
+| 7 | Send yourself a test login to check it looks right |
 
 > **[ask Claude]** I wrote the email and can tweak the wording/colours any way you like — just say the word.
 > The Supabase/Resend dashboard steps are yours because they need your account login.
@@ -312,10 +329,11 @@ STRIPE_PRICE_BUSINESS_ANNUAL=
 | ☐ | Custom domain connected (asksona.co.uk loads the app over https) | 2 |
 | ☐ | All environment values set in the host | 3 |
 | ☐ | Start-up logs show **no** config warnings | 3 |
-| ☐ | Stripe products + 6 prices created, keys & webhook set | 4 |
+| ☐ | Stripe products + 6 prices created, keys & webhook (`/api/billing/webhook`) set | 4 |
 | ☐ | One successful **test** upgrade end-to-end, then switched to live | 4 |
 | ☐ | `GEMINI_PAID=true` (or Anthropic key) — no "training" warning | 5 |
-| ☐ | Login email branded + sending from your domain; test received | 6 |
+| ☐ | Supabase **Site URL + Redirect URLs** set to the live domain | 6 |
+| ☐ | Login email branded + sending from your domain (Resend SMTP); test received | 6 |
 | ☐ | Terms & Privacy placeholders filled | 7 |
 | ☐ | Final walk-through: sign up → see demo → install code → upgrade | — |
 
