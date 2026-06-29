@@ -189,7 +189,9 @@ app.post("/api/demo", async (c) => {
     // visitor reads. Per-page + global budgets bound the embedding cost either way.
     const chunks = await ingestUrl(slug, url); // SSRF-guarded in lib
     void ingestSite(slug, url, 6).catch(() => {}); // fire-and-forget enrichment
-    return c.json({ slug, demoUrl: `${cfg.baseUrl}/demo/${slug}`, chunks });
+    // Relative URL — the landing preview iframe loads it same-origin, so it never points at the
+    // wrong host/port if PUBLIC_BASE_URL differs from where the page is actually served.
+    return c.json({ slug, demoUrl: `/demo/${slug}`, chunks });
   } catch (e: any) { return ingestError(c, e); }
 });
 
@@ -984,10 +986,10 @@ app.get("/demo/:tenant", async (c) => {
       `<div class="frame">` +
       `<div class="bar"><div class="brand"><span class="b">&#128276;</span> Sona <span class="tag">· demo for ${label}</span></div>` +
       `<div style="display:flex;align-items:center;gap:12px"><span class="tag" style="font-size:12.5px;color:#6b7280"><span class="dot"></span>On duty</span>` +
-      `<a class="cta" href="${cfg.baseUrl}/dashboard?from=${q}">Get this on my site &rarr;</a></div></div>` +
+      `<a class="cta" href="/dashboard?from=${q}">Get this on my site &rarr;</a></div></div>` +
       `<div id="sona-mount"></div>` +
       `</div>` +
-      `<script src="${cfg.baseUrl}/widget.js?tenant=${q}&embed=1"></script></body></html>`
+      `<script src="/widget.js?tenant=${q}&embed=1"></script></body></html>`
   );
 });
 

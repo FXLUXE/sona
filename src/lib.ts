@@ -494,7 +494,7 @@ function extractFacts(html: string, renderedText = ""): Record<string, string> {
   const pick = (n: any) => {
     if (!n) return;
     if (n.telephone && !facts.phone && okPhone(n.telephone)) facts.phone = String(n.telephone).replace(/\s+/g, " ").trim().slice(0, 40);
-    if (n.email && !facts.email) facts.email = String(n.email).slice(0, 80);
+    if (n.email && !facts.email) { const em = decodeEntities(String(n.email)).replace(/\s+/g, ""); if (/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(em)) facts.email = em.toLowerCase().slice(0, 80); }
     if (n.priceRange && !facts.price_range) facts.price_range = String(n.priceRange).slice(0, 40);
     const a = n.address;
     // Require a real anchor (street or postcode) — a bare region/locality like "England" is junk.
@@ -584,9 +584,11 @@ function extractFacts(html: string, renderedText = ""): Record<string, string> {
     // Prefer an explicit mailto:, else the first plausible address in the page text. Skip
     // asset filenames (foo@2x.png) and platform noise (sentry/wixpress/example) — those aren't
     // contact addresses. This is what makes outreach possible: OSM almost never lists an email.
-    const mailto = html.match(/href=["']mailto:([^"'?]+)/i)?.[1];
-    const cand = mailto || (flat.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i) || [])[0];
-    if (cand && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
+    const mailtoRaw = html.match(/href=["']mailto:([^"'?]+)/i)?.[1];
+    // Many sites obfuscate their email as HTML entities (i&#110;fo&#64;vet&#46;com) to fight scrapers.
+    // Decode BEFORE validating so the contact handoff shows "info@vet.com", not the raw entity string.
+    const cand = decodeEntities(mailtoRaw || (flat.match(/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/i) || [])[0] || "").replace(/\s+/g, "");
+    if (cand && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(cand) && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
       facts.email = cand.toLowerCase().trim().slice(0, 80);
   }
   // Booking link: lets the bot answer "how do I book?" and powers the widget's Book button —
@@ -608,9 +610,10 @@ function extractFacts(html: string, renderedText = ""): Record<string, string> {
 // and platform noise. Shared by extractFacts and the build-time contact-page sweep.
 export function scrapeEmail(html: string): string {
   const flat = html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ");
-  const mailto = html.match(/href=["']mailto:([^"'?]+)/i)?.[1];
-  const cand = mailto || (flat.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i) || [])[0];
-  if (cand && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
+  const mailtoRaw = html.match(/href=["']mailto:([^"'?]+)/i)?.[1];
+  // Decode entity-obfuscated addresses (i&#110;fo&#64;…) before validating.
+  const cand = decodeEntities(mailtoRaw || (flat.match(/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/i) || [])[0] || "").replace(/\s+/g, "");
+  if (cand && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(cand) && !/\.(png|jpe?g|gif|svg|webp)$|@2x|example\.|sentry|wixpress|\.wix|godaddy|cloudflare/i.test(cand))
     return cand.toLowerCase().trim().slice(0, 80);
   return "";
 }
@@ -747,8 +750,15 @@ export async function ingestUrl(tenant: string, url: string, prefetchedHtml?: st
     const f = extractFacts(raw, renderedText);
     if (Object.keys(f).length) {
       const t0 = await getTenant(tenant);
-      const cur = t0?.facts ?? {};
-      await db.from("tenants").update({ facts: { ...f, ...cur } }).eq("slug", tenant); // keep existing (e.g. __hero) on top
+      const cur: any = t0?.facts ?? {};
+      // Demos (unowned) self-heal on every rebuild: fresh extraction WINS, so improved parsing (e.g.
+      // the decoded email) replaces stale values instead of being held back by the old cache. Claimed
+      // tenants keep their existing facts on top so a re-sync never clobbers an owner's hand-edits.
+      // Either way the __hero backdrop is preserved.
+      const ownerCurated = !!t0?.owner_id && !String(tenant).startsWith("demo-");
+      const facts: any = ownerCurated ? { ...f, ...cur } : { ...cur, ...f };
+      if (cur.__hero && !facts.__hero) facts.__hero = cur.__hero;
+      await db.from("tenants").update({ facts }).eq("slug", tenant);
       // Found a booking link and the tenant hasn't set one → turn on the Book button and let the
       // bot offer it. This makes the demo's "📅 Book" CTA work straight off the prospect's site.
       // Only auto-wire the clickable Book button to a RECOGNISED scheduling provider. A scraped

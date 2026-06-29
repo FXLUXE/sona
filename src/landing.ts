@@ -856,7 +856,10 @@ export function landingHtml(base: string): string {
 
 <script>
 (function(){
-  var B=${B};
+  // Same-origin: every on-page call (build, preview iframe, "Put this on my site") hits whatever
+  // origin the page was actually loaded from — so it never breaks if PUBLIC_BASE_URL is a different
+  // host/port. PUBLIC_BASE_URL is only for absolute links in emails, not on-page navigation.
+  var B=location.origin;
   var url=document.getElementById('url');
   var status=document.getElementById('status'), result=document.getElementById('result'), frame=document.getElementById('frame');
   // The modal lives inside the hero's .desk-card, which has a transform (its float animation). A
