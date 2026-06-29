@@ -1254,11 +1254,11 @@ var css='#sona-root{position:fixed;bottom:20px;right:20px;z-index:2147483000;fon
 +'.sona-embed .sona-head,.sona-embed .sona-x{display:none}'
 +'.sona-embed .sona-msgs{position:relative;z-index:1;padding:24px clamp(16px,4vw,72px);gap:12px;justify-content:center;background:#f6f1e9}'
 +'.sona-embed.chatting .sona-msgs{justify-content:flex-start}'
-+'.sona-embed .sona-foot{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.08);background:'+ACC+'.32);backdrop-filter:blur(10px)}'
-+'.sona-embed .sona-in input{background:rgba(255,255,255,.96);border-color:transparent;box-shadow:0 8px 22px -12px rgba(0,0,0,.5)}'
-+'.sona-embed .sona-pb,.sona-embed .sona-pb a{color:rgba(255,255,255,.6)}'
++'.sona-embed .sona-foot{position:relative;z-index:1;border-top:1px solid #e4dccb;background:rgba(246,241,233,.94);backdrop-filter:blur(8px)}'
++'.sona-embed .sona-in input{background:#fff;border-color:#e4dccb;box-shadow:0 6px 16px -12px rgba(17,33,43,.4)}'
++'.sona-embed .sona-pb{color:#9aa3ab}.sona-embed .sona-pb a{color:#7a8088}'
 +'.sona-embed .sona-foot>*{max-width:1040px;margin-left:auto;margin-right:auto}'
-+'.sona-embed .sona-in{padding:12px 0}'
++'.sona-embed .sona-in{padding:14px 18px}'
 +'.sona-embed .sona-row{max-width:1040px;width:100%}'
 /* welcome — logo floats + pulses continuously (visible motion you actually catch) */
 +'.sona-welcome{text-align:center;max-width:520px;margin:0 auto;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);border-radius:26px;padding:34px 30px 28px;box-shadow:0 40px 90px -34px rgba(0,0,0,.6)}'
@@ -1266,14 +1266,15 @@ var css='#sona-root{position:fixed;bottom:20px;right:20px;z-index:2147483000;fon
 +'.sona-welcome .flow-cap{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:'+C+';margin:26px 0 0;padding-top:22px;border-top:1px solid rgba(228,220,203,.8)}'
 +'.sona-welcome .flow{display:flex;align-items:flex-start;justify-content:center;gap:3px;margin-top:14px;width:100%}'
 +'.sona-welcome .fstep{display:flex;flex-direction:column;align-items:center;gap:9px;flex:1 1 0;min-width:0;padding:0 2px}'
-+'.sona-welcome .fic{position:relative;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #e4dccb;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px -10px rgba(17,33,43,.45)'+(RM?'':';animation:sona-step 9s ease-in-out infinite')+'}'
-// One calm motion: a soft highlight travels step-by-step (border+shadow tint, a 3px lift). No colour
-// flip, no flying dots — barely-there, premium. Sequential delays make it read left to right.
-+'.sona-welcome .fstep:nth-child(3) .fic{animation-delay:.9s}.sona-welcome .fstep:nth-child(5) .fic{animation-delay:1.8s}.sona-welcome .fstep:nth-child(7) .fic{animation-delay:2.7s}'
-+'@keyframes sona-step{0%,30%,100%{border-color:#e4dccb;box-shadow:0 8px 18px -10px rgba(17,33,43,.45);transform:translateY(0)}13%,19%{border-color:'+C+';box-shadow:0 13px 26px -10px '+ACC+'.45);transform:translateY(-3px)}}'
++'.sona-welcome .fic{position:relative;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid #e4dccb;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px -10px rgba(17,33,43,.45)}'
+// One calm motion: a soft brand-tinted highlight travels step-by-step (border+shadow tint, a 3px lift)
+// and the connector ahead of it briefly fills. No flying dots — barely-there, premium. The per-step
+// animation-delay is set in JS by index (welcome()), so it scales to 4 or 5 steps and reads left→right.
++'@keyframes sona-flowstep{0%,10%,46%,100%{border-color:#e4dccb;box-shadow:0 8px 18px -10px rgba(17,33,43,.45);transform:translateY(0)}20%,30%{border-color:'+C+';box-shadow:0 14px 26px -10px '+ACC+'.5);transform:translateY(-3px)}}'
++'@keyframes sona-flowarrow{0%,12%,50%,100%{background:rgba(17,33,43,.18)}22%,32%{background:'+C+'}}'
 +'.sona-welcome .flb{font-size:11px;color:#56616b;font-weight:500;line-height:1.2;text-align:center}'
-// Static brass connector, vertically centred on the 46px tiles. No motion of its own.
-+'.sona-welcome .farrow{flex:0 0 auto;width:22px;height:2px;margin-top:22px;border-radius:2px;background:'+ACC+'.4)}'
+// Connector, vertically centred on the 46px tiles. Rest state is faint; the flow animation fills it.
++'.sona-welcome .farrow{flex:0 0 auto;width:22px;height:2px;margin-top:22px;border-radius:2px;background:rgba(17,33,43,.18)}'
 +'.sona-welcome .wl::after{content:"";position:absolute;inset:-7px;border-radius:24px;border:1.5px solid '+C+';opacity:.14}'
 +'.sona-welcome .wl img{max-width:172px;max-height:52px;width:auto;height:auto;object-fit:contain;display:block}.sona-welcome .wl svg{width:38px;height:38px}'
 +'.sona-welcome h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:31px;letter-spacing:-.015em;color:#11212b;margin:0;line-height:1.1}'
@@ -1414,7 +1415,10 @@ fillChips(['What do you offer?','Where are you based?','How do I get started?'])
 fetch(B+'/api/suggest/'+encodeURIComponent(T)).then(function(r){return r.json()}).then(function(j){if(j&&j.questions&&j.questions.length===3)fillChips(j.questions)}).catch(function(){});
 var cap=document.createElement('div');cap.className='flow-cap';cap.textContent='How I work for '+N;
 var flow=document.createElement('div');flow.className='flow';
-[['\u{1F4AC}','Visitor asks'],['\u{1F4D6}','Reads your site'],['⚡','Instant answer'],['\u{1F4E5}','Captures lead']].forEach(function(it,i){if(i){var ar=document.createElement('div');ar.className='farrow';flow.appendChild(ar)}var d=document.createElement('div');d.className='fstep';var ic=document.createElement('div');ic.className='fic';ic.textContent=it[0];var lb=document.createElement('div');lb.className='flb';lb.textContent=it[1];d.appendChild(ic);d.appendChild(lb);flow.appendChild(d)});
+// Steps adapt to what this tenant actually does: booking-enabled (paid) tenants get a 5th step.
+var steps=[['\u{1F4AC}','Visitor asks'],['\u{1F4D6}','Reads your site'],['⚡','Instant answer'],['\u{1F4E5}','Captures lead']];if(BOOKON)steps.push(['\u{1F4C5}','Books you in']);
+var STEP=0.62,DUR=steps.length*STEP+2.4;
+steps.forEach(function(it,i){if(i){var ar=document.createElement('div');ar.className='farrow';if(!RM){ar.style.animation='sona-flowarrow '+DUR+'s ease-in-out infinite';ar.style.animationDelay=((i-0.5)*STEP)+'s'}flow.appendChild(ar)}var d=document.createElement('div');d.className='fstep';var ic=document.createElement('div');ic.className='fic';ic.textContent=it[0];if(!RM){ic.style.animation='sona-flowstep '+DUR+'s ease-in-out infinite';ic.style.animationDelay=(i*STEP)+'s'}var lb=document.createElement('div');lb.className='flb';lb.textContent=it[1];d.appendChild(ic);d.appendChild(lb);flow.appendChild(d)});
 w.appendChild(l);w.appendChild(h);w.appendChild(p);var kb=buildKB();if(kb){w.appendChild(kb.cap);w.appendChild(kb.el)}w.appendChild(c);w.appendChild(cap);w.appendChild(flow);M.appendChild(w)}
 function greet(){if(opened)return;opened=true;if(EMBEDDED){welcome()}else{row('a',G);var kb=buildKB();if(kb){kb.cap.style.textAlign='center';M.appendChild(kb.cap);M.appendChild(kb.el)}chips()}}
 function open(){panel.classList.add('open');requestAnimationFrame(function(){panel.classList.add('in')});if(launch)launch.style.display='none';greet();setTimeout(function(){I.focus()},120)}
