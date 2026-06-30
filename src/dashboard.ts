@@ -163,7 +163,7 @@ export function dashboardHtml(base: string): string {
   .preview .bar .dots{display:flex;gap:5px}
   .preview .bar .dots i{width:9px;height:9px;border-radius:50%;background:#e2e4ee;display:inline-block}
   .preview .bar .u{flex:1;font-size:12px;color:var(--mut);background:var(--paper);border-radius:7px;padding:5px 10px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .preview iframe{display:block;width:100%;height:min(74vh,780px);border:0;background:#fff}
+  .preview iframe{display:block;width:100%;height:min(86vh,900px);border:0;background:#fff}
 
   /* ---- embed code ---- */
   .embed{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.6;
