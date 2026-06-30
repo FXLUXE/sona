@@ -741,34 +741,34 @@ export function landingHtml(base: string): string {
     <span class="eyebrow reveal center">Pick a desk</span>
     <h2 class="reveal">Plain pricing, paid monthly.</h2>
     <p class="note reveal">Start free for 14 days — no card to try, cancel whenever you like. <b>Save 20% paid yearly.</b></p>
-    <div class=”tiers”>
-      <div class=”tier reveal”>
-        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
-        <span class=”tier-pill dark-outline” role=”heading” aria-level=”3”>Trial</span>
-        <div class=”price”>£0<small> / 14 days</small></div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <div class="tier-brand"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z" fill="currentColor"/><path d="M9.6 19a2.4 2.4 0 0 0 4.8 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Sona</div>
+        <span class="tier-pill dark-outline" role="heading" aria-level="3">Trial</span>
+        <div class="price">£0<small> / 14 days</small></div>
         <ul><li>100 conversations</li><li>Answers from your own pages</li><li>Lead capture &amp; email alerts</li></ul>
-        <div class=”pick”><a class=”btn btn-ghost btn-sm” href=”${esc(base)}/dashboard”>Create your free account</a></div>
+        <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Create your free account</a></div>
       </div>
-      <div class=”tier reveal”>
-        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
-        <span class=”tier-pill dark-outline” role=”heading” aria-level=”3”>Starter</span>
-        <div class=”price”>£19<small> / mo</small></div>
+      <div class="tier reveal">
+        <div class="tier-brand"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z" fill="currentColor"/><path d="M9.6 19a2.4 2.4 0 0 0 4.8 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Sona</div>
+        <span class="tier-pill dark-outline" role="heading" aria-level="3">Starter</span>
+        <div class="price">£19<small> / mo</small></div>
         <ul><li>250 conversations / mo</li><li>Email &amp; SMS lead alerts</li><li>Download leads (CSV)</li></ul>
-        <div class=”pick”><a class=”btn btn-ghost btn-sm” href=”${esc(base)}/dashboard”>Choose Starter</a></div>
+        <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Choose Starter</a></div>
       </div>
-      <div class=”tier dark pop reveal”>
-        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
-        <span class=”tier-pill gold” role=”heading” aria-level=”3”>Pro</span>
-        <div class=”price”>£39<small> / mo</small></div>
+      <div class="tier dark pop reveal">
+        <div class="tier-brand"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z" fill="currentColor"/><path d="M9.6 19a2.4 2.4 0 0 0 4.8 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Sona</div>
+        <span class="tier-pill gold" role="heading" aria-level="3">Pro</span>
+        <div class="price">£39<small> / mo</small></div>
         <ul><li>1,000 conversations / mo</li><li>In-chat booking calendar</li><li>Remove “Powered by Sona”</li><li>Full colour &amp; logo theming</li></ul>
-        <div class=”pick”><a class=”btn btn-brass btn-sm” href=”${esc(base)}/dashboard”>Choose Pro</a></div>
+        <div class="pick"><a class="btn btn-brass btn-sm" href="${esc(base)}/dashboard">Choose Pro</a></div>
       </div>
-      <div class=”tier dark reveal”>
-        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
-        <span class=”tier-pill gold-outline” role=”heading” aria-level=”3”>Business</span>
-        <div class=”price”>£79<small> / mo</small></div>
+      <div class="tier dark reveal">
+        <div class="tier-brand"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z" fill="currentColor"/><path d="M9.6 19a2.4 2.4 0 0 0 4.8 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Sona</div>
+        <span class="tier-pill gold-outline" role="heading" aria-level="3">Business</span>
+        <div class="price">£79<small> / mo</small></div>
         <ul><li>3,000 conversations / mo</li><li>Everything in Pro</li><li>Priority support</li></ul>
-        <div class=”pick”><a class=”btn btn-ghost btn-sm” href=”${esc(base)}/dashboard”>Choose Business</a></div>
+        <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Choose Business</a></div>
       </div>
     </div>
 
