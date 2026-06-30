@@ -970,7 +970,7 @@ app.get("/demo/:tenant", async (c) => {
       `display:flex;align-items:center;justify-content:center;padding:clamp(16px,3.4vh,40px)}` +
       `@media (prefers-reduced-motion:reduce){*{animation:none!important}}` +
       // The window: ~62% of a desktop screen (half–2/3), fixed proportion, one cohesive card.
-      `.frame{display:flex;flex-direction:column;width:clamp(640px,62vw,1000px);height:min(82vh,820px);` +
+      `.frame{display:flex;flex-direction:column;width:min(100%,1000px);height:min(82vh,820px);` +
       `background:#f6f1e9;border:1px solid #e4dccb;border-radius:16px;overflow:hidden;` +
       `box-shadow:0 30px 80px -30px rgba(17,33,43,.45),0 8px 24px -16px rgba(17,33,43,.3)}` +
       `.bar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;` +

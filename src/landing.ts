@@ -296,13 +296,29 @@ export function landingHtml(base: string): string {
   .pricing h2{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:14px 0 6px}
   .pricing .note{color:var(--muted);font-size:14.5px;margin:0 auto;max-width:34em}
   .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:38px;text-align:left}
-  .tier{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px 24px;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s ease, border-color .3s ease}
+  .tier{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px 24px;display:flex;flex-direction:column;position:relative;transition:transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s ease, border-color .3s ease}
   .tier:hover{transform:translateY(-6px);border-color:var(--brass);box-shadow:0 22px 48px -28px rgba(168,127,51,.5)}
-  .tier.pop{border-color:var(--brass);box-shadow:0 18px 44px -26px rgba(168,127,51,.55);position:relative}
-  .tier.pop:hover{transform:translateY(-6px);box-shadow:0 26px 54px -26px rgba(168,127,51,.62)}
-  .tier.pop::after{content:"Most chosen";position:absolute;top:-11px;left:24px;background:linear-gradient(180deg,var(--brass),var(--brass-deep));color:#231706;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:4px 11px;border-radius:999px}
-  .tier h3{margin:0;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:var(--brass-deep);font-weight:500}
-  .tier .price{font-family:var(--display);font-weight:500;font-size:40px;margin:10px 0 2px;letter-spacing:-.02em;line-height:1}
+  /* dark variants — Pro and Business */
+  .tier.dark{background:linear-gradient(160deg,var(--plate) 0%,var(--ink) 100%);border-color:rgba(199,154,75,.28);color:#f3ead8}
+  .tier.dark:hover{border-color:rgba(199,154,75,.65);box-shadow:0 22px 48px -28px rgba(199,154,75,.45)}
+  .tier.dark .price{color:#f3ead8}
+  .tier.dark .price small{color:rgba(243,234,216,.5)}
+  .tier.dark ul{color:#bccac4}
+  .tier.dark li::before{opacity:.75}
+  .tier.dark .pick .btn-ghost{color:#f3ead8;box-shadow:inset 0 0 0 1.5px rgba(243,234,216,.28)}
+  .tier.dark .pick .btn-ghost:hover{color:var(--brass);box-shadow:inset 0 0 0 1.5px var(--brass)}
+  /* "POPULAR" badge top-right on the Pro (dark + pop) card */
+  .tier.pop{box-shadow:0 18px 44px -26px rgba(168,127,51,.55)}
+  .tier.pop::after{content:"POPULAR";position:absolute;top:14px;right:14px;background:linear-gradient(180deg,var(--brass),var(--brass-deep));color:#231706;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:999px}
+  /* brand lockup: small bell + "Sona" at the top of every card */
+  .tier-brand{display:flex;align-items:center;gap:6px;font-family:var(--display);font-weight:500;font-size:12.5px;color:var(--brass);margin-bottom:12px;letter-spacing:.01em}
+  .tier-brand svg{width:16px;height:16px;flex:0 0 auto;color:var(--brass)}
+  /* plan-name pills */
+  .tier-pill{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;padding:3px 11px;border-radius:999px;margin-bottom:6px}
+  .tier-pill.gold{background:linear-gradient(180deg,var(--brass),var(--brass-deep));color:#231706}
+  .tier-pill.gold-outline{background:transparent;border:1.5px solid var(--brass);color:var(--brass)}
+  .tier-pill.dark-outline{background:transparent;border:1.5px solid rgba(17,33,43,.28);color:var(--ink)}
+  .tier .price{font-family:var(--display);font-weight:500;font-size:40px;margin:8px 0 2px;letter-spacing:-.02em;line-height:1}
   .tier .price small{font-family:var(--body);font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0}
   .tier ul{list-style:none;margin:16px 0 0;padding:0;color:#54606a;font-size:14px;flex:1}
   .tier li{margin:9px 0;padding-left:22px;position:relative}
@@ -430,6 +446,12 @@ export function landingHtml(base: string): string {
     .steps::before{display:none}
     .ledger{grid-template-columns:1fr}
     .tiers{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:600px){
+    .reg-field{min-width:0}
+    .stat-grid{grid-template-columns:1fr}
+    .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+    .tab{min-width:auto;flex:0 0 auto;white-space:nowrap}
   }
   @media (max-width:520px){
     .tiers{grid-template-columns:1fr}
@@ -719,30 +741,34 @@ export function landingHtml(base: string): string {
     <span class="eyebrow reveal center">Pick a desk</span>
     <h2 class="reveal">Plain pricing, paid monthly.</h2>
     <p class="note reveal">Start free for 14 days — no card to try, cancel whenever you like. <b>Save 20% paid yearly.</b></p>
-    <div class="tiers">
-      <div class="tier reveal">
-        <h3>Trial</h3>
-        <div class="price">£0<small> / 14 days</small></div>
+    <div class=”tiers”>
+      <div class=”tier reveal”>
+        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
+        <span class=”tier-pill dark-outline” role=”heading” aria-level=”3”>Trial</span>
+        <div class=”price”>£0<small> / 14 days</small></div>
         <ul><li>100 conversations</li><li>Answers from your own pages</li><li>Lead capture &amp; email alerts</li></ul>
-        <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Create your free account</a></div>
+        <div class=”pick”><a class=”btn btn-ghost btn-sm” href=”${esc(base)}/dashboard”>Create your free account</a></div>
       </div>
-      <div class="tier reveal">
-        <h3>Starter</h3>
-        <div class="price">£19<small> / mo</small></div>
+      <div class=”tier reveal”>
+        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
+        <span class=”tier-pill dark-outline” role=”heading” aria-level=”3”>Starter</span>
+        <div class=”price”>£19<small> / mo</small></div>
         <ul><li>250 conversations / mo</li><li>Email &amp; SMS lead alerts</li><li>Download leads (CSV)</li></ul>
-        <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Choose Starter</a></div>
+        <div class=”pick”><a class=”btn btn-ghost btn-sm” href=”${esc(base)}/dashboard”>Choose Starter</a></div>
       </div>
-      <div class="tier pop reveal">
-        <h3>Pro</h3>
-        <div class="price">£39<small> / mo</small></div>
+      <div class=”tier dark pop reveal”>
+        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
+        <span class=”tier-pill gold” role=”heading” aria-level=”3”>Pro</span>
+        <div class=”price”>£39<small> / mo</small></div>
         <ul><li>1,000 conversations / mo</li><li>In-chat booking calendar</li><li>Remove “Powered by Sona”</li><li>Full colour &amp; logo theming</li></ul>
-        <div class="pick"><a class="btn btn-brass btn-sm" href="${esc(base)}/dashboard">Choose Pro</a></div>
+        <div class=”pick”><a class=”btn btn-brass btn-sm” href=”${esc(base)}/dashboard”>Choose Pro</a></div>
       </div>
-      <div class="tier reveal">
-        <h3>Business</h3>
-        <div class="price">£79<small> / mo</small></div>
+      <div class=”tier dark reveal”>
+        <div class=”tier-brand”><svg viewBox=”0 0 24 24” fill=”none” aria-hidden=”true”><path d=”M12 3.2c.6 0 1 .4 1 1v.7a6 6 0 0 1 4.6 5.8v3.1l1.3 2.1c.3.5 0 1.1-.6 1.1H5.7c-.6 0-.9-.6-.6-1.1L6.4 14v-3.1A6 6 0 0 1 11 5.1v-.7c0-.6.4-1 1-1Z” fill=”currentColor”/><path d=”M9.6 19a2.4 2.4 0 0 0 4.8 0” stroke=”currentColor” stroke-width=”1.6” stroke-linecap=”round”/></svg>Sona</div>
+        <span class=”tier-pill gold-outline” role=”heading” aria-level=”3”>Business</span>
+        <div class=”price”>£79<small> / mo</small></div>
         <ul><li>3,000 conversations / mo</li><li>Everything in Pro</li><li>Priority support</li></ul>
-        <div class="pick"><a class="btn btn-ghost btn-sm" href="${esc(base)}/dashboard">Choose Business</a></div>
+        <div class=”pick”><a class=”btn btn-ghost btn-sm” href=”${esc(base)}/dashboard”>Choose Business</a></div>
       </div>
     </div>
 
@@ -870,7 +896,9 @@ export function landingHtml(base: string): string {
   // Open/close the big demo modal. closeDemo clears the iframe so the live widget is fully torn
   // down between runs (prevents the re-run crash) and unlocks page scroll.
   function openDemo(src){ frame.src=src; result.classList.add('show'); document.body.style.overflow='hidden'; var c=document.getElementById('resultClose'); if(c)c.focus(); }
-  function closeDemo(){ result.classList.remove('show'); try{frame.src='about:blank';}catch(e){} document.body.style.overflow=''; }
+  function closeDemo(){ result.classList.remove('show'); try{frame.src='about:blank';}catch(e){} document.body.style.overflow=''; try{sessionStorage.removeItem('sona_demo');}catch(e){} }
+  // restore any in-progress demo if the page reloads (e.g. iOS screen-lock / back-navigation)
+  (function(){try{var d=JSON.parse(sessionStorage.getItem('sona_demo')||'null');if(d&&d.demoUrl){var rc2=document.getElementById('resultCta');if(rc2&&d.slug){rc2.href=B+'/dashboard?from='+encodeURIComponent(d.slug);}openDemo(d.demoUrl);}}catch(e){}}());
   var bell=document.getElementById('bell');
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -985,6 +1013,7 @@ export function landingHtml(base: string): string {
         // knowledge into the new account) instead of dropping it and rebuilding from scratch.
         var rc=document.getElementById('resultCta');
         if(rc&&res.j.slug){ rc.href=B+'/dashboard?from='+encodeURIComponent(res.j.slug); }
+        try{sessionStorage.setItem('sona_demo',JSON.stringify({slug:res.j.slug||'',demoUrl:res.j.demoUrl}));}catch(e){}
         // preview mounts in an overlay — leave the desk UNLOCKED so a second site can be tried
         // without a refresh (the stray re-lock here was the re-generate bug).
         openDemo(res.j.demoUrl);

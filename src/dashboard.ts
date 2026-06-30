@@ -310,6 +310,20 @@ export function dashboardHtml(base: string): string {
     .meter .fill{transition:none!important}
     .nav:hover,.card.lift:hover{transform:none!important}
   }
+
+  /* ---- mobile: table headers + billing plan cards ---- */
+  @media(max-width:560px){
+    thead th{font-size:12px;letter-spacing:.03em}
+    .plan .price{font-size:24px}
+    .seg button{padding:8px 12px;font-size:12.5px}
+  }
+
+  /* ---- mobile: outreach find row — stack inputs full-width on phones ---- */
+  @media(max-width:600px){
+    #ofind-row{flex-direction:column}
+    #ofind-row>label,#ofind-row>button{width:100%!important;min-width:0!important;flex:none!important}
+    #ofind-kw{width:100%!important}
+  }
 </style></head><body>
 <div id=nprog></div>
 <div id=app class=center><div class="card pad"><p class=sub><span class=spin></span> Loading your dashboard…</p></div></div>
@@ -419,7 +433,7 @@ async function boot(){
     var was=!!session; session=s;
     // Only re-render on a real sign-in/out — NOT on TOKEN_REFRESHED or window-focus re-fires, which
     // otherwise rebuild the whole dashboard (losing your place) every time you switch windows.
-    if(e==='SIGNED_IN'||e==='SIGNED_OUT'||(!!s)!==was) render();
+    if(e==='SIGNED_OUT'||((!!s)!==was)) render();
   });
   render();
 }
@@ -473,6 +487,10 @@ function login(){
 
 /* ===== top-level dashboard load ===== */
 async function dash(){
+  // SECURITY: fail-closed — never render a populated dashboard without a valid session.
+  // render() already gates this (session?dash():login()), but the retry setTimeout below
+  // calls dash() directly, bypassing render(), so we re-check here too.
+  if(!session){login();return;}
   app.className='center';
   app.innerHTML='<div class="card pad"><p class=sub>Loading your assistant…</p></div>';
   var me;
@@ -482,6 +500,7 @@ async function dash(){
     // 401. Treating that as "no account" wrongly dropped returning users into the signup wizard.
     // Retry briefly (onAuthStateChange also re-renders once the session settles); NEVER fall through
     // to wizard() on an error — only on a SUCCESSFUL empty result below.
+    if(!session){dash._tries=0;login();return;}  // session gone while retrying — go to login
     dash._tries=(dash._tries||0)+1;
     if(dash._tries<6){ setTimeout(dash,600); return; }
     dash._tries=0;
@@ -495,8 +514,11 @@ async function dash(){
   // account once, then land straight on its dashboard — no wizard, no rebuild. Guarded so the
   // magic-link retry loop / re-renders can't promote twice. On failure (demo expired or already
   // taken) we strip the param and fall through to the normal flow (wizard if they have no tenants).
+  // Admin/founder users skip the promote flow entirely — they already have their own tenants and
+  // should never accidentally clone a demo into their account (which would make the admin dashboard
+  // appear to show a stranger's business data alongside the Outreach tab).
   var fromSlug=new URLSearchParams(location.search).get('from');
-  if(fromSlug&&/^demo-[a-z0-9-]{1,40}$/.test(fromSlug)&&dash._promoted!==fromSlug){
+  if(fromSlug&&!isAdmin&&/^demo-[a-z0-9-]{1,40}$/.test(fromSlug)&&dash._promoted!==fromSlug){
     dash._promoted=fromSlug;
     if(!tenants.some(function(t){return t.tenant===fromSlug})){
       app.innerHTML='<div class="card pad" style="text-align:center"><p class=sub>Setting up your assistant…</p></div>';
@@ -509,8 +531,10 @@ async function dash(){
         }
       }catch(e){ /* demo expired/taken — fall through to the normal flow below */ }
     }
-    try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}
   }
+  // Strip ?from= from the URL regardless — applies to promoted users and to admin users who
+  // skipped the promote block above (keeps the address bar clean in both cases).
+  if(fromSlug)try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}
   if(!tenants.length){return wizard();}
   active=active&&tenants.find(t=>t.tenant===active)?active:tenants[0].tenant;
   // land on Billing if returning from a Stripe checkout/portal redirect
@@ -911,7 +935,7 @@ async function renderOutreach(main){
     '<div class="card pad" style="margin-bottom:14px">'+
       '<div class=h-sec>Find prospects</div>'+
       '<p class=hint>Free lookup via OpenStreetMap — local businesses that list their own website. No account, no cost.</p>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:6px">'+
+      '<div id=ofind-row style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:6px">'+
         '<label style="flex:2;min-width:170px">Business type<br><input id=ofind-v list=ofind-types autocomplete=off placeholder="e.g. salons, dentists, coffee shop" style="width:100%;padding:9px 11px;border:1px solid var(--line,#e4dccb);border-radius:10px;font:inherit"><datalist id=ofind-types></datalist></label>'+
         '<label style="flex:2;min-width:190px;position:relative">Location<br><input id=ofind-a autocomplete=off placeholder="Start typing a town or city…" style="width:100%;padding:9px 11px;border:1px solid var(--line,#e4dccb);border-radius:10px;font:inherit"><div id=ofind-ac style="display:none;position:absolute;z-index:30;left:0;right:0;top:100%;background:#fff;border:1px solid var(--line,#e4dccb);border-radius:10px;margin-top:4px;max-height:230px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)"></div></label>'+
         '<label style="width:118px">Within<br><select id=ofind-r style="width:100%;padding:9px 11px;border:1px solid var(--line,#e4dccb);border-radius:10px;font:inherit"><option value=2>2 miles</option><option value=5 selected>5 miles</option><option value=10>10 miles</option><option value=25>25 miles</option><option value=50>50 miles</option></select></label>'+
