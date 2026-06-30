@@ -1338,7 +1338,7 @@ async function renderBilling(main){
     wireMobileFoot();return;
   }
   const lim=b.limits||{},use=b.usage||{};
-  const planName=esc(b.plan||'Free');
+  const planName=esc(((b.plan||'Free')+'').replace(/^./,function(c){return c.toUpperCase()}));
   const enabled=b.billingEnabled!==false;
   // success/cancel banner from query param
   let banner='';
