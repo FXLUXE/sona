@@ -4,9 +4,14 @@
 import Stripe from "stripe";
 import { cfg, getTenant, sb, PLAN_LIMITS } from "./lib";
 
-// Lazily constructed so the module imports cleanly even when billing is unconfigured
-// (the server must boot without Stripe keys — billing just stays disabled).
-const stripe = () => new Stripe(cfg.stripeSecret);
+// Lazily constructed singleton so the module imports cleanly even when billing is
+// unconfigured (the server must boot without Stripe keys — billing just stays disabled).
+// One instance is created on first use and reused for every subsequent call.
+let _stripe: Stripe | null = null;
+const stripe = (): Stripe => {
+  if (!_stripe) _stripe = new Stripe(cfg.stripeSecret);
+  return _stripe;
+};
 
 // Resolve a tenant's effective limits. A tenant row MAY override either limit with an
 // explicit column; otherwise fall back to its plan's defaults, then to trial. Mirrors
@@ -53,19 +58,35 @@ export async function createPortal(tenant: string): Promise<{ url: string }> {
   return { url: s.url };
 }
 
+// Best-effort in-memory dedup for Stripe event IDs. Stripe may deliver the same event
+// more than once; we skip re-processing events we've already handled this process lifetime.
+// NOTE: this Set resets on every redeploy — a durable DB-backed version is a future
+// improvement for production-grade exactly-once guarantees.
+const _processedEventIds = new Set<string>();
+const _MAX_PROCESSED_IDS = 1000;
+
 // Verify + apply a Stripe webhook. Signature verification is the ONLY perimeter for
 // this unauthenticated route — a bad/absent signature must throw (caller → 400).
 export async function handleWebhook(rawBody: string, sig: string): Promise<void> {
   if (!cfg.stripeWebhookSecret) throw new Error("webhook secret not configured");
   // constructEventAsync uses WebCrypto — works in Bun/edge without a sync crypto shim.
   const event = await stripe().webhooks.constructEventAsync(rawBody, sig, cfg.stripeWebhookSecret);
+
+  // Idempotency guard: skip events we've already applied this process lifetime.
+  if (_processedEventIds.has(event.id)) return;
+  // Evict the oldest entry when the Set is at capacity (insertion-order eviction).
+  if (_processedEventIds.size >= _MAX_PROCESSED_IDS) {
+    _processedEventIds.delete(_processedEventIds.values().next().value!);
+  }
+  _processedEventIds.add(event.id);
+
   const db = sb();
   switch (event.type) {
     case "checkout.session.completed": {
       const s = event.data.object as any;
       const slug = s.client_reference_id ?? s.metadata?.tenant;
-      if (slug)
-        await db
+      if (slug) {
+        const { error } = await db
           .from("tenants")
           .update({
             plan: s.metadata?.plan ?? "starter",
@@ -73,12 +94,15 @@ export async function handleWebhook(rawBody: string, sig: string): Promise<void>
             stripe_subscription_id: s.subscription,
           })
           .eq("slug", slug);
+        if (error) throw error;
+      }
       break;
     }
     case "customer.subscription.deleted": {
       // Sub canceled/expired → drop back to trial limits.
       const s = event.data.object as any;
-      await db.from("tenants").update({ plan: "trial" }).eq("stripe_subscription_id", s.id);
+      const { error } = await db.from("tenants").update({ plan: "trial" }).eq("stripe_subscription_id", s.id);
+      if (error) throw error;
       break;
     }
   }

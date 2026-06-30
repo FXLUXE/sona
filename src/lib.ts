@@ -2,6 +2,7 @@
 // Framework-agnostic (reused by both the Bun/Hono server and the Next.js app).
 import { createClient } from "@supabase/supabase-js";
 import { lookup } from "node:dns/promises";
+import { emailShell } from "./email";
 
 const env = (k: string, d = "") => process.env[k] ?? d;
 
@@ -15,7 +16,7 @@ export const cfg = {
   baseUrl: env("PUBLIC_BASE_URL", "http://localhost:3000"),
   adminEmail: env("ADMIN_EMAIL", ""), // founder email — gates the Outreach tooling to you only
   resendKey: env("RESEND_API_KEY"),
-  fromEmail: env("FROM_EMAIL", "Sona <leads@sona.app>"),
+  fromEmail: env("FROM_EMAIL", "Sona <noreply@asksona.co.uk>"),
   twilioSid: env("TWILIO_ACCOUNT_SID"),
   twilioToken: env("TWILIO_AUTH_TOKEN"),
   twilioFrom: env("TWILIO_FROM"),
@@ -49,6 +50,10 @@ export function configWarnings(): string[] {
   // to Gemini — fine ONLY if Gemini paid billing is enabled (paid tier doesn't train).
   if (cfg.provider === "gemini" && !cfg.anthropic && !cfg.geminiPaid)
     w.push("Pro/Business/regulated tenants will use Gemini (no ANTHROPIC_API_KEY). Enable Gemini paid billing and set GEMINI_PAID=true, or set ANTHROPIC_API_KEY — otherwise paying customers' data may be used for training.");
+  // Email + founder gating: both fail silently if unset (no error, just no email / an ungated
+  // admin view), so surface them at boot rather than discovering it when an alert never arrives.
+  if (!cfg.resendKey) w.push("RESEND_API_KEY missing — sign-in, lead, and weekly-digest emails will silently not send.");
+  if (!cfg.adminEmail) w.push("ADMIN_EMAIL empty — founder/admin dashboard (Outreach + all-tenant data) is NOT gated to you, and founder alerts won't send.");
   return w;
 }
 
@@ -571,8 +576,18 @@ function extractFacts(html: string, renderedText = ""): Record<string, string> {
       let entry: string;
       if (/closed/i.test(m[2])) entry = days + " closed";
       else {
-        const o = to24(m[3]!), c = to24(m[4]!);
-        if (!o || !c || o === c) continue;
+        const o = to24(m[3]!);
+        let c = to24(m[4]!);
+        if (!o || !c) continue;
+        // "9 - 5" / "8 - 4" with no am/pm: a close that lands BEFORE the open almost always means
+        // the close is PM (a shop isn't open 09:00→05:00). Bump the close by 12h when it was written
+        // bare and parsed earlier than the open. Zero-padded "HH:MM" compares correctly as strings.
+        const closeHadMeridiem = /[ap]\.?m/i.test(m[4]!);
+        if (!closeHadMeridiem && c < o) {
+          const ch = +c.slice(0, 2) + 12;
+          if (ch <= 23) c = String(ch).padStart(2, "0") + c.slice(2);
+        }
+        if (o === c) continue;
         entry = days + " " + o + "-" + c;
       }
       const key = entry.toLowerCase();
@@ -979,8 +994,11 @@ export function normalizeUrlInput(raw: unknown): string | null {
 // server clock's timezone is slightly off from the business's.
 function todaysHoursLine(spec: unknown): string {
   if (typeof spec !== "string" || !spec.trim()) return "";
-  const DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-  const today = DAYS[new Date().getDay()];
+  // Use the BUSINESS's wall-clock day (UK), not the server's. Render runs UTC, so for the hour
+  // after UK midnight in summer (BST = UTC+1) new Date().getDay() still reads the previous day —
+  // which would quote yesterday's hours. Intl with an explicit timeZone fixes that.
+  const today = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", weekday: "long" })
+    .format(new Date()).toLowerCase();
   const cap = today[0].toUpperCase() + today.slice(1);
   for (const part of spec.split(/[;,\n]/).map((s) => s.trim()).filter(Boolean)) {
     const m = part.toLowerCase().match(/^([a-z]{2,})/);
@@ -1155,27 +1173,39 @@ function escHtml(s: any): string {
 export async function sendLeadEmail(to: string, tenant: string, lead: any) {
   if (!cfg.resendKey || !to) return;
   const row = (label: string, val: string) =>
-    `<tr><td style="padding:6px 0;color:#6b7280">${escHtml(label)}</td><td style="padding:6px 0;text-align:right;font-weight:600">${escHtml(val)}</td></tr>`;
-  const html =
-    `<div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto">` +
-    `<h2 style="color:#11212b">New lead captured</h2>` +
-    `<p style="color:#54606a">Your Sona assistant captured a new enquiry for <strong>${escHtml(tenant)}</strong>.</p>` +
-    `<table style="width:100%;border-collapse:collapse;font-size:15px">` +
+    `<tr>` +
+    `<td style="padding:8px 0;font-size:14px;color:#6b7280;white-space:nowrap;vertical-align:top;padding-right:18px">${escHtml(label)}</td>` +
+    `<td style="padding:8px 0;font-size:14px;font-weight:600;color:#11212b;vertical-align:top">${escHtml(val)}</td>` +
+    `</tr>`;
+  const bodyHtml =
+    `<h2 style="margin:0 0 6px;font-size:20px;font-weight:800;letter-spacing:-.02em;color:#11212b">New lead captured</h2>` +
+    `<p style="margin:0 0 22px;font-size:14px;color:#6b7280">Your Sona assistant captured a new enquiry for <strong style="color:#11212b">${escHtml(tenant)}</strong>.</p>` +
+    `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #ece6da">` +
     row("Name", String(lead.name ?? "—")) +
     row("Email", String(lead.email ?? "—")) +
     row("Phone", String(lead.phone ?? "—")) +
     row("Score", String(lead.score ?? "—") + "/100") +
     row("Page", String(lead.page_url ?? "—")) +
     `</table>` +
-    (lead.question ? `<p style="margin-top:14px;font-size:15px;color:#11212b"><span style="color:#6b7280">They asked:</span><br>${escHtml(lead.question)}</p>` : ``) +
-    `<p style="margin-top:18px"><a href="${escHtml(cfg.baseUrl)}/dashboard" style="background:#c79a4b;color:#231706;text-decoration:none;font-weight:600;padding:11px 18px;border-radius:9px;display:inline-block">View in dashboard →</a></p>` +
-    `</div>`;
+    (lead.question
+      ? `<div style="margin-top:18px;padding:14px 16px;background:#f4ecdb;border-radius:10px;border:1px solid #e8d9b8">` +
+        `<p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a6420">They asked</p>` +
+        `<p style="margin:0;font-size:14px;color:#11212b;line-height:1.55">${escHtml(String(lead.question))}</p>` +
+        `</div>`
+      : ``);
+  const html = emailShell({
+    title: `New lead — ${escHtml(tenant)}`,
+    preheader: `${escHtml(String(lead.name ?? "Someone"))} just enquired via your Sona assistant.`,
+    bodyHtml,
+    cta: { label: "View in dashboard →", url: `${cfg.baseUrl}/dashboard` },
+  });
   await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${cfg.resendKey}`, "content-type": "application/json" },
     body: JSON.stringify({
       from: cfg.fromEmail,
       to,
+      reply_to: "hello@asksona.co.uk",
       subject: `New lead from your Sona assistant (${escHtml(tenant)})`,
       html,
     }),
@@ -1373,8 +1403,15 @@ export async function answer(
   // search found nothing and the question is broad, ground on a sample of real page content.
   // The system prompt still forbids inventing specifics (prices/policies), so this stays honest.
   if (!ctx.length && msg.length < 70 && /\b(what|who|tell me|about|do you (do|offer|sell|provide)|services|help with)\b/i.test(msg)) {
-    const samp = await sampleChunks(tenant, 5);
-    ctx = samp.map((content) => ({ content, similarity: 0.5 }));
+    // No semantic hit on a broad "what do you do?" — instead of whatever arbitrary order the DB
+    // returns, pull a wider sample and keep the most SUBSTANTIVE pages (longest chunks). Deterministic
+    // and representative, so the overview reflects the real business, not 5 random snippets.
+    const samp = await sampleChunks(tenant, 20);
+    ctx = samp
+      .map((content) => ({ content, _len: content.trim().length }))
+      .sort((a, b) => b._len - a._len)
+      .slice(0, 5)
+      .map(({ content }) => ({ content, similarity: 0.5 }));
   }
 
   // 5. Build grounded, persona'd, multilingual, nudging system prompt.
@@ -1384,7 +1421,9 @@ export async function answer(
     t?.facts && typeof t.facts === "object"
       ? Object.entries(t.facts as Record<string, unknown>)
           .filter(([k]) => !k.startsWith("__")) // internal keys (e.g. __hero image) aren't customer facts
-          .map(([k, v]) => `${k.replace(/_/g, " ")}: ${String(v).replace(/[\r\n\t]+/g, " ")}`)
+          // Sanitise the KEY too, not just the value — a tenant-supplied fact name could otherwise
+          // smuggle newlines/labels into the grounded prompt. Strip control chars and cap length.
+          .map(([k, v]) => `${k.replace(/[\r\n\t]+/g, " ").replace(/_/g, " ").slice(0, 60)}: ${String(v).replace(/[\r\n\t]+/g, " ")}`)
           .join("\n")
           .slice(0, 2000)
       : "";
@@ -1625,6 +1664,7 @@ async function alertFounderChainSignup(slug: string, name: string) {
     body: JSON.stringify({
       from: cfg.fromEmail,
       to: cfg.adminEmail,
+      reply_to: "hello@asksona.co.uk",
       subject: `Heads up: a possible chain signed up to Sona (${escHtml(slug)})`,
       html:
         `<p>A new sign-up looks like a national chain/franchise — outside your ideal customer profile (small independent local UK businesses).</p>` +
@@ -1919,25 +1959,31 @@ export async function sendWeeklyDigest(tenant: string, name: string, to: string)
   if (!cfg.resendKey || !to) return { sent: false };
   const s = await tenantStats(tenant);
   const row = (label: string, val: string) =>
-    `<tr><td style="padding:6px 0;color:#6b7280">${escHtml(label)}</td><td style="padding:6px 0;text-align:right;font-weight:600">${escHtml(val)}</td></tr>`;
-  const html =
-    `<div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto">` +
-    `<h2 style="color:#11212b">Your front desk this week</h2>` +
-    `<p style="color:#54606a">Here's what ${escHtml(name)}'s assistant handled.</p>` +
-    `<table style="width:100%;border-collapse:collapse;font-size:15px">` +
+    `<tr>` +
+    `<td style="padding:8px 0;font-size:14px;color:#6b7280;padding-right:16px">${escHtml(label)}</td>` +
+    `<td style="padding:8px 0;font-size:14px;font-weight:700;color:#11212b;text-align:right">${escHtml(val)}</td>` +
+    `</tr>`;
+  const bodyHtml =
+    `<h2 style="margin:0 0 6px;font-size:20px;font-weight:800;letter-spacing:-.02em;color:#11212b">Your front desk this week</h2>` +
+    `<p style="margin:0 0 22px;font-size:14px;color:#6b7280">Here's what ${escHtml(name)}'s assistant handled.</p>` +
+    `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #ece6da">` +
     row("Conversations (30d)", String(s.conversations30d)) +
     row("Leads captured", String(s.leads)) +
     row("Bookings", String(s.bookings)) +
     row("Estimated pipeline", "£" + Math.round(s.estimatedPipeline)) +
     (s.csat != null ? row("Helpful answers", s.csat + "%") : "") +
     (s.unanswered ? row("Questions to review", String(s.unanswered)) : "") +
-    `</table>` +
-    `<p style="margin-top:18px"><a href="${escHtml(cfg.baseUrl)}/dashboard" style="background:#c79a4b;color:#231706;text-decoration:none;font-weight:600;padding:11px 18px;border-radius:9px;display:inline-block">Open your dashboard →</a></p>` +
-    `</div>`;
+    `</table>`;
+  const html = emailShell({
+    title: `Your Sona front desk — weekly recap`,
+    preheader: `${escHtml(name)}: ${s.conversations30d} conversations, ${s.leads} leads this period.`,
+    bodyHtml,
+    cta: { label: "Open your dashboard →", url: `${cfg.baseUrl}/dashboard` },
+  });
   await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${cfg.resendKey}`, "content-type": "application/json" },
-    body: JSON.stringify({ from: cfg.fromEmail, to, subject: `Your Sona front desk — weekly recap`, html }),
+    body: JSON.stringify({ from: cfg.fromEmail, to, reply_to: "hello@asksona.co.uk", subject: `Your Sona front desk — weekly recap`, html }),
   }).catch(() => {});
   return { sent: true };
 }

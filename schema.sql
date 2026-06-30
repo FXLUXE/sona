@@ -162,6 +162,9 @@ alter table leads          enable row level security;
 alter table unanswered_questions enable row level security;
 alter table bookings       enable row level security;
 alter table documents      enable row level security;
+alter table chunks         enable row level security;
+alter table feedback       enable row level security;
+alter table usage_events   enable row level security;
 
 create or replace function is_member(t text) returns boolean
 language sql stable security definer as $$
@@ -177,4 +180,7 @@ do $$ begin
   create policy unans_member on unanswered_questions for select using (is_member(tenant));
   create policy book_member  on bookings for select using (is_member(tenant));
   create policy doc_member   on documents for select using (is_member(tenant));
+  create policy chunk_member on chunks for select using (is_member(tenant));
+  create policy usage_events_member on usage_events for all using (is_member(tenant)) with check (is_member(tenant));
+  create policy feedback_member on feedback for all using (is_member(tenant)) with check (is_member(tenant));
 exception when duplicate_object then null; end $$;

@@ -1041,11 +1041,16 @@ export function landingHtml(base: string): string {
     });
     if(!coarse && !narrow){
       // desktop: named so it self-removes after firing — prevents any chance of double-fire
+      // Guard 1: require the mouse to have genuinely entered the page (clientY > 10) before arming
+      var mouseHasEnteredPage=false;
+      var onMouseEnter=function(e){ if(e.clientY>10){ mouseHasEnteredPage=true; document.removeEventListener('mousemove',onMouseEnter); } };
+      document.addEventListener('mousemove',onMouseEnter);
       var onExit=function(e){
-        if(shown||seen()) return;
+        if(shown||seen()||!mouseHasEnteredPage) return;
         if(!e.relatedTarget && e.clientY<=4){ document.removeEventListener('mouseout',onExit); open(); }
       };
-      document.addEventListener('mouseout',onExit);
+      // Guard 2: 4-second startup delay before arming — prevents firing on page load
+      setTimeout(function(){ document.addEventListener('mouseout',onExit); }, 4000);
     } else {
       // touch/narrow: a gentler scroll-depth trigger near the foot of the page
       var onScrollNudge=function(){

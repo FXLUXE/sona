@@ -2,13 +2,14 @@
 // payments, and Sona stores visitor PII (emails, phones, chat transcripts) so GDPR demands
 // a clear controller/processor split, sub-processor list, and data-rights statement.
 //
-// NOTE: this is a solid baseline written for the product as built, but it is a TEMPLATE —
-// the founder should review the company name, jurisdiction, and contact address before
-// launch (search for [REVIEW]).
+// NOTE: baseline written for the product as built. Operator + jurisdiction are now filled in
+// (Daniel Heads, England & Wales). If Sona later incorporates as a Ltd, update OPERATOR + add the
+// company number and registered office.
 
 const COMPANY = "Sona";
-const CONTACT = "privacy@sona.app"; // [REVIEW] real inbox before launch
-const UPDATED = "25 June 2026";
+const OPERATOR = "Daniel Heads"; // sole operator, United Kingdom — update if incorporated
+const CONTACT = "privacy@asksona.co.uk";
+const UPDATED = "30 June 2026";
 
 function esc(s: any): string {
   return String(s ?? "").replace(
@@ -53,7 +54,7 @@ export function privacyHtml(base: string): string {
 <h1>Privacy Policy</h1>
 <p class="updated">Last updated ${esc(UPDATED)}</p>
 
-<p>${esc(COMPANY)} ("we", "us") provides an AI assistant that businesses ("Customers") embed on their own websites to answer visitor questions and capture enquiries. This policy explains what we collect and how we handle it. For data that website visitors submit through a Customer's assistant, the Customer is the data <strong>controller</strong> and we act as their <strong>processor</strong>.</p>
+<p>${esc(COMPANY)} is a service operated by ${esc(OPERATOR)}, based in the United Kingdom ("we", "us"). We provide an AI assistant that businesses ("Customers") embed on their own websites to answer visitor questions and capture enquiries. This policy explains what we collect and how we handle it. For data that website visitors submit through a Customer's assistant, the Customer is the data <strong>controller</strong> and we act as their <strong>processor</strong>; for Customer account data, we are the controller and you can reach us at <a href="mailto:${esc(CONTACT)}">${esc(CONTACT)}</a>.</p>
 
 <h2>1. Information we collect</h2>
 <ul>
@@ -76,11 +77,12 @@ export function privacyHtml(base: string): string {
 <table>
   <tr><th>Provider</th><th>Purpose</th></tr>
   <tr><td>Supabase</td><td>Database + authentication hosting</td></tr>
-  <tr><td>Google (Gemini API)</td><td>Language model + embeddings. On paid API tiers, inputs are not used to train Google's models. [REVIEW]</td></tr>
+  <tr><td>Google (Gemini API)</td><td>Language model + embeddings. On Google's paid API tier, inputs are not used to train Google's models.</td></tr>
   <tr><td>Stripe</td><td>Subscription billing + card processing</td></tr>
   <tr><td>Resend</td><td>Transactional + alert email</td></tr>
   <tr><td>Twilio</td><td>SMS lead alerts (optional)</td></tr>
 </table>
+<p>Some of these providers may process data outside the UK/EEA. Where they do, we rely on appropriate safeguards (such as the provider's UK/EU Standard Contractual Clauses and equivalent transfer mechanisms) to protect your data.</p>
 
 <h2>4. Cookies &amp; local storage</h2>
 <p>The dashboard uses local storage to keep you signed in. The embedded assistant stores a random session identifier in the visitor's browser to maintain conversation continuity. We do not use third-party advertising or tracking cookies.</p>
@@ -90,6 +92,7 @@ export function privacyHtml(base: string): string {
 
 <h2>6. Your rights</h2>
 <p>Depending on your location (including under GDPR/UK GDPR), you may have rights to access, correct, export, or delete personal data, and to object to or restrict processing. Visitors should direct such requests to the business whose assistant they used; that business can service the request from its dashboard. Account holders can contact us directly.</p>
+<p>If you are in the UK, you also have the right to lodge a complaint with the Information Commissioner's Office (ICO) at <a href="https://ico.org.uk">ico.org.uk</a>; we'd appreciate the chance to address your concern first.</p>
 
 <h2>7. Security</h2>
 <p>Data is encrypted in transit. Access is restricted by per-tenant membership checks, and server-side requests are guarded against access to internal resources. No method is perfectly secure, but we work to protect your data.</p>
@@ -104,7 +107,7 @@ export function termsHtml(base: string): string {
 <h1>Terms of Service</h1>
 <p class="updated">Last updated ${esc(UPDATED)}</p>
 
-<p>These terms govern your use of ${esc(COMPANY)} (the "Service"). By creating an account or using the Service, you agree to them.</p>
+<p>These terms govern your use of ${esc(COMPANY)} (the "Service"), a service operated by ${esc(OPERATOR)}, based in the United Kingdom. By creating an account or using the Service, you agree to them.</p>
 
 <h2>1. The service</h2>
 <p>${esc(COMPANY)} lets you train an AI assistant on your website's content and embed it to answer visitor questions and capture leads. Answers are generated from the content you provide; while we aim for accuracy, the assistant may occasionally be incomplete or wrong, and you are responsible for the content you connect and the claims it makes.</p>
@@ -135,6 +138,6 @@ export function termsHtml(base: string): string {
 <p>You may stop using the Service and cancel at any time. We may suspend or terminate accounts that violate these terms.</p>
 
 <h2>9. Governing law</h2>
-<p>These terms are governed by the laws of [REVIEW: jurisdiction]. Contact us at <a href="mailto:${esc(CONTACT)}">${esc(CONTACT)}</a>.</p>`;
+<p>These terms are governed by the laws of England and Wales. Contact us at <a href="mailto:${esc(CONTACT)}">${esc(CONTACT)}</a>.</p>`;
   return page(base, "Terms of Service", body);
 }

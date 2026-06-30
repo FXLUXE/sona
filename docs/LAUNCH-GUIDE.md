@@ -284,7 +284,7 @@ A one-glance copy of every value to set in the host (Job 3). Tick them off as yo
 ```
 # App
 PUBLIC_BASE_URL=https://asksona.co.uk
-PORT=3000
+PORT=8080            # must match the Docker image (it already sets 8080). Do NOT use 3000 on Render.
 
 # Database (Supabase)
 SUPABASE_URL=

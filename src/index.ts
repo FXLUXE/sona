@@ -268,8 +268,13 @@ app.post("/api/book", async (c) => {
   if (!rateLimit(`book:${tenant}:${ip}`, 5)) return c.json({ error: "too many requests" }, 429);
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return c.json({ error: "invalid email" }, 400);
   if (!(await getTenant(tenant))) return c.json({ error: "unknown tenant" }, 404);
-  const booking = await recordBooking(tenant, { conversationId, name, email, startAt });
-  return c.json({ ok: true, booking });
+  try {
+    const booking = await recordBooking(tenant, { conversationId, name, email, startAt });
+    return c.json({ ok: true, booking });
+  } catch (e) {
+    console.error("recordBooking failed:", e);
+    return c.json({ error: "Booking could not be saved — please try again" }, 500);
+  }
 });
 
 app.get("/api/stats", async (c) => {
@@ -359,7 +364,12 @@ function guardedTenantRoute(path: string, loader: (tenant: string) => Promise<un
     const { user, ok } = await requireMember(c, tenant);
     if (!user) return c.json({ error: "unauthorized" }, 401);
     if (!ok) return c.json({ error: "forbidden" }, 403);
-    return c.json(await loader(tenant));
+    try {
+      return c.json(await loader(tenant));
+    } catch (e) {
+      console.error("guardedTenantRoute loader error:", path, e);
+      return c.json({ error: "Something went wrong" }, 500);
+    }
   });
 }
 
@@ -1238,7 +1248,7 @@ var css='#sona-root{position:fixed;bottom:20px;right:20px;z-index:2147483000;fon
 +'.sona-bkseg button{flex:1;border:0;background:none;border-radius:10px;padding:9px 6px;font-size:12.5px;font-weight:700;color:#6b7480;cursor:pointer;transition:color .15s,background .15s,box-shadow .15s}'
 +'.sona-bkseg button.on{background:#fff;color:#27323b;box-shadow:0 4px 12px -6px rgba(17,33,43,.4)}'
 +'.sona-bkok{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 28px;gap:7px}'
-+'.sona-bkok .ring{width:66px;height:66px;border-radius:50%;background:'+C+';color:'+ON+';display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 16px 34px -12px rgba(17,33,43,.55);margin-bottom:10px'+(RM?'':';animation:sona-pop .4s cubic-bezier(.2,1.3,.4,1) both')+'}'
++'.sona-bkok .ring{width:66px;height:66px;border-radius:50%;background:'+C+';color:'+ON+';display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 16px 34px -12px rgba(17,33,43,.55);margin-bottom:10px'+(RM?'':';animation:sona-pop .4s cubic-bezier(.2,.8,.3,1) both')+'}'
 +'@keyframes sona-pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}'
 +'.sona-bkok .t{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:23px;color:#16222b;letter-spacing:-.01em}'
 +'.sona-bkok .s{font-size:14px;color:#5b6670;line-height:1.55;max-width:290px}'
@@ -1321,7 +1331,7 @@ var panel=document.createElement('div');panel.className='sona-panel';
 panel.innerHTML='<div class="sona-head"><div class="sona-ava">'+avatar+'</div><div><div class="sona-ttl"></div><div class="sona-sub"><span class="sona-on"></span>Online now</div></div>'+(BOOKON?'<button class="sona-book" type="button" aria-label="Book an appointment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Book</button>':'')+'<button class="sona-x" aria-label="Close">×</button></div>'
 +'<div class="sona-msgs" role="log" aria-live="polite" aria-relevant="additions" aria-atomic="false" aria-label="Conversation"></div>'
 +'<div class="sona-foot"><div class="sona-in"><input aria-label="Ask us anything" placeholder="Ask us anything…"><button class="sona-send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button></div>'+(BRAND?'<div class="sona-pb">Powered by <a href="'+B+'" target="_blank" rel="noopener">Sona</a></div>':'')+'</div>';
-panel.setAttribute('role','dialog');panel.setAttribute('aria-label',N+' — chat assistant');
+panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label',N+' — chat assistant');
 panel.querySelector('.sona-ttl').textContent=N;
 // Live opening-hours in the header sub-line when we know the hours; else neutral "Online now".
 (function(){var hs=hoursStatus();if(!hs)return;var sub=panel.querySelector('.sona-sub');if(!sub)return;sub.textContent='';var dt=document.createElement('span');dt.className='sona-on';if(!hs.open)dt.style.background='#c2c8cd';sub.appendChild(dt);var tx=document.createElement('span');tx.textContent=hs.open?('Open now'+(hs.label?' · '+hs.label:'')):'Closed now';sub.appendChild(tx)})();
@@ -1363,7 +1373,7 @@ function chipGo(q){if(BOOKON&&/book|appoint|reserve|schedul/i.test(q)){openBook(
 function openBook(prefill){
  if(panel.querySelector('.sona-bkview'))return;
  var sel={date:null,min:null},view='day',period=null,want=null;
- var V=document.createElement('div');V.className='sona-bkview';
+ var V=document.createElement('div');V.className='sona-bkview';V.setAttribute('role','dialog');V.setAttribute('aria-modal','true');V.setAttribute('aria-label','Book an appointment');
  var head=document.createElement('div');head.className='sona-bkvh';
  var back=document.createElement('button');back.type='button';back.className='bk';back.setAttribute('aria-label','Back');back.innerHTML='←';back.onclick=function(){if(view==='time'){view='day';render()}else if(view==='form'){view='time';render()}else{V.remove()}};
  var av=document.createElement('div');av.className='av';av.innerHTML=avatar;
@@ -1451,7 +1461,7 @@ if(launch)launch.onclick=open;panel.querySelector('.sona-x').onclick=close;
 panel.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var bv=panel.querySelector('.sona-bkview');if(bv){bv.remove()}else if(launch){close()}});
 var bkBtn=panel.querySelector('.sona-book');if(bkBtn)bkBtn.onclick=openBook;
 if(EMBEDDED){greet();setTimeout(function(){I.focus()},150)}
-function row(who,text){var r=document.createElement('div');r.className='sona-row '+who;var bub=document.createElement('div');bub.className='sona-bub';bub.textContent=text;r.appendChild(bub);M.appendChild(r);M.scrollTop=M.scrollHeight;return {row:r,bub:bub}}
+function row(who,text){var r=document.createElement('div');r.className='sona-row '+who;var bub=document.createElement('div');bub.className='sona-bub';if(who==='a'){var parts=String(text||'').split(/(https?:\\/\\/[^\\s]+)/g);parts.forEach(function(p){if(/^https?:\\/\\//.test(p)){var a=document.createElement('a');try{a.textContent=new URL(p).hostname}catch(e){a.textContent=p}a.href=p;a.target='_blank';a.rel='noopener';bub.appendChild(a)}else if(p){bub.appendChild(document.createTextNode(p))}});}else{bub.textContent=text;}r.appendChild(bub);M.appendChild(r);M.scrollTop=M.scrollHeight;return {row:r,bub:bub}}
 function typing(){var r=document.createElement('div');r.className='sona-row a';r.innerHTML='<div class="sona-bub"><span class="sona-dots"><i></i><i></i><i></i></span></div>';M.appendChild(r);M.scrollTop=M.scrollHeight;return r}
 function fb(after,mid){var w=document.createElement('div');w.className='sona-fb';
 function mk(lab,rt){var x=document.createElement('button');x.type='button';x.setAttribute('aria-label',rt>0?'This answer was helpful':'This answer was not helpful');x.textContent=lab;x.onclick=function(){w.textContent='Thanks for the feedback';fetch(B+'/api/feedback',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tenant:T,messageId:mid,rating:rt})}).catch(function(){})};return x}

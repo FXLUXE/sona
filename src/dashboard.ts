@@ -438,7 +438,7 @@ function login(){
     '<button class="btn block" id=go>Email me a sign-in link</button>'+
     '<p id=msg class=msg></p>'+
     '<div id=codebox style="display:none;margin-top:14px;border-top:1px solid var(--line,#e4dccb);padding-top:14px">'+
-      '<label class=field for=code style="text-align:left">Or paste the 6-digit code from the email</label>'+
+      '<label class=field for=code style="text-align:left">Or paste the code from the email</label>'+
       '<input id=code inputmode=numeric autocomplete="one-time-code" placeholder="123456" maxlength=8>'+
       '<div style="height:10px"></div>'+
       '<button class="btn block ghost" id=verify>Sign in with code</button>'+
@@ -454,14 +454,14 @@ function login(){
     go.disabled=true;go.textContent='Sending…';msg.className='msg';msg.textContent='';
     const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.href}});
     if(error){var em2=((error&&error.message)||'')+'';var rl=(error&&error.status===429)||/rate|429|only.*request|seconds|too many/i.test(em2);msg.className='msg err';msg.textContent=rl?'Too many sign-in attempts — please wait a few minutes, then try again.':'We couldn\\'t send that link. Double-check the address and try again.';go.disabled=false;go.textContent='Email me a sign-in link'}
-    else{msg.className='msg ok';msg.textContent='Sent! Tap the link in the email — or paste the 6-digit code from it below.';go.textContent='Link sent ✓';document.getElementById('codebox').style.display='block';document.getElementById('code').focus()}
+    else{msg.className='msg ok';msg.textContent='Sent! Tap the link in the email — or paste the code from it below.';go.textContent='Link sent ✓';document.getElementById('codebox').style.display='block';document.getElementById('code').focus()}
   };
   // Code path: verifies the OTP token directly, with NO redirect — works even when the magic
   // link's redirect URL isn't in the Supabase allow-list. On success onAuthStateChange renders.
   const verify=document.getElementById('verify'),code=document.getElementById('code');
   verify.onclick=async()=>{
     const token=code.value.trim();
-    if(!/^[0-9]{6,8}$/.test(token)){msg.className='msg err';msg.textContent='Enter the 6-digit code from the email.';code.focus();return}
+    if(!/^[0-9]{6,8}$/.test(token)){msg.className='msg err';msg.textContent='Enter the code from your email.';code.focus();return}
     verify.disabled=true;verify.textContent='Checking…';msg.className='msg';msg.textContent='';
     const {error}=await sb.auth.verifyOtp({email:em.value.trim(),token,type:'email'});
     if(error){msg.className='msg err';msg.textContent='That code didn\\'t work — it may have expired. Send a fresh link and try again.';verify.disabled=false;verify.textContent='Sign in with code'}
@@ -694,7 +694,7 @@ function wizStep3(){
     '</div>'+
     '<p id=wcmsg class="msg info" style="text-align:center">Tip: your assistant works on the preview straight away.</p>');
   document.getElementById('wcopy').onclick=()=>{
-    navigator.clipboard.writeText(embed).then(()=>{const b=document.getElementById('wcopy');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy the code',1600)});
+    navigator.clipboard.writeText(embed).then(()=>{const b=document.getElementById('wcopy');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy the code',1600)}).catch(()=>{const b=document.getElementById('wcopy');b.textContent='Copy failed — select manually';setTimeout(()=>b.textContent='Copy the code',2500)});
   };
   document.getElementById('wdone').onclick=async()=>{active=wizState.slug;await dash()};
 }
@@ -901,7 +901,7 @@ async function downloadLeads(){
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);
     a.download=active+'-leads.csv';document.body.appendChild(a);a.click();
     setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
-  }catch(e){alert('Could not download leads — please try again.')}
+  }catch(e){const btn=document.getElementById('dlLeads');if(btn){const ot=btn.textContent;btn.textContent='Download failed — try again';setTimeout(()=>{btn.textContent=ot},2500)}}
 }
 
 /* ----- Outreach: find prospects → build demos → track to signup ----- */
@@ -1014,7 +1014,7 @@ async function renderOutreach(main){
     if(!window.confirm('Delete all prospects? This cannot be undone.'))return;
     oclrbtn.disabled=true;
     try{await api('/api/outreach/clear',{method:'POST',body:'{}'});await loadOutreachList();}
-    catch(e){alert('Could not clear: '+(e.message||'error'));}
+    catch(e){var om=document.getElementById('omsg');if(om){om.textContent='Could not clear: '+(e.message||'error')}}
     oclrbtn.disabled=false;
   };
   await loadOutreachList();
@@ -1089,7 +1089,7 @@ async function loadOutreachList(){
     if(!window.confirm('Delete this prospect?'))return;
     btn.disabled=true;
     try{await api('/api/outreach/delete',{method:'POST',body:JSON.stringify({slug:btn.dataset.slug})});await loadOutreachList();}
-    catch(e){btn.disabled=false;alert('Could not delete: '+(e.message||'error'));}
+    catch(e){btn.disabled=false;var dc=btn.parentNode;if(dc){var de=document.createElement('span');de.style.cssText='display:block;color:var(--rose);font-size:12px;margin-top:3px';de.textContent='Could not delete: '+(e.message||'error');dc.appendChild(de);setTimeout(function(){if(de.parentNode)de.parentNode.removeChild(de)},3000);}}
   }});
   box.querySelectorAll('.oemail').forEach(function(inp){inp.addEventListener('change',async function(){
     var slug=inp.dataset.slug,email=inp.value.trim();
@@ -1232,7 +1232,7 @@ function renderGaps(main,rows){
         },250);}
         gapCount=Math.max(0,gapCount-1);
         app.querySelectorAll('.nav[data-tab=gaps] .badge').forEach(s=>{if(gapCount>0)s.textContent=gapCount;else s.remove()});
-      }catch(e){btn.disabled=false;btn.textContent='Mark resolved';alert(e.message)}
+      }catch(e){btn.disabled=false;btn.textContent='Mark resolved';var bc=btn.parentNode;if(bc){var be=document.createElement('span');be.style.cssText='display:block;color:var(--rose);font-size:12px;margin-top:3px';be.textContent=e.message||'Error — please try again';bc.appendChild(be);setTimeout(function(){if(be.parentNode)be.parentNode.removeChild(be)},3000)}}
     };
   });
   wireMobileFoot();
@@ -1438,7 +1438,7 @@ function renderSources(main){
       '</div>'+
     '</div>'+mobileFoot();
   document.getElementById('cp').onclick=()=>{
-    navigator.clipboard.writeText(embed).then(()=>{const m=document.getElementById('cpmsg');m.className='msg ok';m.textContent='Copied to your clipboard.';setTimeout(()=>{m.textContent=''},2000)});
+    navigator.clipboard.writeText(embed).then(()=>{const m=document.getElementById('cpmsg');m.className='msg ok';m.textContent='Copied to your clipboard.';setTimeout(()=>{m.textContent=''},2000)}).catch(()=>{const m=document.getElementById('cpmsg');m.className='msg err';m.textContent='Copy failed — select the code above and copy manually.';setTimeout(()=>{m.textContent=''},3000)});
   };
   document.getElementById('ing').onclick=async()=>{
     const u=normUrl(document.getElementById('u').value),m=document.getElementById('imsg');
@@ -1474,6 +1474,7 @@ function renderSources(main){
 
 /* ----- Settings ----- */
 async function renderSettings(main){
+  try{
   const s=await api('/api/t/'+encodeURIComponent(active)+'/settings');
   const v=k=>s[k]==null?'':s[k];
   const cal=(s.booking_config&&s.booking_config.calLink)||'';
@@ -1599,8 +1600,8 @@ async function renderSettings(main){
   });
   document.getElementById('gdpr_exp').onclick=async function(){
     var ge=document.getElementById('gdpr_em').value.trim();
-    if(!ge){alert('Please enter a visitor email address.');return;}
     var gm=document.getElementById('gdpr_msg');
+    if(!ge){gm.className='msg err';gm.textContent='Please enter a visitor email address.';return;}
     gm.className='msg info';gm.textContent='Exporting…';
     try{
       var gdata=await api('/api/t/'+encodeURIComponent(active)+'/gdpr/export',{method:'POST',body:JSON.stringify({email:ge})});
@@ -1613,9 +1614,9 @@ async function renderSettings(main){
   };
   document.getElementById('gdpr_del').onclick=async function(){
     var ge=document.getElementById('gdpr_em').value.trim();
-    if(!ge){alert('Please enter a visitor email address.');return;}
-    if(!confirm('This permanently deletes all data stored about '+ge+'. This action cannot be undone.'))return;
     var gm=document.getElementById('gdpr_msg');
+    if(!ge){gm.className='msg err';gm.textContent='Please enter a visitor email address.';return;}
+    if(!confirm('This permanently deletes all data stored about '+ge+'. This action cannot be undone.'))return;
     gm.className='msg info';gm.textContent='Deleting…';
     try{
       await api('/api/t/'+encodeURIComponent(active)+'/gdpr/delete',{method:'POST',body:JSON.stringify({email:ge})});
@@ -1623,6 +1624,7 @@ async function renderSettings(main){
     }catch(e){gm.className='msg err';gm.textContent=e.message}
   };
   wireMobileFoot();
+  }catch(e){main.innerHTML='<div class="card pad" style="margin-top:14px"><p class="msg err" style="margin:0">Settings failed to load — please refresh.</p></div>'}
 }
 
 boot();
