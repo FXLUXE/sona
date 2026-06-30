@@ -445,17 +445,18 @@ function login(){
   '<div class="card pad wiz" style="max-width:400px;text-align:center">'+
     '<div class=logo style="justify-content:center;margin-bottom:6px"><span class=mark>S</span><span class=wm>Sona</span></div>'+
     '<h1 class=h-title style="margin:8px 0 6px">Welcome to Sona</h1>'+
-    '<p class=sub style="margin-bottom:18px">Pop in your email and we\\'ll send you a one-tap sign-in link. No password to remember.</p>'+
+    '<p class=sub style="margin-bottom:18px">Pop in your email and we\\'ll send you a 6-digit sign-in code. No password to remember.</p>'+
     '<label class=field for=em style="text-align:left">Email address</label>'+
     '<input id=em type=email placeholder="you@yourbusiness.com" autocomplete=email inputmode=email>'+
     '<div style="height:12px"></div>'+
-    '<button class="btn block" id=go>Email me a sign-in link</button>'+
+    '<button class="btn block" id=go>Email me a sign-in code</button>'+
     '<p id=msg class=msg></p>'+
     '<div id=codebox style="display:none;margin-top:14px;border-top:1px solid var(--line,#e4dccb);padding-top:14px">'+
-      '<label class=field for=code style="text-align:left">Or paste the code from the email</label>'+
+      '<label class=field for=code style="text-align:left">Enter the code from your email</label>'+
       '<input id=code inputmode=numeric autocomplete="one-time-code" placeholder="123456" maxlength=8>'+
       '<div style="height:10px"></div>'+
       '<button class="btn block ghost" id=verify>Sign in with code</button>'+
+      '<p class=sub style="font-size:12px;margin-top:10px;line-height:1.5">In Safari or Chrome you can also tap the link in the email. If you opened this from the Instagram, Facebook or LinkedIn app, use the code above — the link can open a different browser and won\\'t sign you in.</p>'+
     '</div>'+
   '</div>';
   const go=document.getElementById('go'),em=document.getElementById('em'),msg=document.getElementById('msg');
@@ -467,8 +468,8 @@ function login(){
     if(!email||email.indexOf('@')<1){msg.className='msg err';msg.textContent='Please enter a valid email address.';em.focus();return}
     go.disabled=true;go.textContent='Sending…';msg.className='msg';msg.textContent='';
     const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.href}});
-    if(error){var em2=((error&&error.message)||'')+'';var rl=(error&&error.status===429)||/rate|429|only.*request|seconds|too many/i.test(em2);msg.className='msg err';msg.textContent=rl?'Too many sign-in attempts — please wait a few minutes, then try again.':'We couldn\\'t send that link. Double-check the address and try again.';go.disabled=false;go.textContent='Email me a sign-in link'}
-    else{msg.className='msg ok';msg.textContent='Sent! Tap the link in the email — or paste the code from it below.';go.textContent='Link sent ✓';document.getElementById('codebox').style.display='block';document.getElementById('code').focus()}
+    if(error){var em2=((error&&error.message)||'')+'';var rl=(error&&error.status===429)||/rate|429|only.*request|seconds|too many/i.test(em2);msg.className='msg err';msg.textContent=rl?'Too many sign-in attempts — please wait a few minutes, then try again.':'We couldn\\'t send that code. Double-check the address and try again.';go.disabled=false;go.textContent='Email me a sign-in code'}
+    else{msg.className='msg ok';msg.textContent='Sent! Enter the 6-digit code from your email below.';go.textContent='Code sent ✓';document.getElementById('codebox').style.display='block';document.getElementById('code').focus()}
   };
   // Code path: verifies the OTP token directly, with NO redirect — works even when the magic
   // link's redirect URL isn't in the Supabase allow-list. On success onAuthStateChange renders.
@@ -478,7 +479,7 @@ function login(){
     if(!/^[0-9]{6,8}$/.test(token)){msg.className='msg err';msg.textContent='Enter the code from your email.';code.focus();return}
     verify.disabled=true;verify.textContent='Checking…';msg.className='msg';msg.textContent='';
     const {error}=await sb.auth.verifyOtp({email:em.value.trim(),token,type:'email'});
-    if(error){msg.className='msg err';msg.textContent='That code didn\\'t work — it may have expired. Send a fresh link and try again.';verify.disabled=false;verify.textContent='Sign in with code'}
+    if(error){msg.className='msg err';msg.textContent='That code didn\\'t work — it may have expired. Send a fresh code and try again.';verify.disabled=false;verify.textContent='Sign in with code'}
   };
   code.addEventListener('keydown',e=>{if(e.key==='Enter')verify.click()});
   em.addEventListener('keydown',e=>{if(e.key==='Enter')go.click()});
