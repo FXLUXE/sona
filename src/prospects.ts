@@ -125,26 +125,65 @@ export type GeoPlace = { name: string; display: string; lat: number; lon: number
 export async function geocodePlace(q: string, limit = 6): Promise<GeoPlace[]> {
   const query = (q || "").replace(/[\r\n]+/g, " ").trim();
   if (!query) return [];
-  const url =
-    `${NOMINATIM}?q=${encodeURIComponent(query)}&format=jsonv2&limit=${limit}&countrycodes=gb&addressdetails=0`;
-  const res = await fetch(url, {
-    headers: {
-      accept: "application/json",
-      "user-agent": "SonaProspectFinder/1.0 (+https://sona.app; outreach geocoding)",
-    },
-    signal: AbortSignal.timeout(12_000),
-  });
-  if (!res.ok) throw new Error("Place lookup is busy — try again in a moment.");
-  const rows = (await res.json()) as any[];
-  return (rows ?? [])
-    .filter((r) => r && r.lat && r.lon)
-    .map((r) => ({
-      name: r.name || String(r.display_name || "").split(",")[0].trim(),
-      display: String(r.display_name || r.name || query),
-      lat: Number(r.lat),
-      lon: Number(r.lon),
-      kind: String(r.type || r.addresstype || r.category || ""),
-    }));
+  let serviceOk = false; // did ANY provider actually respond? (distinguishes "down" from "no match")
+
+  // PRIMARY: Open-Meteo geocoding — free, no key, and (unlike Nominatim) does NOT block
+  // datacenter/hosting IPs, so it works reliably from Render. Filtered to GB to match the
+  // outreach ICP (small independent UK businesses).
+  try {
+    const om = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}` +
+        `&count=${Math.min(limit * 3, 20)}&language=en&format=json`,
+      { headers: { accept: "application/json" }, signal: AbortSignal.timeout(12_000) }
+    );
+    if (om.ok) {
+      serviceOk = true;
+      const j = (await om.json()) as any;
+      const places: GeoPlace[] = (j?.results ?? [])
+        .filter((r: any) => r && r.country_code === "GB" && r.latitude && r.longitude)
+        .map((r: any) => {
+          const region = r.admin2 && r.admin2 !== r.name ? r.admin2 : r.admin1;
+          return {
+            name: String(r.name || query),
+            display: [r.name, region, "United Kingdom"].filter(Boolean).join(", "),
+            lat: Number(r.latitude),
+            lon: Number(r.longitude),
+            kind: String(r.feature_code || "place"),
+          };
+        })
+        .slice(0, limit);
+      if (places.length) return places;
+    }
+  } catch { /* fall through to Nominatim */ }
+
+  // FALLBACK: Nominatim (catches places Open-Meteo lacks; works from non-datacenter IPs).
+  try {
+    const url =
+      `${NOMINATIM}?q=${encodeURIComponent(query)}&format=jsonv2&limit=${limit}&countrycodes=gb&addressdetails=0`;
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "SonaProspectFinder/1.0 (+https://asksona.co.uk; outreach geocoding)",
+      },
+      signal: AbortSignal.timeout(12_000),
+    });
+    if (res.ok) {
+      serviceOk = true;
+      const rows = (await res.json()) as any[];
+      return (rows ?? [])
+        .filter((r) => r && r.lat && r.lon)
+        .map((r) => ({
+          name: r.name || String(r.display_name || "").split(",")[0].trim(),
+          display: String(r.display_name || r.name || query),
+          lat: Number(r.lat),
+          lon: Number(r.lon),
+          kind: String(r.type || r.addresstype || r.category || ""),
+        }));
+    }
+  } catch { /* both providers failed */ }
+
+  if (!serviceOk) throw new Error("Place lookup is busy — try again in a moment.");
+  return [];
 }
 
 // ── Email discovery (find a real contact email on the business's own site) ──
